@@ -1,0 +1,217 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --background: rgb(4, 12, 32); /* Deep Navy - Matches User's New Navbar */
+  --foreground: #f1f5f9;
+  --primary: #f97316;
+  --primary-hover: #ea580c;
+  --secondary: #1e1b4b;
+  --accent: #fbbf24;
+  --midnight: #041233; /* Deep Navy - Matching Background */
+  --slate-dark: #061e42; /* Dark Blue - Top Bar Override */
+  --app-frame-border: rgba(59, 130, 246, 0.85);
+  --app-frame-shadow: rgba(37, 99, 235, 0.22);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-midnight: var(--midnight);
+  --color-slate-dark: var(--slate-dark);
+  --font-sans: var(--font-almarai), "Almarai", sans-serif;
+}
+
+html {
+  background-color: var(--background) !important;
+}
+
+body {
+  background-color: var(--background) !important;
+  color: var(--foreground);
+  /* Removed gradients to make body match navbar exactly */
+  background-attachment: fixed;
+  font-family: var(--font-almarai), "Almarai", sans-serif;
+  transition: background-color 0.5s ease;
+  min-height: 100vh;
+}
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Handle Chrome/Safari Autofill Styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px #07163a inset !important; /* slate-dark */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--midnight);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f43f5e, #e11d48);
+  border: 2px solid var(--midnight);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f43f5e;
+  border-width: 1px;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #f43f5e var(--midnight);
+}
+
+/* Fix Date Picker Native Icon Color in Dark Mode */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Premium Logo Holographic Glow Effect */
+.logo-premium-glow {
+  position: relative;
+  filter: contrast(1.15) brightness(1.1);
+  border-radius: inherit;
+}
+
+.logo-premium-glow::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  background: 
+    linear-gradient(90deg, transparent 0%, rgba(96, 165, 250, 0.5) 10%, rgba(147, 197, 253, 0.8) 50%, rgba(96, 165, 250, 0.5) 90%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, rgba(96, 165, 250, 0.4) 10%, rgba(147, 197, 253, 0.6) 50%, rgba(96, 165, 250, 0.4) 90%, transparent 100%);
+  border-radius: inherit;
+  z-index: -1;
+  filter: blur(1px);
+  animation: cinematicRim 6s ease-in-out infinite;
+}
+
+.logo-premium-glow::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(30, 64, 175, 0.15) 0%, transparent 60%);
+  border-radius: inherit;
+  z-index: -2;
+  filter: blur(12px);
+  animation: cinematicGlow 8s ease-in-out infinite;
+}
+
+@keyframes cinematicRim {
+  0%, 100% {
+    opacity: 0.6;/* react-quill premium dark theme styles */
+.blog-editor .ql-toolbar {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-top-left-radius: 1.5rem !important;
+  border-top-right-radius: 1.5rem !important;
+  padding: 1rem !important;
+}
+.blog-editor .ql-container {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-top: none !important;
+  border-bottom-left-radius: 1.5rem !important;
+  border-bottom-right-radius: 1.5rem !important;
+  font-family: inherit !important;
+  font-size: 1rem !important;
+}
+.blog-editor .ql-editor {
+  min-height: 350px !important;
+  color: white !important;
+  padding: 1.5rem !important;
+}
+.blog-editor .ql-editor.ql-blank::before {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-style: normal !important;
+}
+.blog-editor .ql-stroke {
+  stroke: rgba(255, 255, 255, 0.6) !important;
+}
+.blog-editor .ql-fill {
+  fill: rgba(255, 255, 255, 0.6) !important;
+}
+.blog-editor .ql-picker {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+.blog-editor .ql-picker-options {
+  background-color: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 0.75rem !important;
+}
+.blog-editor .ql-active .ql-stroke, 
+.blog-editor .ql-active .ql-fill {
+  stroke: var(--primary) !important;
+  fill: var(--primary) !important;
+}
+.blog-editor .ql-active {
+  color: var(--primary) !important;
+}
+    inset: -3px;
+  }
+  50% {
+    opacity: 0.9;
+    inset: -4px;
+  }
+}
+
+@keyframes cinematicGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+}
+
+/* React Quill Editor Content Overrides inside the Blog Page */
+.prose .ql-align-center { text-align: center; }
+.prose .ql-align-right { text-align: right; }
+.prose .ql-align-justify { text-align: justify; }
+.prose .ql-size-small { font-size: 0.8em; }
+.prose .ql-size-large { font-size: 1.6em; line-height: 1.3; font-weight: bold; }
+.prose .ql-size-huge { font-size: 2.5em; line-height: 1.2; font-weight: 900; }
+.prose a { color: var(--primary) !important; text-decoration: underline; cursor: pointer; }
+.prose a:hover { text-decoration: none; }
+.prose strong { font-weight: 900; color: white !important; }
+.prose em { font-style: italic; }

@@ -1,0 +1,683 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { settingService } from "@/services/api";
+import {
+  Box,
+  Typography,
+  Tabs,
+  Tab,
+  TextField,
+  Button,
+  CircularProgress,
+  Paper,
+  Grid,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
+import {
+  Settings,
+  Facebook,
+  Twitter,
+  Instagram,
+  WhatsApp,
+  Phone,
+  Email,
+  LocationOn,
+  Save,
+  Info,
+  Share,
+  Add,
+  Delete,
+  DirectionsCar,
+  SupportAgent,
+  LibraryAddCheck,
+  VerifiedUser,
+  AutoGraph,
+  Handyman,
+  WorkspacePremium,
+  Link as LinkIcon,
+  Language,
+  QrCode2,
+  CloudUpload,
+} from "@mui/icons-material";
+import { MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
+import { SiTiktok, SiLinktree } from "react-icons/si";
+import Image from "next/image";
+
+// --- Static Constants Outside Component ---
+const eliteInputStyle = {
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "1.25rem",
+    bgcolor: "rgba(255,255,255,0.02)",
+    color: "white",
+    fontWeight: "500",
+    border: "1px solid rgba(255,255,255,0.08)",
+    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    "&:hover": {
+      bgcolor: "rgba(255,255,255,0.04)",
+      borderColor: "rgba(249,115,22,0.3)",
+    },
+    "&.Mui-focused": {
+      bgcolor: "rgba(255,255,255,0.05)",
+      borderColor: "var(--primary)",
+      boxShadow: "0 0 0 4px rgba(249,115,22,0.15), 0 0 20px rgba(249,115,22,0.1)",
+    },
+  },
+  "& .MuiInputLabel-root": {
+    color: "rgba(255,255,255,0.5)",
+    "&.Mui-focused": { color: "var(--primary)" },
+  },
+};
+
+const iconOptions = [
+  { key: "LibraryAddCheck", label: "Checkmark" },
+  { key: "DirectionsCar", label: "Car" },
+  { key: "SupportAgent", label: "Support" },
+  { key: "VerifiedUser", label: "Verified" },
+  { key: "AutoGraph", label: "Growth" },
+  { key: "Handyman", label: "Maintenance" },
+  { key: "WorkspacePremium", label: "Premium" },
+  { key: "Info", label: "Info" },
+  { key: "WhatsApp", label: "WhatsApp" },
+  { key: "Instagram", label: "Instagram" },
+  { key: "Facebook", label: "Facebook" },
+  { key: "Twitter", label: "Twitter (X)" },
+  { key: "Tiktok", label: "TikTok" },
+  { key: "Language", label: "Website" },
+  { key: "LocationOn", label: "Location" },
+  { key: "Email", label: "Email" },
+];
+
+export default function AdminSettings() {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const [activeTab, setActiveTab] = useState(0);
+
+  // Form States
+  const [socials, setSocials] = useState({
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    tiktok: "",
+    whatsapp: "",
+    snapchat: "",
+    linktree: "",
+    qrCode: "",
+  });
+
+  const [qrUploading, setQrUploading] = useState(false);
+
+  const [about, setAbout] = useState({
+    badge: "",
+    mainTitlePart1: "",
+    mainTitlePart2: "",
+    description: "",
+    storyTitle: "",
+    storyText: "",
+    featuresTitle: "",
+    features: [],
+  });
+
+  const getIconByKey = (key) => {
+    const icons = {
+      LibraryAddCheck: <LibraryAddCheck />,
+      DirectionsCar: <DirectionsCar />,
+      SupportAgent: <SupportAgent />,
+      VerifiedUser: <VerifiedUser />,
+      AutoGraph: <AutoGraph />,
+      Handyman: <Handyman />,
+      WorkspacePremium: <WorkspacePremium />,
+      Info: <Info />,
+      WhatsApp: <WhatsApp />,
+      Instagram: <Instagram />,
+      Facebook: <Facebook />,
+      Twitter: <Twitter />,
+      Tiktok: <SiTiktok />,
+      Language: <Language />,
+      LocationOn: <LocationOn />,
+      Email: <Email />,
+    };
+    return icons[key] || <Info />;
+  };
+
+  const [contact, setContact] = useState({
+    phone: "",
+    whatsapp: "",
+    email: "",
+    address: "",
+  });
+
+  // Fetch Settings
+  const { data: settingsData, isLoading } = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: settingService.getAll,
+  });
+
+  // Populate form when data arrives
+  useEffect(() => {
+    if (settingsData?.data && Array.isArray(settingsData.data)) {
+      settingsData.data.forEach((item) => {
+        if (item.key === "social_links" && item.data) {
+          setSocials(prev => ({ ...prev, ...item.data }));
+        }
+        if (item.key === "about_content" && item.data) {
+          setAbout(prev => ({
+            ...prev,
+            ...item.data,
+            features: item.data.features || []
+          }));
+        }
+        if (item.key === "contact_info" && item.data) {
+          setContact(prev => ({ ...prev, ...item.data }));
+        }
+      });
+    }
+  }, [settingsData]);
+
+  const addFeature = () => {
+    setAbout({
+      ...about,
+      features: [...about.features, { title: "", description: "", icon: "Info" }]
+    });
+  };
+
+  const removeFeature = (index) => {
+    const newFeatures = [...about.features];
+    newFeatures.splice(index, 1);
+    setAbout({ ...about, features: newFeatures });
+  };
+
+  const updateFeature = (index, field, value) => {
+    const newFeatures = [...about.features];
+    newFeatures[index] = { ...newFeatures[index], [field]: value };
+    setAbout({ ...about, features: newFeatures });
+  };
+
+  // Mutation for saving
+  const saveMutation = useMutation({
+    mutationFn: settingService.upsert,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["site-settings"]);
+      toast.success(t("dashboard.admin.settings.saveSuccess"));
+    },
+    onError: (error) => {
+      const errorMsg = error.response?.data?.error || error.message || t("dashboard.admin.settings.saveError");
+      toast.error(errorMsg);
+    },
+  });
+
+  const handleSave = (key, data) => {
+    saveMutation.mutate({ key, data });
+  };
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", py: 20 }}>
+        <CircularProgress sx={{ color: "var(--primary)" }} />
+      </Box>
+    );
+  }
+
+  return (
+    <div className="p-4 md:p-8 pt-24 max-w-6xl mx-auto" dir="rtl">
+      {/* Header Area */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/20 shadow-[0_0_20px_rgba(249,115,22,0.2)]">
+              <Settings className="text-primary" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">
+              {t("dashboard.admin.settings.title")}
+            </h1>
+          </div>
+          <p className="text-slate-400 font-bold max-w-xl">
+            {t("dashboard.admin.settings.subtitle")}
+          </p>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <Box sx={{ borderBottom: 1, borderColor: "rgba(255,255,255,0.05)", mb: 6 }}>
+        <Tabs
+          value={activeTab}
+          onChange={(e, v) => setActiveTab(v)}
+          sx={{
+            "& .MuiTabs-indicator": { bgcolor: "var(--primary)", height: 3 },
+            "& .MuiTab-root": {
+              color: "rgba(255,255,255,0.4)",
+              fontWeight: "900",
+              fontSize: "1rem",
+              py: 3,
+              px: { xs: 2, md: 4 },
+              "&.Mui-selected": { color: "white" },
+            },
+          }}
+        >
+          <Tab icon={<Share sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.social")} />
+          <Tab icon={<Info sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.about")} />
+          <Tab icon={<Phone sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.contact")} />
+        </Tabs>
+      </Box>
+
+      <AnimatePresence mode="wait">
+        {activeTab === 0 && (
+          <motion.div
+            key="social"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <Paper sx={{ p: 4, borderRadius: "2rem", bgcolor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.social.instagram")}
+                    value={socials.instagram}
+                    onChange={(e) => setSocials({ ...socials, instagram: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><Instagram sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.social.twitter")}
+                    value={socials.twitter}
+                    onChange={(e) => setSocials({ ...socials, twitter: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><Twitter sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.social.facebook")}
+                    value={socials.facebook}
+                    onChange={(e) => setSocials({ ...socials, facebook: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><Facebook sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.social.whatsapp")}
+                    value={socials.whatsapp}
+                    onChange={(e) => setSocials({ ...socials, whatsapp: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><WhatsApp sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.social.tiktok")}
+                    value={socials.tiktok}
+                    onChange={(e) => setSocials({ ...socials, tiktok: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><SiTiktok sx={{ color: "var(--primary)", fontSize: '1.2rem' }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="رابط Linktree"
+                    value={socials.linktree}
+                    onChange={(e) => setSocials({ ...socials, linktree: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><SiLinktree style={{ color: "var(--primary)", fontSize: '1.2rem' }} /></InputAdornment> }}
+                  />
+                </Grid>
+
+                {/* QR Code Upload Section */}
+                <Grid item xs={12}>
+                  <Paper sx={{ p: 4, borderRadius: '1.5rem', bgcolor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <QrCode2 sx={{ color: 'var(--primary)', fontSize: 28 }} />
+                      <Typography sx={{ color: 'white', fontWeight: '900', fontSize: '1.1rem' }}>
+                        QR Code (يظهر في الفوتر)
+                      </Typography>
+                    </Box>
+                    
+                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3, alignItems: 'center' }}>
+                      {/* QR Preview */}
+                      {socials.qrCode && (
+                        <Box sx={{ 
+                          width: 120, height: 120, borderRadius: '1rem', overflow: 'hidden', 
+                          border: '2px solid rgba(255,255,255,0.1)', bgcolor: 'white', p: 0.5,
+                          flexShrink: 0, position: 'relative'
+                        }}>
+                          <Image src={socials.qrCode} alt="QR Code" fill style={{ objectFit: 'contain' }} />
+                        </Box>
+                      )}
+                      
+                      <Box sx={{ flex: 1, width: '100%' }}>
+                        <TextField
+                          fullWidth
+                          label="رابط صورة QR Code"
+                          value={socials.qrCode}
+                          onChange={(e) => setSocials({ ...socials, qrCode: e.target.value })}
+                          sx={eliteInputStyle}
+                          placeholder="الصق رابط الصورة أو ارفع صورة"
+                          InputProps={{ 
+                            startAdornment: <InputAdornment position="start"><QrCode2 sx={{ color: 'var(--primary)' }} /></InputAdornment>
+                          }}
+                        />
+                        <Box sx={{ mt: 2, display: 'flex', gap: 2, alignItems: 'center' }}>
+                          <Button
+                            variant="outlined"
+                            component="label"
+                            disabled={qrUploading}
+                            startIcon={qrUploading ? <CircularProgress size={18} /> : <CloudUpload />}
+                            sx={{
+                              borderRadius: '1rem', fontWeight: '700', color: 'white',
+                              borderColor: 'rgba(255,255,255,0.15)',
+                              '&:hover': { borderColor: 'var(--primary)', bgcolor: 'rgba(249,115,22,0.05)' },
+                              '& .MuiButton-startIcon': { ml: 1, mr: -0.5 }
+                            }}
+                          >
+                            {qrUploading ? 'جاري الرفع...' : 'رفع صورة QR'}
+                            <input
+                              type="file"
+                              hidden
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                if (!file.type.startsWith('image/')) { toast.error('يجب اختيار صورة فقط'); return; }
+                                if (file.size > 5 * 1024 * 1024) { toast.error('حجم الصورة أكبر من 5MB'); return; }
+                                setQrUploading(true);
+                                try {
+                                  const formData = new FormData();
+                                  formData.append('file', file);
+                                  const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                                  const result = await res.json();
+                                  if (!res.ok) throw new Error(result.error || 'Upload failed');
+                                  setSocials(prev => ({ ...prev, qrCode: result.url }));
+                                  toast.success('تم رفع صورة QR بنجاح');
+                                } catch (err) {
+                                  toast.error(err.message || 'فشل رفع الصورة');
+                                } finally {
+                                  setQrUploading(false);
+                                }
+                              }}
+                            />
+                          </Button>
+                          {socials.qrCode && (
+                            <Button
+                              variant="text"
+                              color="error"
+                              onClick={() => setSocials(prev => ({ ...prev, qrCode: '' }))}
+                              sx={{ borderRadius: '1rem', fontWeight: '700', fontSize: '0.85rem' }}
+                            >
+                              حذف
+                            </Button>
+                          )}
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleSave("social_links", socials)}
+                    disabled={saveMutation.isPending}
+                    sx={{
+                      borderRadius: "1rem",
+                      py: 1.5,
+                      px: 6,
+                      fontWeight: "900",
+                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 } // RTL spacing fix
+                    }}
+                    startIcon={<Save />}
+                  >
+                    {saveMutation.isPending && saveMutation.variables?.key === "social_links" 
+                      ? t("dashboard.admin.settings.saving") 
+                      : t("common.save")}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </motion.div>
+        )}
+
+        {activeTab === 1 && (
+          <motion.div key="about" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+             <Paper sx={{ p: 4, borderRadius: "2rem", bgcolor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.about.badge")}
+                    value={about.badge}
+                    onChange={(e) => setAbout({ ...about, badge: e.target.value })}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.about.mainTitlePart1")}
+                    value={about.mainTitlePart1}
+                    onChange={(e) => setAbout({ ...about, mainTitlePart1: e.target.value })}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.about.mainTitlePart2")}
+                    value={about.mainTitlePart2}
+                    onChange={(e) => setAbout({ ...about, mainTitlePart2: e.target.value })}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    label={t("dashboard.admin.settings.about.description")}
+                    value={about.description}
+                    onChange={(e) => setAbout({ ...about, description: e.target.value })}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.about.storyTitle")}
+                    value={about.storyTitle}
+                    onChange={(e) => setAbout({ ...about, storyTitle: e.target.value })}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={5}
+                    label={t("dashboard.admin.settings.about.storyText")}
+                    value={about.storyText}
+                    onChange={(e) => setAbout({ ...about, storyText: e.target.value })}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+
+                {/* Dynamic Features Manager */}
+                <Grid item xs={12}>
+                   <Box sx={{ mt: 4, mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="h6" sx={{ color: 'white', fontWeight: '900' }}>
+                        {t("dashboard.admin.settings.about.featuresTitle")}
+                      </Typography>
+                      <Button 
+                        startIcon={<Add />} 
+                        onClick={addFeature}
+                        sx={{ color: 'var(--primary)', fontWeight: 'bold' }}
+                      >
+                        إضافة ميزة
+                      </Button>
+                   </Box>
+                   
+                   <Grid container spacing={3}>
+                      {about.features.map((feature, index) => (
+                        <Grid item xs={12} key={index}>
+                           <Paper sx={{ p: 3, bgcolor: 'rgba(255,255,255,0.03)', borderRadius: '1.5rem', border: '1px solid rgba(255,255,255,0.05)' }}>
+                              <Grid container spacing={2} alignItems="center">
+                                 <Grid item xs={12} md={3}>
+                                    <FormControl fullWidth sx={eliteInputStyle}>
+                                       <InputLabel id={`feature-icon-${index}`}>الأيقونة</InputLabel>
+                                       <Select
+                                          labelId={`feature-icon-${index}`}
+                                          value={feature.icon}
+                                          label="الأيقونة"
+                                          onChange={(e) => updateFeature(index, 'icon', e.target.value)}
+                                          startAdornment={<Box sx={{ mr: 1, display: 'flex' }}>{getIconByKey(feature.icon)}</Box>}
+                                       >
+                                          {iconOptions.map(opt => (
+                                            <MenuItem key={opt.key} value={opt.key}>
+                                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                {getIconByKey(opt.key)} {opt.label}
+                                              </Box>
+                                            </MenuItem>
+                                          ))}
+                                       </Select>
+                                    </FormControl>
+                                 </Grid>
+                                 <Grid item xs={12} md={4}>
+                                    <TextField
+                                       fullWidth
+                                       label="عنوان الميزة"
+                                       value={feature.title}
+                                       onChange={(e) => updateFeature(index, 'title', e.target.value)}
+                                       sx={eliteInputStyle}
+                                    />
+                                 </Grid>
+                                 <Grid item xs={11} md={4}>
+                                    <TextField
+                                       fullWidth
+                                       label="الوصف"
+                                       value={feature.description}
+                                       onChange={(e) => updateFeature(index, 'description', e.target.value)}
+                                       sx={eliteInputStyle}
+                                    />
+                                 </Grid>
+                                 <Grid item xs={1} md={1}>
+                                    <IconButton onClick={() => removeFeature(index)} color="error">
+                                       <Delete />
+                                    </IconButton>
+                                 </Grid>
+                              </Grid>
+                           </Paper>
+                        </Grid>
+                      ))}
+                   </Grid>
+                </Grid>
+
+                <Grid item xs={12}>
+                   <Button
+                    variant="contained"
+                    onClick={() => handleSave("about_content", about)}
+                    disabled={saveMutation.isPending}
+                    sx={{ 
+                      borderRadius: "1rem", 
+                      py: 1.5, 
+                      px: 6, 
+                      fontWeight: "900", 
+                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 } // RTL spacing fix
+                    }}
+                    startIcon={<Save />}
+                  >
+                    {saveMutation.isPending && saveMutation.variables?.key === "about_content" 
+                      ? t("dashboard.admin.settings.saving") 
+                      : t("common.save")}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </motion.div>
+        )}
+
+        {activeTab === 2 && (
+          <motion.div key="contact" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+             <Paper sx={{ p: 4, borderRadius: "2rem", bgcolor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.contact.phone")}
+                    value={contact.phone}
+                    onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><Phone sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.contact.whatsapp")}
+                    value={contact.whatsapp}
+                    onChange={(e) => setContact({ ...contact, whatsapp: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><WhatsApp sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.contact.email")}
+                    value={contact.email}
+                    onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><Email sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label={t("dashboard.admin.settings.contact.address")}
+                    value={contact.address}
+                    onChange={(e) => setContact({ ...contact, address: e.target.value })}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><LocationOn sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                    <Button
+                    variant="contained"
+                    onClick={() => handleSave("contact_info", contact)}
+                    disabled={saveMutation.isPending}
+                    sx={{ 
+                      borderRadius: "1rem", 
+                      py: 1.5, 
+                      px: 6, 
+                      fontWeight: "900", 
+                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 } // RTL spacing fix
+                    }}
+                    startIcon={<Save />}
+                  >
+                    {saveMutation.isPending && saveMutation.variables?.key === "contact_info" 
+                      ? t("dashboard.admin.settings.saving") 
+                      : t("common.save")}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

@@ -1,0 +1,893 @@
+{
+  "navbar": {
+    "home": "Home",
+    "cars": "Cars",
+    "jeddah": "Jeddah Booking",
+    "riyadh": "Riyadh Booking",
+    "sharqiya": "Eastern Region Booking",
+    "corporate": "Corporate",
+    "withDriver": "Cars with Driver",
+    "individuals": "Individuals",
+    "policy": "Return & Exchange Policy",
+    "login": "Login",
+    "myAccount": "My Account",
+    "adminPanel": "Admin Panel",
+    "logout": "Logout",
+    "menu": "Menu",
+    "blog": "Blog",
+    "notification": "Notifications"
+  },
+  "bottomNav": {
+    "home": "Home",
+    "cars": "Cars",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "myAccount": "Account"
+  },
+  "floatingContact": {
+    "whatsapp": "Chat on WhatsApp",
+    "email": "Send Email"
+  },
+  "hero": {
+    "titlePart1": "Top Car Rental",
+    "titlePart2": "in Saudi Arabia",
+    "description": "Discover affordable & luxury car rentals across KSA. Book online for daily or monthly rentals.",
+    "jeddah": "Jeddah",
+    "riyadh": "Riyadh",
+    "eastern": "Eastern"
+  },
+  "cityPage": {
+    "browseBest": "Browse",
+    "bestCars": "Best Cars",
+    "in": "in",
+    "description": "A wide range of cars to suit all your needs in {{city}}. Book your car now with simple steps and enjoy luxury.",
+    "noCars": "No cars available in this region at the moment."
+  },
+  "regions": {
+    "jeddah": "Jeddah",
+    "riyadh": "Riyadh",
+    "eastern": "Eastern Region",
+    "sharqiya": "Eastern Region",
+    "dammam": "Dammam",
+    "makkah": "Makkah",
+    "madinah": "Madinah"
+  },
+  "carCard": {
+    "model": "Model",
+    "priceDay": "SAR / day",
+    "bookNow": "Book Now",
+    "details": "Details",
+    "fallbackImage": "Car Image",
+    "categories": {
+      "regular": "Individual",
+      "with_driver": "With Driver",
+      "corporate": "Corporate"
+    },
+    "specs": {
+      "auto": "Automatic",
+      "petrol": "Petrol",
+      "seats": "5 Seats",
+      "limitedKm": "Limited KM"
+    }
+  },
+  "carsPage": {
+    "badge": "Car Fleet",
+    "titlePart1": "Choose",
+    "titlePart2": "Your",
+    "titlePart3": "Perfect Car",
+    "subtitle": "A variety of luxury and economy cars to suit all your needs",
+    "breadcrumb": "Cars",
+    "loadingFleet": "Loading Fleet...",
+    "empty": "No cars available at the moment"
+  },
+  "departments": {
+    "titlePart1": "Best Car Rental Options",
+    "titlePart2": "For You",
+    "regularTitle": "Car Rental for Individuals",
+    "regularDesc": "Daily and monthly car rentals with the cheapest prices. Wide variety of economy & luxury cars.",
+    "regularAction": "Rent Now",
+    "driverTitle": "Rent a Car with Driver",
+    "driverDesc": "Enjoy a comfortable journey with a professional driver. Premium luxury car service.",
+    "driverAction": "Book Now",
+    "corporateBadge": "For Companies",
+    "corporateTitle": "Corporate Section",
+    "corporateDesc": "Customized rental solutions for companies and institutions with competitive prices and VIP service.",
+    "corporateAction": "Contact Us"
+  },
+  "faq": {
+    "titlePart1": "Frequently",
+    "titlePart2": "Asked Questions",
+    "description": "Answers to the most common questions about our services",
+    "q1": {
+      "question": "What documents are required for booking?",
+      "answer": "You need a valid driver's license, valid ID/residency, and a credit card for guarantee."
+    },
+    "q2": {
+      "question": "Can I return the car in a different city?",
+      "answer": "Yes, we offer inter-city delivery service. Please contact us to arrange this with a small additional fee."
+    },
+    "q3": {
+      "question": "What is the cancellation policy?",
+      "answer": "You can cancel 24 hours before pickup without charges. After that, cancellation fees may apply."
+    },
+    "q4": {
+      "question": "Is insurance included?",
+      "answer": "Yes, all our cars are comprehensively insured. You can upgrade for broader coverage when booking."
+    },
+    "q5": {
+      "question": "What is the minimum rental age?",
+      "answer": "The minimum age is 21 years with a valid driver's license for at least one year."
+    },
+    "q6": {
+      "question": "Can I add an additional driver?",
+      "answer": "Yes, you can add an additional driver by providing their driver's license with a small extra fee."
+    },
+    "q7": {
+      "question": "What should I do in case of accident or breakdown?",
+      "answer": "Call us immediately on the emergency number. Our team is available 24/7 to assist you and send a replacement car."
+    },
+    "q8": {
+      "question": "Can I extend my rental period?",
+      "answer": "Yes, you can extend your rental period through the app or by contacting us before the original period ends."
+    },
+    "q9": {
+      "question": "Car Condition Documentation",
+      "answer": "To ensure your peace of mind and protect your rights, we take a full comprehensive video of the car before handover, ensuring you are not held responsible for any pre-existing damages."
+    }
+  },
+  "footer": {
+    "ctaTitle": "Ready to go? Book your car now!",
+    "ctaSubtitle": "Competitive prices and excellent service 24/7",
+    "viewCars": "Browse Cars",
+    "brandDesc": "C4R Platform - Your premier destination for car rental in Saudi Arabia",
+    "quickLinks": "Quick Links",
+    "aboutUs": "About Us",
+    "faqShort": "FAQ",
+    "withDriver": "Cars with Driver",
+    "companies": "Corporate",
+    "individuals": "Individuals",
+    "bookingLocations": "Booking Locations",
+    "jeddah": "Jeddah Booking",
+    "sharqiya": "Eastern Region Booking",
+    "riyadh": "Riyadh Booking",
+    "allCars": "Cars",
+    "contactInfo": "Contact Information",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "copyright": "© 2024 C4R Platform. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "poweredBy": "Powered by C4R"
+  },
+  "partners": {
+    "titlePart1": "Our",
+    "titlePart2": "Partners",
+    "description": "We are proud of our partnership with the world's best brands"
+  },
+  "reviews": {
+    "titlePart1": "Customer",
+    "titlePart2": "Reviews",
+    "title": "Customer Reviews",
+    "badge": "Verified Customer",
+    "carFallback": "Car",
+    "noReviews": "No reviews yet"
+  },
+  "auth": {
+    "welcomeTitle": "Welcome Back",
+    "welcomeSubtitle": "Good to see you! Please login to continue.",
+    "login": "Login",
+    "register": "Register",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "loginButton": "Sign In",
+    "registerButton": "Sign Up",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "passwordChanged": "Password changed successfully",
+    "passwordChangeError": "Failed to change password",
+    "saveChanges": "Save Changes",
+    "createAccount": "Create Account",
+    "backToHome": "Back to Home",
+    "passwordMismatch": "Passwords do not match",
+    "registerTitle": "Create New Account",
+    "registerSubtitle": "Welcome! Create your account to get started",
+    "loginLink": "Login Now",
+    "forgotTitle": "Forgot Password?",
+    "forgotSubtitle": "Enter your email to reset your password",
+    "sendResetLink": "Send Reset Link",
+    "resetLinkSent": "Reset link sent to your email",
+    "resetLinkError": "Failed to send reset link",
+    "returnToLogin": "Return to Login",
+    "resetTitle": "Reset Password",
+    "resetSubtitle": "Enter your new password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "tokenMissing": "Invalid or expired link"
+  },
+  "dashboard": {
+    "profile": "Profile",
+    "bookings": "My Bookings",
+    "changePassword": "Change Password",
+    "adminBookings": "Manage Bookings",
+    "adminCars": "Manage Cars",
+    "adminReviews": "Manage Reviews",
+    "adminPassword": "Password",
+    "roleAdmin": "Administrator",
+    "roleClient": "Client",
+    "backToHome": "Back to Home",
+    "mainMenu": "Main Menu",
+    "secureLogout": "Secure Logout",
+    "loginRequired": "Login required to access",
+    "loginButton": "Login",
+    "security": {
+      "title": "Change Password",
+      "subtitle": "Update your password securely",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "updateButton": "Update Password",
+      "errorFillAll": "Please fill in all password fields",
+      "errorWeakPassword": "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long",
+      "successMessage": "Password updated successfully with secure encryption",
+      "errorMessage": "Unable to update password, please try again later"
+    },
+    "admin": {
+      "welcome": {
+        "title": "Welcome",
+        "badge": "Admin",
+        "subtitle": "Your dashboard, {{name}}"
+      },
+      "tabs": {
+        "bookings": "Bookings",
+        "notifications": "Notifications",
+        "users": "Users",
+        "cars": "Cars",
+        "reviews": "Reviews",
+        "profile": "Profile",
+        "password": "Password",
+        "security": "Security",
+        "categories": "Categories",
+        "blog": "Blog",
+        "promos": "Promos & Banners"
+      },
+      "bookings": {
+        "title": "Manage Bookings",
+        "pending": "Pending",
+        "approved": "Accepted",
+        "rejected": "Rejected",
+        "noBookings": "No bookings found",
+        "empty": "No bookings available currently",
+        "approve": "Approve",
+        "reject": "Reject",
+        "delete": "Delete",
+        "customerName": "Customer Name",
+        "phone": "Phone",
+        "car": "Car",
+        "dates": "Dates",
+        "status": "Status",
+        "actions": "Actions",
+        "approveSuccess": "Booking approved successfully and customer notified",
+        "approveError": "Unable to approve booking, server synchronization error",
+        "rejectSuccess": "Booking rejected and request status updated",
+        "rejectError": "Failed to execute rejection, please check connectivity",
+        "deleteSuccess": "Booking permanently removed from the records",
+        "deleteError": "An error occurred while attempting to delete the record",
+        "deleteDialog": {
+          "title": "Delete Booking",
+          "message": "Are you sure you want to delete this booking? This action cannot be undone.",
+          "confirm": "Yes, Delete",
+          "cancel": "Cancel"
+        },
+        "details": "Details",
+        "totalPrice": "Total Price",
+        "days": "days",
+        "start": "Start",
+        "end": "End",
+        "cost": "Cost",
+        "clientData": "Client Info",
+        "id": "ID Card",
+        "license": "License",
+        "acceptButton": "Accept Booking",
+        "rejectButton": "Reject Booking",
+        "finalAction": "Action Taken"
+      },
+      "cars": {
+        "title": "Manage Cars",
+        "count": "Total Cars: {{count}}",
+        "addNew": "Add New Car",
+        "edit": "Edit",
+        "delete": "Delete",
+        "noCars": "No cars found",
+        "emptyTitle": "No cars are currently available.",
+        "emptyAction": "Add the first car",
+        "brand": "Brand",
+        "model": "Model",
+        "year": "Year",
+        "price": "Daily Price",
+        "city": "City",
+        "available": "Available",
+        "unavailable": "Unavailable",
+        "deleteSuccess": "Car removed from fleet successfully",
+        "deleteError": "Deletion failed, car might be linked to active bookings",
+        "deleteDialog": {
+          "title": "Delete Car",
+          "message": "Are you sure you want to delete this car? This action cannot be undone.",
+          "confirm": "Yes, Delete",
+          "cancel": "Cancel"
+        },
+        "addButton": "Add Car",
+        "deleteButton": "Delete",
+        "priceDay": "SAR / Day"
+      },
+      "addCar": {
+        "title": "Add New Car",
+        "subtitle": "Enter the details of the new car",
+        "nameLabel": "Car Name",
+        "namePlaceholder": "e.g., Mercedes S500",
+        "brandLabel": "Brand",
+        "modelLabel": "Model",
+        "yearLabel": "Year",
+        "priceLabel": "Daily Price (SAR)",
+        "cityLabel": "City",
+        "regionLabel": "Region",
+        "categoryLabel": "Category",
+        "featuresLabel": "Features (comma separated)",
+        "descLabel": "Description",
+        "descPlaceholder": "Attractive description...",
+        "imageLabel": "Car Image",
+        "changeImage": "Change Image",
+        "uploadImage": "Upload Car Image",
+        "uploadHint": "PNG, JPG up to 5MB",
+        "uploading": "Uploading...",
+        "saving": "Saving...",
+        "submit": "Add Car",
+        "cancel": "Cancel",
+        "success": "New car added to the system successfully",
+        "error": "Failed to add car, please review the input data",
+        "orderLabel": "Display Order (1 is top)",
+        "warningFill": "Please fill all required fields",
+        "driverHourlyRateLabel": "Driver Hourly Rate (SAR)",
+        "driverHourlyRatePlaceholder": "Enter hourly rate",
+        "categories": {
+          "regular": "Individual (Self-drive)",
+          "with_driver": "With Driver",
+          "corporate": "Corporate"
+        },
+        "regions": {
+          "riyadh": "Riyadh",
+          "jeddah": "Jeddah",
+          "eastern": "Eastern"
+        }
+      },
+      "editCar": {
+        "title": "Edit Car Details",
+        "subtitle": "Update the car details",
+        "nameLabel": "Car Name",
+        "namePlaceholder": "e.g., Mercedes S500",
+        "yearLabel": "Year",
+        "regionLabel": "Region",
+        "categoryLabel": "Category",
+        "priceLabel": "Daily Price (SAR)",
+        "descLabel": "Description",
+        "descPlaceholder": "Attractive description...",
+        "changeImage": "Change Image",
+        "uploadImage": "Upload Car Image",
+        "uploadHint": "PNG, JPG up to 5MB",
+        "uploading": "Uploading...",
+        "saving": "Saving...",
+        "submit": "Save Changes",
+        "cancel": "Cancel",
+        "success": "Car details updated and changes saved successfully",
+        "error": "Unable to save edits, data synchronization error",
+        "orderLabel": "Display Order (1 is top)",
+        "warningFill": "Please fill all required fields",
+        "driverHourlyRateLabel": "Driver Hourly Rate (SAR)",
+        "driverHourlyRatePlaceholder": "Enter hourly rate"
+      },
+      "reviews": {
+        "title": "Manage Reviews",
+        "noReviews": "No reviews found",
+        "empty": "No reviews available currently",
+        "delete": "Delete",
+        "customer": "Customer",
+        "rating": "Rating",
+        "comment": "Comment",
+        "date": "Date",
+        "deleteSuccess": "Review deleted and removed from display",
+        "deleteError": "Unable to delete review, please try again",
+        "deleteDialog": {
+          "title": "Delete Review",
+          "message": "Are you sure you want to delete this review?",
+          "confirm": "Yes, Delete",
+          "cancel": "Cancel"
+        },
+        "verified": "Verified",
+        "noComment": "No comment"
+      },
+      "blog": {
+        "title": "Articles & Blog Management",
+        "count": "Articles: {{count}}",
+        "addNew": "Add New Article",
+        "empty": "No articles found yet",
+        "emptyAction": "Add First Article",
+        "deleteSuccess": "Article deleted successfully",
+        "deleteError": "Failed to delete article",
+        "deleteDialog": {
+          "title": "Delete Article",
+          "message": "Are you sure you want to delete this article? This action cannot be undone.",
+          "confirm": "Yes, Delete",
+          "cancel": "Cancel"
+        },
+        "addDialog": {
+          "title": "Create New Article",
+          "subtitle": "Create engaging content and boost your SEO",
+          "imageLabel": "Article Image",
+          "titleLabel": "Article Title",
+          "titlePlaceholder": "e.g., Top 5 Places to Visit in Riyadh",
+          "categoryLabel": "Category",
+          "statusLabel": "Status",
+          "relatedCarsLabel": "Related Cars",
+          "summaryLabel": "Short Summary",
+          "summaryPlaceholder": "Write a brief snippet for search results...",
+          "contentLabel": "Article Content (Rich Text)",
+          "metaTitleLabel": "SEO Meta Title",
+          "metaDescLabel": "SEO Meta Description",
+          "keywordsLabel": "Focus Keywords (comma separated)",
+          "submit": "Publish Article",
+          "saveDraft": "Save as Draft",
+          "success": "Article created successfully",
+          "error": "Failed to create article"
+        },
+        "editDialog": {
+          "title": "Edit Article",
+          "subtitle": "Update content and SEO settings",
+          "success": "Article published and blog updated successfully",
+          "error": "Failed to publish article, please check mandatory fields"
+        },
+        "elite": {
+          "title": "Elite Content Management",
+          "subtitle": "Full control over articles, SEO, and smart links",
+          "addArticle": "Add New Elite Article",
+          "editArticle": "Edit Professional Article",
+          "loading": "Loading smart data...",
+          "noArticles": "No articles added in the Elite system",
+          "startNow": "Start Blogging Now",
+          "generalTab": "General Settings",
+          "contentTab": "Article Content",
+          "seoTab": "Search Engine (SEO)",
+          "conversionTab": "Conversion (CTA)",
+          "uploadImage": "Upload Cover Image",
+          "imageHint": "PNG, JPG up to 5MB for visual identity",
+          "changeImage": "Change Cover Image",
+          "syncSlug": "Sync Link (Slug)",
+          "faqBuilder": "FAQ Builder",
+          "addFaq": "Add New Question",
+          "question": "Interactive Question",
+          "answer": "Model Answer",
+          "ctaText": "CTA Button Text",
+          "ctaLink": "Destination Link",
+          "ctaType": "Conversion Type",
+          "publish": "Publish Elite Content",
+          "update": "Update Advanced Content",
+          "publishing": "Publishing..."
+        },
+        "statuses": {
+          "draft": "Draft",
+          "published": "Published"
+        }
+      }
+    },
+    "user": {
+      "title": "Dashboard",
+      "welcome": {
+        "badge": "Dashboard",
+        "title": "Welcome",
+        "subtitle": "Manage your bookings and profile easily"
+      },
+      "tabs": {
+        "profile": "Profile",
+        "bookings": "My Bookings",
+        "password": "Password",
+        "security": "Security"
+      },
+      "bookings": {
+        "title": "My Bookings",
+        "emptyTitle": "No bookings yet",
+        "browseCars": "Browse Cars",
+        "pickup": "Pickup Date",
+        "dropoff": "Dropoff Date",
+        "days": "days",
+        "total": "Total:",
+        "sar": "SAR",
+        "status": {
+          "approved": "Accepted",
+          "rejected": "Rejected",
+          "pending": "Pending"
+        },
+        "whatsapp": "Contact WhatsApp",
+        "rateButton": "Rate Experience",
+        "detailsButton": "Car Details",
+        "cannotRate": "Rating Unavailable",
+        "carUndefined": "Car Unavailable"
+      },
+      "reviews": {
+        "dialogTitle": "Rate Your Experience",
+        "dialogSubtitle": "How was your experience with",
+        "placeholder": "Write your review here...",
+        "cancel": "Cancel",
+        "success": "Review submitted successfully",
+        "error": "Failed to submit review",
+        "submit": "Submit Review",
+        "posting": "Submitting...",
+        "postButton": "Submit Review",
+        "ratingLabel": "Rating",
+        "commentLabel": "Your Comment",
+        "emptyCommentError": "Please write a comment with your rating",
+        "rated": "Reviewed"
+      },
+      "profile": {
+        "title": "Profile",
+        "subtitle": "Your personal information",
+        "name": "Name",
+        "email": "Email",
+        "emailHelper": "Email cannot be changed",
+        "phone": "Phone Number",
+        "editButton": "Edit Profile",
+        "saveButton": "Save Changes",
+        "cancelButton": "Cancel",
+        "successMessage": "Profile updated successfully",
+        "errorMessage": "Failed to update profile",
+        "validationError": "Please fill in name and phone number",
+        "updateSuccess": "Profile updated successfully",
+        "updateError": "Failed to update profile"
+      },
+      "security": {
+        "title": "Change Password",
+        "subtitle": "Update your password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "updateButton": "Update Password",
+        "errorFillAll": "Please fill all fields",
+        "errorWeakPassword": "Password must contain at least one uppercase, one lowercase, one number, one special character, and be at least 8 characters"
+      }
+    }
+  },
+  "cars": {
+    "title": "Available Cars",
+    "filter": "Filter",
+    "sort": "Sort",
+    "pricePerDay": "SAR / day",
+    "bookNow": "Book Now",
+    "details": "Details",
+    "noResults": "No cars available",
+    "brand": "Brand",
+    "model": "Model",
+    "year": "Year",
+    "city": "City",
+    "features": "Features"
+  },
+  "seats": "Seats",
+  "fuelType": "Fuel Type",
+  "priceWeekly": "Weekly Price",
+  "priceHalfMonth": "Half-Month Price",
+  "priceMonthly": "Monthly Price",
+  "booking": {
+    "title": "Confirm Booking",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "totalDays": "Total Days",
+    "totalPrice": "Total Price",
+    "confirmButton": "Confirm Booking",
+    "successMessage": "Booking successful",
+    "errorMessage": "Booking failed",
+    "loginRequired": "Please login first to complete your booking",
+    "adminCannotBook": "Booking is for customers only.",
+    "bookNow": "Book Now",
+    "driverHours": "Driver hours per day",
+    "driverHourlyRate": "Driver cost (per day)",
+    "datePlaceholder": "DD / MM / YYYY",
+    "submitError": "Failed to submit booking request",
+    "uploadError": "Failed to upload file",
+    "uploadGeneralError": "An error occurred while uploading documents. Please try again.",
+    "validation": {
+      "dates": "Please select start and end dates",
+      "pastDate": "Cannot select a past date",
+      "endDate": "End date must be after start date",
+      "whatsapp": "Please enter WhatsApp number",
+      "invalidPhone": "Please enter a valid WhatsApp number (digits only with country code)",
+      "documents": "Please upload all required documents (ID and License)"
+    },
+    "breadcrumb": "Complete Luxury Booking",
+    "pageTitlePart1": "Complete",
+    "pageTitlePart2": "Booking Request",
+    "datesTitle": "Select Dates",
+    "pickupDate": "Pickup Date",
+    "dropoffDate": "Dropoff Date",
+    "contactTitle": "Contact Information",
+    "whatsappLabel": "WhatsApp Number",
+    "whatsappPlaceholder": "e.g., +9665xxxxxxxx",
+    "whatsappHelper": "Enter number with country code",
+    "kmPerDay": "Daily Kilometers",
+    "kmOption": "{{km}} km / day",
+    "documentsTitle": "Required Documents",
+    "idCardLabel": "ID Card / Residency",
+    "licenseLabel": "Driver's License",
+    "uploadHint": "Click to upload",
+    "policyTitle": "Booking Policy",
+    "policyText": "By completing this booking, you agree to the terms and conditions. Your request will be reviewed within 24 hours.",
+    "uploading": "Uploading securely...",
+    "processing": "Processing your request...",
+    "submitButton": "Confirm Booking & Submit Documents",
+    "carImageAlt": "Car Image",
+    "yearLabel": "{{year}} Model",
+    "modelLabel": "Class A",
+    "dailyPrice": "Daily Price",
+    "duration": "Duration",
+    "days": "days",
+    "vat": "VAT",
+    "vatIncluded": "Included",
+    "total": "Total",
+    "paymentHint": "Tiered per-day pricing will be confirmed with you, and our team can complete bank transfer support through WhatsApp or arrange payment on pickup.",
+    "successTitle": "Booking Successful!",
+    "successMessagePart1": "Your request is now",
+    "successMessagePart2": "Under Review",
+    "successMessagePart3": "Our team will prioritize your request and contact you soon to confirm booking and pickup.",
+    "successButton": "Understood"
+  },
+  "common": {
+    "loading": "Loading...",
+    "currency": "SAR",
+    "hours": "hours",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "noData": "No data available",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "close": "Close",
+    "totalResults": "Total Results:",
+    "all": "All",
+    "priceRange": "Price Range"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "cars": "Cars",
+    "booking": "Booking",
+    "dashboard": "Dashboard"
+  },
+  "individuals": {
+    "pageTitle": "Individuals Section",
+    "heroBadge": "Individuals",
+    "heroTitlePart1": "Diverse Cars",
+    "heroTitlePart2": "for Daily Rent",
+    "heroDesc": "A wide range of economic, family, and luxury cars to meet all your daily needs at the best prices.",
+    "empty": "No cars are currently available in the individuals section."
+  },
+  "corporate": {
+    "pageTitle": "Corporate Section",
+    "heroBadge": "Corporate Section",
+    "heroTitlePart1": "Mobility Solutions",
+    "heroTitlePart2": "For Business",
+    "heroDesc": "Premium fleet for business needs with highest standards of luxury and safety.",
+    "empty": "No corporate cars available at the moment."
+  },
+  "withDriver": {
+    "pageTitle": "Cars with Driver",
+    "heroBadge": "With Driver",
+    "heroTitlePart1": "Comfortable Trips",
+    "heroTitlePart2": "With Private Driver",
+    "heroDesc": "Enjoy your trip and let our professionals drive. Premium service and highly trained drivers for your comfort.",
+    "empty": "No cars with driver available at the moment."
+  },
+  "policy": {
+    "pageTitle": "Return & Exchange Policy",
+    "titlePart1": "Return & Exchange",
+    "titlePart2": "Policy",
+    "cancelTitle": "Cancellation Policy Before Pickup",
+    "cancelItem1": "You can cancel booking 24 hours before pickup without fees.",
+    "cancelItem2": "Cancellation within less than 24 hours may incur a one-day fee (subject to rental company policy).",
+    "exchangeTitle": "Exchange Policy",
+    "exchangeItem1": "Car can be exchanged in case of technical fault or specification mismatch.",
+    "exchangeItem2": "Exchange depends on availability of similar cars at the rental company.",
+    "refundTitle": "Refund Policy",
+    "refundItem1": "Refunds are processed to the original payment method.",
+    "refundItem2": "Bank refunds take 7-14 business days depending on bank procedures.",
+    "exceptionsTitle": "Non-Refundable Cases",
+    "exceptionsItem1": "Remaining days value cannot be refunded if car is returned early (unless exceptionally approved).",
+    "exceptionsItem2": "Traffic violations during rental period are non-refundable and deducted from deposit.",
+    "disclaimer": "* All operations are primarily subject to the rental contract signed between customer and service provider."
+  },
+  "privacy": {
+    "identity_verification": "The client agrees to provide the service provider with a valid copy of the national ID or residency permit and driving license, via the website or approved means, for eligibility verification and to complete the vehicle rental process in accordance with the regulations in the Kingdom of Saudi Arabia."
+  },
+  "terms": {
+    "identity_verification": "The client agrees to provide the service provider with a valid copy of the national ID or residency permit and driving license, via the website or approved means, for eligibility verification and to complete the vehicle rental process in accordance with the regulations in the Kingdom of Saudi Arabia."
+  },
+  "carDetails": {
+    "notFound": "Car Not Found",
+    "backHome": "Back to Home",
+    "model": "Model",
+    "rating": "Rating",
+    "reviewsCount": "Reviews",
+    "pricePerDay": "Daily Rate",
+    "currency": "SAR",
+    "available": "Available for Booking",
+    "unavailable": "Currently Unavailable",
+    "specsTitle": "Key Specifications:",
+    "transmission": "Transmission",
+    "transmissionValue": "Automatic",
+    "fuel": "Fuel Type",
+    "fuelValue": "95 Octane",
+    "passengers": "Passengers",
+    "passengersValue": "Persons",
+    "color": "Color",
+    "colorValue": "Standard",
+    "descTitle": "Description:",
+    "includesTitle": "Rental Includes:",
+    "includes": {
+      "insurance": "Premium Insurance",
+      "support": "24/7 Roadside Assistance",
+      "maintenance": "Regular Maintenance",
+      "delivery": "Free Delivery (Optional)"
+    },
+    "bookButton": "Book Now",
+    "reviewsTitle": "Customer Reviews",
+    "noReviews": "No reviews for this car yet.",
+    "beFirst": "Be the first to book and rate this premium car!"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "loading": "Loading...",
+    "empty": "No new notifications",
+    "delete": "Remove Notification",
+    "bookingApproved": "Your booking #{{bookingId}} for {{carName}} has been approved",
+    "bookingRejected": "We are currently unable to accept your booking for {{carName}}",
+    "newBooking": "Alert: New booking request for {{carName}}",
+    "uploadSuccess": "Image uploaded successfully and stored in cloud",
+    "uploadError": "Failed to upload image file, please check file size",
+    "requiredFields": "Please fill in the specified mandatory fields",
+    "fillAll": "Please complete all data to proceed"
+  },
+  "blog": {
+    "pageTitle": "Blog",
+    "pageTitleAccent": "C4R",
+    "pageSubtitle": "Discover the world of cars in Saudi Arabia. From the latest driving technology to the best maintenance tips and exclusive rental offers.",
+    "searchPlaceholder": "Search for tips, maintenance, or car news...",
+    "readMore": "Read More",
+    "noArticles": "No articles yet",
+    "emptyState": {
+      "title": "No articles yet",
+      "subtitle": "Check back soon for new articles"
+    },
+    "article": {
+      "backToArticles": "Back to Articles",
+      "views": "views",
+      "minutesRead": "min read",
+      "byAuthor": "By C4R Experts",
+      "loading": "Loading..."
+    },
+    "continueReading": {
+      "sectionTitle": "Continue Reading",
+      "nextArticle": "Next Article"
+    },
+    "relatedArticles": {
+      "sectionTitle": "Articles You Might Like",
+      "sectionSubtitle": "Keep reading and discover more about the car world",
+      "viewAll": "View All Articles"
+    },
+    "sidebar": {
+      "popularArticles": "Popular Articles",
+      "trendingCars": "Trending Cars",
+      "browseAll": "Browse All Offers",
+      "noCategory": "General"
+    },
+    "tableOfContents": {
+      "title": "Table of Contents"
+    },
+    "cta": {
+      "mobileSticky": {
+        "browseCars": "Browse available cars now",
+        "fastBooking": "Fast Booking"
+      },
+      "dynamic": {
+        "title": "Ready to book your car?",
+        "subtitle": "Browse the best deals starting from 150 SAR/day",
+        "button": "Browse Cars"
+      }
+    },
+    "author": {
+      "title": "C4R Automotive Experts",
+      "description": "A specialized team in analyzing the Saudi car market, we strive to provide the most accurate information and advice on renting and owning cars to help you make the best decision.",
+      "learnMore": "Learn more about us",
+      "trustedBadge": "Trusted Source"
+    },
+    "meta": {
+      "notFound": "Article Not Found | C4R",
+      "searchResults": "Search results for \"{{query}}\" | C4R Blog",
+      "defaultTitle": "Blog | Car News & Rental Offers in Saudi Arabia - C4R",
+      "defaultDescription": "Follow the latest car news, maintenance tips, and rental offers in Saudi Arabia via C4R Blog."
+    },
+    "validation": {
+      "publishBlocked": "Cannot publish - please complete all required fields",
+      "publishReady": "Ready to publish! All required fields are complete",
+      "publishReadyHint": "Press Publish to add the article to the blog",
+      "seoPreview": "Search Preview",
+      "seoPreviewHint": "This is how your article will appear in Google search",
+      "seoStats": {
+        "title": "SEO Title",
+        "titleOk": "Excellent - {{count}}/60 characters",
+        "titleWarning": "Warning - {{count}}/60 characters",
+        "titleError": "Required - Add an SEO title",
+        "description": "SEO Description",
+        "descriptionOk": "Excellent - {{count}}/160 characters",
+        "descriptionWarning": "Warning - {{count}}/160 characters",
+        "descriptionError": "Required - Add an SEO description",
+        "image": "Featured Image",
+        "imageOk": "Image uploaded",
+        "imageMissing": "Required for publishing",
+        "keywords": "Keywords",
+        "keywordsCount": "{{count}} keywords"
+      },
+      "linkedCars": "Linked Cars",
+      "linkedCarsHint": "These cars will appear in the article sidebar",
+      "noLinkedCars": "No cars linked yet",
+      "imageUpload": {
+        "title": "Featured Image",
+        "dragDrop": "Drag & drop image here",
+        "orClick": "or click to select",
+        "hint": "PNG, JPG, WEBP • Up to 5MB",
+        "changeImage": "Change Image",
+        "required": "Image required for publishing"
+      },
+      "required": {
+        "title": "Article Title",
+        "category": "Category Selection",
+        "content": "Article Content"
+      }
+    }
+  },
+  "promos": {
+    "title": "Promos & Banners Management",
+    "subtitle": "Control promotional offers and banners on the homepage",
+    "addNew": "Add New Promo",
+    "edit": "Edit Promo",
+    "limitedOffer": "Limited Time Offer",
+    "exploreOffer": "Explore Offer",
+    "layout": {
+      "imageRight": "Image on Right",
+      "imageLeft": "Image on Left",
+      "fullBg": "Full Background"
+    },
+    "fields": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "linkUrl": "Link URL",
+      "priority": "Priority",
+      "isActive": "Status",
+      "layoutType": "Layout Type"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "messages": {
+      "createSuccess": "Promo created successfully",
+      "updateSuccess": "Promo updated successfully",
+      "deleteSuccess": "Promo deleted successfully",
+      "uploadSuccess": "Image uploaded successfully",
+      "uploadError": "Failed to upload image",
+      "noData": "No promotions available currently",
+      "deleteConfirm": "Are you sure you want to delete this promo?"
+    }
+  }
+}
