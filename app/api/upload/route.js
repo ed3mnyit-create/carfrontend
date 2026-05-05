@@ -6,9 +6,9 @@ import { cookies } from "next/headers";
 // Configure Cloudinary
 // SECURITY: api_secret must NOT use NEXT_PUBLIC_ prefix — it's server-only
 cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUINARY_CLOUD_NAME,
-  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || process.env.NEXT_PUBLIC_CLOUINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET_KEY || process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET_KEY || process.env.NEXT_PUBLIC_CLOUINARY_API_SECRET_KEY,
+  cloud_name: process.env.NEXT_PUBLIC_CLOUINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUINARY_API_KEY,
+  api_secret: process.env.NEXT_PUBLIC_CLOUINARY_API_SECRET_KEY,
 });
 
 export async function POST(request) {
