@@ -597,6 +597,9 @@
       "dates": "Please select start and end dates",
       "pastDate": "Cannot select a past date",
       "endDate": "End date must be after start date",
+      "days": "Please enter a valid number of days",
+      "driverPackage": "Please choose a driver package with a valid price",
+      "idCard": "Please upload your ID card or residency document",
       "whatsapp": "Please enter WhatsApp number",
       "invalidPhone": "Please enter a valid WhatsApp number (digits only with country code)",
       "documents": "Please upload all required documents (ID and License)"
@@ -607,6 +610,14 @@
     "datesTitle": "Select Dates",
     "pickupDate": "Pickup Date",
     "dropoffDate": "Dropoff Date",
+    "appliedTier": "Applied Tier",
+    "driverPackage": "Driver Package",
+    "packagePrice": "Package Price",
+    "driverPackages": {
+      "fourHours": "4 Hours Package",
+      "eightHours": "8 Hours Package",
+      "twelveHours": "12 Hours Package"
+    },
     "contactTitle": "Contact Information",
     "whatsappLabel": "WhatsApp Number",
     "whatsappPlaceholder": "e.g., +9665xxxxxxxx",

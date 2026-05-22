@@ -1964,7 +1964,9 @@ function AddCarDialog({ open, onClose }) {
     region: "riyadh",
     category: "regular",
     pricePerDay: "",
-    driverHourlyRate: "",
+    driverPackage4Hours: "",
+    driverPackage8Hours: "",
+    driverPackage12Hours: "",
     priceWeekly: "",
     priceHalfMonth: "",
     priceMonthly: "",
@@ -2032,7 +2034,9 @@ function AddCarDialog({ open, onClose }) {
         region: "riyadh",
         category: "regular",
         pricePerDay: "",
-        driverHourlyRate: "",
+        driverPackage4Hours: "",
+        driverPackage8Hours: "",
+        driverPackage12Hours: "",
         priceWeekly: "",
         priceHalfMonth: "",
         priceMonthly: "",
@@ -2051,17 +2055,26 @@ function AddCarDialog({ open, onClose }) {
   });
 
   const handleSubmit = async () => {
-    if (
+    const isDriverCar = formData.category === "with_driver";
+    const missingBaseFields =
       !formData.name ||
-      !formData.pricePerDay ||
-      !formData.priceWeekly ||
-      !formData.priceHalfMonth ||
-      !formData.priceMonthly ||
       !formData.seats ||
       !formData.fuelType ||
       !formData.description ||
-      !file
-    ) {
+      !file;
+    const missingRegularPrices =
+      !isDriverCar &&
+      (!formData.pricePerDay ||
+        !formData.priceWeekly ||
+        !formData.priceHalfMonth ||
+        !formData.priceMonthly);
+    const missingDriverPackages =
+      isDriverCar &&
+      (!formData.driverPackage4Hours ||
+        !formData.driverPackage8Hours ||
+        !formData.driverPackage12Hours);
+
+    if (missingBaseFields || missingRegularPrices || missingDriverPackages) {
       toast.warning(t("dashboard.admin.addCar.warningFill"));
       return;
     }
@@ -2086,8 +2099,12 @@ function AddCarDialog({ open, onClose }) {
       const parseFloatSafe = (val) => (val ? parseFloat(val) : undefined);
 
       payload.year = parseIntSafe(formData.year);
-      payload.pricePerDay = parseFloatSafe(formData.pricePerDay);
-      payload.driverHourlyRate = parseFloatSafe(formData.driverHourlyRate);
+      payload.driverPackage4Hours = parseFloatSafe(formData.driverPackage4Hours);
+      payload.driverPackage8Hours = parseFloatSafe(formData.driverPackage8Hours);
+      payload.driverPackage12Hours = parseFloatSafe(formData.driverPackage12Hours);
+      payload.pricePerDay = isDriverCar
+        ? parseFloatSafe(formData.driverPackage4Hours)
+        : parseFloatSafe(formData.pricePerDay);
       payload.priceWeekly = parseFloatSafe(formData.priceWeekly);
       payload.priceHalfMonth = parseFloatSafe(formData.priceHalfMonth);
       payload.priceMonthly = parseFloatSafe(formData.priceMonthly);
@@ -2305,105 +2322,145 @@ function AddCarDialog({ open, onClose }) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <TextField
-                label={t("dashboard.admin.addCar.priceLabel")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.pricePerDay}
-                onChange={(e) =>
-                  setFormData({ ...formData, pricePerDay: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-
-              <TextField
-                label={t("priceWeekly")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.priceWeekly}
-                onChange={(e) =>
-                  setFormData({ ...formData, priceWeekly: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-
-              <TextField
-                label={t("priceHalfMonth")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.priceHalfMonth}
-                onChange={(e) =>
-                  setFormData({ ...formData, priceHalfMonth: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-
-              <TextField
-                label={t("priceMonthly")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.priceMonthly}
-                onChange={(e) =>
-                  setFormData({ ...formData, priceMonthly: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-              {formData.category === "with_driver" && (
-                <TextField
-                  label={t("dashboard.admin.addCar.driverHourlyRateLabel") || "سعر الساعة للسائق (ريال)"}
-                  placeholder={t("dashboard.admin.addCar.driverHourlyRatePlaceholder") || "سعر ساعة السائق"}
-                  fullWidth
-                  type="number"
-                  variant="outlined"
-                  value={formData.driverHourlyRate}
-                  onChange={(e) =>
-                    setFormData({ ...formData, driverHourlyRate: e.target.value })
-                  }
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AttachMoney className="text-primary" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={inputStyle}
-                />
+              {formData.category === "with_driver" ? (
+                <>
+                  <TextField
+                    label={t("booking.driverPackages.fourHours")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.driverPackage4Hours}
+                    onChange={(e) =>
+                      setFormData({ ...formData, driverPackage4Hours: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("booking.driverPackages.eightHours")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.driverPackage8Hours}
+                    onChange={(e) =>
+                      setFormData({ ...formData, driverPackage8Hours: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("booking.driverPackages.twelveHours")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.driverPackage12Hours}
+                    onChange={(e) =>
+                      setFormData({ ...formData, driverPackage12Hours: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                </>
+              ) : (
+                <>
+                  <TextField
+                    label={t("dashboard.admin.addCar.priceLabel")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.pricePerDay}
+                    onChange={(e) =>
+                      setFormData({ ...formData, pricePerDay: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("priceWeekly")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.priceWeekly}
+                    onChange={(e) =>
+                      setFormData({ ...formData, priceWeekly: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("priceHalfMonth")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.priceHalfMonth}
+                    onChange={(e) =>
+                      setFormData({ ...formData, priceHalfMonth: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("priceMonthly")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.priceMonthly}
+                    onChange={(e) =>
+                      setFormData({ ...formData, priceMonthly: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                </>
               )}
             </div>
 
@@ -2493,7 +2550,9 @@ function EditCarDialog({ open, car, onClose }) {
     region: "riyadh",
     category: "regular",
     pricePerDay: "",
-    driverHourlyRate: "",
+    driverPackage4Hours: "",
+    driverPackage8Hours: "",
+    driverPackage12Hours: "",
     priceWeekly: "",
     priceHalfMonth: "",
     priceMonthly: "",
@@ -2514,7 +2573,12 @@ function EditCarDialog({ open, car, onClose }) {
         region: car.region || "riyadh",
         category: car.category || "regular",
         pricePerDay: car.pricePerDay || "",
-        driverHourlyRate: car.driverHourlyRate || "",
+        driverPackage4Hours:
+          car.driverPackage4Hours || (car.driverHourlyRate ? Number(car.driverHourlyRate) * 4 : ""),
+        driverPackage8Hours:
+          car.driverPackage8Hours || (car.driverHourlyRate ? Number(car.driverHourlyRate) * 8 : ""),
+        driverPackage12Hours:
+          car.driverPackage12Hours || (car.driverHourlyRate ? Number(car.driverHourlyRate) * 12 : ""),
         priceWeekly: car.priceWeekly || "",
         priceHalfMonth: car.priceHalfMonth || "",
         priceMonthly: car.priceMonthly || "",
@@ -2584,16 +2648,25 @@ function EditCarDialog({ open, car, onClose }) {
   });
 
   const handleSubmit = async () => {
-    if (
+    const isDriverCar = formData.category === "with_driver";
+    const missingBaseFields =
       !formData.name ||
-      !formData.pricePerDay ||
-      !formData.priceWeekly ||
-      !formData.priceHalfMonth ||
-      !formData.priceMonthly ||
       !formData.seats ||
       !formData.fuelType ||
-      !formData.description
-    ) {
+      !formData.description;
+    const missingRegularPrices =
+      !isDriverCar &&
+      (!formData.pricePerDay ||
+        !formData.priceWeekly ||
+        !formData.priceHalfMonth ||
+        !formData.priceMonthly);
+    const missingDriverPackages =
+      isDriverCar &&
+      (!formData.driverPackage4Hours ||
+        !formData.driverPackage8Hours ||
+        !formData.driverPackage12Hours);
+
+    if (missingBaseFields || missingRegularPrices || missingDriverPackages) {
       toast.warning(t("dashboard.admin.editCar.warningFill"));
       return;
     }
@@ -2622,8 +2695,12 @@ function EditCarDialog({ open, car, onClose }) {
       const parseFloatSafe = (val) => (val ? parseFloat(val) : undefined);
 
       payload.year = parseIntSafe(formData.year);
-      payload.pricePerDay = parseFloatSafe(formData.pricePerDay);
-      payload.driverHourlyRate = parseFloatSafe(formData.driverHourlyRate);
+      payload.driverPackage4Hours = parseFloatSafe(formData.driverPackage4Hours);
+      payload.driverPackage8Hours = parseFloatSafe(formData.driverPackage8Hours);
+      payload.driverPackage12Hours = parseFloatSafe(formData.driverPackage12Hours);
+      payload.pricePerDay = isDriverCar
+        ? parseFloatSafe(formData.driverPackage4Hours)
+        : parseFloatSafe(formData.pricePerDay);
       payload.priceWeekly = parseFloatSafe(formData.priceWeekly);
       payload.priceHalfMonth = parseFloatSafe(formData.priceHalfMonth);
       payload.priceMonthly = parseFloatSafe(formData.priceMonthly);
@@ -2840,105 +2917,145 @@ function EditCarDialog({ open, car, onClose }) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <TextField
-                label={t("dashboard.admin.editCar.priceLabel")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.pricePerDay}
-                onChange={(e) =>
-                  setFormData({ ...formData, pricePerDay: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-
-              <TextField
-                label={t("priceWeekly")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.priceWeekly}
-                onChange={(e) =>
-                  setFormData({ ...formData, priceWeekly: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-
-              <TextField
-                label={t("priceHalfMonth")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.priceHalfMonth}
-                onChange={(e) =>
-                  setFormData({ ...formData, priceHalfMonth: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-
-              <TextField
-                label={t("priceMonthly")}
-                placeholder="0.00"
-                fullWidth
-                type="number"
-                variant="outlined"
-                value={formData.priceMonthly}
-                onChange={(e) =>
-                  setFormData({ ...formData, priceMonthly: e.target.value })
-                }
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AttachMoney className="text-primary" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={inputStyle}
-              />
-              {formData.category === "with_driver" && (
-                <TextField
-                  label={t("dashboard.admin.editCar.driverHourlyRateLabel") || "سعر الساعة للسائق (ريال)"}
-                  placeholder={t("dashboard.admin.editCar.driverHourlyRatePlaceholder") || "سعر ساعة السائق"}
-                  fullWidth
-                  type="number"
-                  variant="outlined"
-                  value={formData.driverHourlyRate}
-                  onChange={(e) =>
-                    setFormData({ ...formData, driverHourlyRate: e.target.value })
-                  }
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AttachMoney className="text-primary" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={inputStyle}
-                />
+              {formData.category === "with_driver" ? (
+                <>
+                  <TextField
+                    label={t("booking.driverPackages.fourHours")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.driverPackage4Hours}
+                    onChange={(e) =>
+                      setFormData({ ...formData, driverPackage4Hours: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("booking.driverPackages.eightHours")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.driverPackage8Hours}
+                    onChange={(e) =>
+                      setFormData({ ...formData, driverPackage8Hours: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("booking.driverPackages.twelveHours")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.driverPackage12Hours}
+                    onChange={(e) =>
+                      setFormData({ ...formData, driverPackage12Hours: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                </>
+              ) : (
+                <>
+                  <TextField
+                    label={t("dashboard.admin.editCar.priceLabel")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.pricePerDay}
+                    onChange={(e) =>
+                      setFormData({ ...formData, pricePerDay: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("priceWeekly")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.priceWeekly}
+                    onChange={(e) =>
+                      setFormData({ ...formData, priceWeekly: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("priceHalfMonth")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.priceHalfMonth}
+                    onChange={(e) =>
+                      setFormData({ ...formData, priceHalfMonth: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                  <TextField
+                    label={t("priceMonthly")}
+                    placeholder="0.00"
+                    fullWidth
+                    type="number"
+                    variant="outlined"
+                    value={formData.priceMonthly}
+                    onChange={(e) =>
+                      setFormData({ ...formData, priceMonthly: e.target.value })
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AttachMoney className="text-primary" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={inputStyle}
+                  />
+                </>
               )}
             </div>
 

@@ -67,9 +67,19 @@ const getTieredPricing = (car, numberOfDays, t) => {
   return { label: t("booking.dailyPrice"), rate: dailyRate };
 };
 
-const getDayOptionLabel = (day, t) => {
-  const tierLabel = getTieredPricing(null, day, t).label;
-  return `${day} ${t("booking.days")} - ${tierLabel}`;
+const DRIVER_PACKAGES = [
+  { hours: 4, priceKey: "driverPackage4Hours", labelKey: "booking.driverPackages.fourHours" },
+  { hours: 8, priceKey: "driverPackage8Hours", labelKey: "booking.driverPackages.eightHours" },
+  { hours: 12, priceKey: "driverPackage12Hours", labelKey: "booking.driverPackages.twelveHours" },
+];
+
+const getDriverPackagePrice = (car, hours) => {
+  const packageConfig = DRIVER_PACKAGES.find((pkg) => pkg.hours === Number(hours));
+  const packagePrice = Number(car?.[packageConfig?.priceKey] || 0);
+
+  if (packagePrice > 0) return packagePrice;
+
+  return Number(car?.driverHourlyRate || 0) * Number(hours || 0);
 };
 
 export default function BookingPage() {
@@ -84,6 +94,7 @@ export default function BookingPage() {
     endDate: "",
   });
   const [numberOfDays, setNumberOfDays] = useState(1);
+  const [selectedDriverPackageHours, setSelectedDriverPackageHours] = useState(4);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [kmPerDay, setKmPerDay] = useState(300);
   const [idCardFile, setIdCardFile] = useState(null);
@@ -143,6 +154,7 @@ export default function BookingPage() {
   });
 
   const car = carResponse?.data?.car || carResponse?.data || carResponse;
+  const isWithDriver = car?.category === "with_driver";
 
   const createBookingMutation = useMutation({
     mutationFn: (bookingData) => bookingService.create(bookingData),
@@ -187,29 +199,32 @@ export default function BookingPage() {
     }
 
     // 1. Precise Validation
-    if (!dates.startDate || !dates.endDate) {
+    if (!dates.startDate || (!isWithDriver && !dates.endDate)) {
       toast.error(t("booking.validation.dates"));
       return;
     }
 
     const start = new Date(dates.startDate);
-    const end = new Date(dates.endDate);
+    const end = new Date(isWithDriver ? dates.startDate : dates.endDate);
     const todayStr = new Date().toISOString().split("T")[0];
     if (dates.startDate < todayStr) {
       toast.error(t("booking.validation.pastDate"));
       return;
     }
 
-    if (numberOfDays < 1) {
-      if (end < start) {
-        toast.error(t("booking.validation.endDate"));
+    if (!isWithDriver) {
+      if (Number(numberOfDays) < 1) {
+        toast.error(t("booking.validation.days"));
         return;
       }
-    } else {
+
       if (end <= start) {
         toast.error(t("booking.validation.endDate"));
         return;
       }
+    } else if (!selectedDriverPackageHours || getDriverPackagePrice(car, selectedDriverPackageHours) <= 0) {
+      toast.error(t("booking.validation.driverPackage"));
+      return;
     }
 
     // Phone Validation (WhatsApp)
@@ -219,7 +234,12 @@ export default function BookingPage() {
       return;
     }
 
-    if (car?.category !== "with_driver") {
+    if (isWithDriver) {
+      if (!idCardFile) {
+        toast.error(t("booking.validation.idCard"));
+        return;
+      }
+    } else {
       if (!idCardFile || !licenseFile) {
         toast.error(t("booking.validation.documents"));
         return;
@@ -231,24 +251,37 @@ export default function BookingPage() {
       // 1. Upload Images Securely
       const [idCardUrl, licenseUrl] = await Promise.all([
         idCardFile ? uploadToSecureAPI(idCardFile) : Promise.resolve(""),
-        licenseFile ? uploadToSecureAPI(licenseFile) : Promise.resolve(""),
+        !isWithDriver && licenseFile ? uploadToSecureAPI(licenseFile) : Promise.resolve(""),
       ]);
 
       // 2. Calculate Days
-      const diffDays = Number(numberOfDays || 1);
+      const diffDays = isWithDriver
+        ? Number(selectedDriverPackageHours) / 24
+        : Number(numberOfDays || 1);
 
       // 3. Prepare Data
       const bookingData = {
         carId,
         phoneNumber,
-        kmPerDay,
         numberOfDays: diffDays,
-        driverHours: (car?.category === "with_driver" && Number(numberOfDays || 1) < 1) ? Math.round(Number(numberOfDays || 1) * 24) : 0,
+        driverHours: isWithDriver ? Number(selectedDriverPackageHours) : 0,
+        driverPackageHours: isWithDriver ? Number(selectedDriverPackageHours) : undefined,
+        driverPackagePrice: isWithDriver
+          ? getDriverPackagePrice(car, selectedDriverPackageHours)
+          : undefined,
         startDate: dates.startDate,
-        endDate: dates.endDate,
+        endDate: isWithDriver ? dates.startDate : dates.endDate,
         idCardImageUrl: idCardUrl,
         licenseImageUrl: licenseUrl,
       };
+
+      if (!isWithDriver) {
+        bookingData.kmPerDay = kmPerDay;
+      }
+
+      Object.keys(bookingData).forEach(
+        (key) => bookingData[key] === undefined && delete bookingData[key],
+      );
 
       createBookingMutation.mutate(bookingData);
     } catch (error) {
@@ -295,12 +328,16 @@ export default function BookingPage() {
   const diffDays = Number(numberOfDays || 1);
   const tieredPricing = getTieredPricing(car, diffDays, t);
   let totalPrice = 0;
-  const isHourlyWithDriver = car?.category === "with_driver" && diffDays < 1;
-  const computedDriverHours = isHourlyWithDriver ? Math.round(diffDays * 24) : 0;
+  const selectedDriverPackage = DRIVER_PACKAGES.find(
+    (pkg) => pkg.hours === Number(selectedDriverPackageHours),
+  ) || DRIVER_PACKAGES[0];
+  const selectedDriverPackagePrice = getDriverPackagePrice(
+    car,
+    selectedDriverPackage.hours,
+  );
 
-  if (isHourlyWithDriver) {
-    // Hourly booking: price is strictly (hourly rate * hours)
-    totalPrice = Math.round((car?.driverHourlyRate || 0) * computedDriverHours);
+  if (isWithDriver) {
+    totalPrice = Math.round(selectedDriverPackagePrice);
   } else {
     // Daily booking
     totalPrice = Math.round(tieredPricing.rate * diffDays);
@@ -415,109 +452,81 @@ export default function BookingPage() {
                         />
                       </div>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <FormControl fullWidth size="small">
-                        <InputLabel
-                          sx={{
-                            color: "rgba(255,255,255,0.4)",
-                            "&.Mui-focused": { color: "#f97316" },
-                            fontWeight: "bold",
-                            fontSize: "0.85rem",
-                          }}
-                        >
-                          {t("booking.totalDays")}
-                        </InputLabel>
-                        <Select
-                          value={numberOfDays}
-                          onChange={handleDaysChange}
-                          label={t("booking.totalDays")}
-                          sx={{
-                            borderRadius: 3,
-                            bgcolor: "rgba(255,255,255,0.03)",
-                            color: "white",
-                            "& fieldset": {
-                              borderColor: "rgba(255,255,255,0.1)",
-                            },
-                            "&.Mui-focused fieldset": {
-                              borderColor: "#f97316",
-                            },
-                            "& .MuiSelect-icon": {
+                    <Grid item xs={12} sm={isWithDriver ? 6 : 4}>
+                      {isWithDriver ? (
+                        <FormControl fullWidth size="small">
+                          <InputLabel
+                            sx={{
                               color: "rgba(255,255,255,0.4)",
-                            },
-                          }}
-                          MenuProps={{
-                            PaperProps: {
-                              sx: {
-                                bgcolor: "#0f172a",
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                color: "white",
-                                borderRadius: "1rem",
-                                "& .MuiMenuItem-root": {
-                                  fontSize: "0.85rem",
-                                  fontWeight: "bold",
-                                  "&:hover": {
-                                    bgcolor: "rgba(255,255,255,0.05)",
-                                  },
-                                  "&.Mui-selected": {
-                                    bgcolor: "rgba(249, 115, 22, 0.2)",
-                                    color: "#f97316",
+                              "&.Mui-focused": { color: "#f97316" },
+                              fontWeight: "bold",
+                              fontSize: "0.85rem",
+                            }}
+                          >
+                            {t("booking.driverPackage")}
+                          </InputLabel>
+                          <Select
+                            value={selectedDriverPackageHours}
+                            onChange={(e) =>
+                              setSelectedDriverPackageHours(Number(e.target.value))
+                            }
+                            label={t("booking.driverPackage")}
+                            sx={{
+                              borderRadius: 3,
+                              bgcolor: "rgba(255,255,255,0.03)",
+                              color: "white",
+                              "& fieldset": {
+                                borderColor: "rgba(255,255,255,0.1)",
+                              },
+                              "&.Mui-focused fieldset": {
+                                borderColor: "#f97316",
+                              },
+                              "& .MuiSelect-icon": {
+                                color: "rgba(255,255,255,0.4)",
+                              },
+                            }}
+                            MenuProps={{
+                              PaperProps: {
+                                sx: {
+                                  bgcolor: "#0f172a",
+                                  border: "1px solid rgba(255,255,255,0.1)",
+                                  color: "white",
+                                  borderRadius: "1rem",
+                                  "& .MuiMenuItem-root": {
+                                    fontSize: "0.85rem",
+                                    fontWeight: "bold",
                                     "&:hover": {
-                                      bgcolor: "rgba(249, 115, 22, 0.3)",
+                                      bgcolor: "rgba(255,255,255,0.05)",
+                                    },
+                                    "&.Mui-selected": {
+                                      bgcolor: "rgba(249, 115, 22, 0.2)",
+                                      color: "#f97316",
+                                      "&:hover": {
+                                        bgcolor: "rgba(249, 115, 22, 0.3)",
+                                      },
                                     },
                                   },
                                 },
                               },
-                            },
-                          }}
-                        >
-                          {car?.category === "with_driver" ? (
-                            [
-                              <MenuItem key={0.166667} value={0.166667}>4 ساعات</MenuItem>,
-                              <MenuItem key={0.333333} value={0.333333}>8 ساعات</MenuItem>,
-                              <MenuItem key={0.5} value={0.5}>12 ساعة</MenuItem>,
-                              ...Array.from({ length: 30 }, (_, index) => index + 1).map(
-                                (day) => (
-                                  <MenuItem key={day} value={day}>
-                                    {getDayOptionLabel(day, t)}
-                                  </MenuItem>
-                                ),
-                              )
-                            ]
-                          ) : (
-                            Array.from({ length: 30 }, (_, index) => index + 1).map(
-                              (day) => (
-                                <MenuItem key={day} value={day}>
-                                  {getDayOptionLabel(day, t)}
-                                </MenuItem>
-                              ),
-                            )
-                          )}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <div className="relative">
-                        {!dates.endDate && (
-                          <span
-                            className="pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 text-[0.85rem] font-bold text-white/35"
-                            style={{
-                              width: "calc(100% - 3rem)",
-                              ...datePlaceholderPosition,
                             }}
                           >
-                            {datePlaceholder}
-                          </span>
-                        )}
+                            {DRIVER_PACKAGES.map((pkg) => (
+                              <MenuItem key={pkg.hours} value={pkg.hours}>
+                                {t(pkg.labelKey)}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      ) : (
                         <TextField
-                          label={t("booking.dropoffDate")}
-                          type="date"
+                          label={t("booking.totalDays")}
+                          type="number"
                           fullWidth
                           size="small"
-                          InputLabelProps={{ shrink: true }}
-                          value={dates.endDate}
-                          onChange={(e) =>
-                            setDates({ ...dates, endDate: e.target.value })
-                          }
+                          value={numberOfDays}
+                          onChange={handleDaysChange}
+                          inputProps={{ min: 1, step: 1 }}
+                          required
                           sx={{
                             "& .MuiOutlinedInput-root": {
                               borderRadius: 3,
@@ -528,24 +537,6 @@ export default function BookingPage() {
                               },
                               "&.Mui-focused fieldset": {
                                 borderColor: "#f97316",
-                              },
-                              "& input[type='date']": {
-                                color: dates.endDate ? "white" : "transparent",
-                                WebkitTextFillColor: dates.endDate ? "white" : "transparent",
-                                caretColor: "transparent",
-                                paddingRight: "2.5rem",
-                              },
-                              "& input[type='date']::-webkit-datetime-edit": {
-                                color: dates.endDate ? "white" : "transparent",
-                                WebkitTextFillColor: dates.endDate ? "white" : "transparent",
-                              },
-                              "& input[type='date']::-webkit-calendar-picker-indicator": {
-                                filter: "invert(1)",
-                                opacity: 1,
-                                cursor: "pointer",
-                                position: "absolute",
-                                right: "0.5rem",
-                                left: "auto",
                               },
                             },
                             "& .MuiInputLabel-root": {
@@ -558,8 +549,75 @@ export default function BookingPage() {
                             },
                           }}
                         />
-                      </div>
+                      )}
                     </Grid>
+                    {!isWithDriver && (
+                      <Grid item xs={12} sm={6}>
+                        <div className="relative">
+                          {!dates.endDate && (
+                            <span
+                              className="pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 text-[0.85rem] font-bold text-white/35"
+                              style={{
+                                width: "calc(100% - 3rem)",
+                                ...datePlaceholderPosition,
+                              }}
+                            >
+                              {datePlaceholder}
+                            </span>
+                          )}
+                          <TextField
+                            label={t("booking.dropoffDate")}
+                            type="date"
+                            fullWidth
+                            size="small"
+                            InputLabelProps={{ shrink: true }}
+                            value={dates.endDate}
+                            onChange={(e) =>
+                              setDates({ ...dates, endDate: e.target.value })
+                            }
+                            sx={{
+                              "& .MuiOutlinedInput-root": {
+                                borderRadius: 3,
+                                bgcolor: "rgba(255,255,255,0.03)",
+                                color: "white",
+                                "& fieldset": {
+                                  borderColor: "rgba(255,255,255,0.1)",
+                                },
+                                "&.Mui-focused fieldset": {
+                                  borderColor: "#f97316",
+                                },
+                                "& input[type='date']": {
+                                  color: dates.endDate ? "white" : "transparent",
+                                  WebkitTextFillColor: dates.endDate ? "white" : "transparent",
+                                  caretColor: "transparent",
+                                  paddingRight: "2.5rem",
+                                },
+                                "& input[type='date']::-webkit-datetime-edit": {
+                                  color: dates.endDate ? "white" : "transparent",
+                                  WebkitTextFillColor: dates.endDate ? "white" : "transparent",
+                                },
+                                "& input[type='date']::-webkit-calendar-picker-indicator": {
+                                  filter: "invert(1)",
+                                  opacity: 1,
+                                  cursor: "pointer",
+                                  position: "absolute",
+                                  right: "0.5rem",
+                                  left: "auto",
+                                },
+                              },
+                              "& .MuiInputLabel-root": {
+                                color: "rgba(255,255,255,0.4)",
+                                fontWeight: "bold",
+                                fontSize: "0.85rem",
+                              },
+                              "& .MuiInputLabel-root.Mui-focused": {
+                                color: "#f97316",
+                              },
+                            }}
+                          />
+                        </div>
+                      </Grid>
+                    )}
 
                   </Grid>
                 </section>
@@ -612,57 +670,58 @@ export default function BookingPage() {
                   />
                 </section>
 
-                <FormControl fullWidth size="small">
-                  <InputLabel
-                    sx={{
-                      color: "rgba(255,255,255,0.4)",
-                      "&.Mui-focused": { color: "#f97316" },
-                      fontWeight: "bold",
-                      fontSize: "0.85rem",
-                    }}
-                  >
-                    {t("booking.kmPerDay")}
-                  </InputLabel>
-                  <Select
-                    value={kmPerDay}
-                    onChange={(e) => setKmPerDay(e.target.value)}
-                    label={t("booking.kmPerDay")}
-                    sx={{
-                      borderRadius: 3,
-                      bgcolor: "rgba(255,255,255,0.03)",
-                      color: "white",
-                      "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
-                      "&.Mui-focused fieldset": { borderColor: "#f97316" },
-                      "& .MuiSelect-icon": { color: "rgba(255,255,255,0.4)" },
-                    }}
-                    MenuProps={{
-                      PaperProps: {
-                        sx: {
-                          bgcolor: "#0f172a",
-                          border: "1px solid rgba(255,255,255,0.1)",
-                          color: "white",
-                          borderRadius: "1rem",
-                          "& .MuiMenuItem-root": {
-                            fontSize: "0.85rem",
-                            fontWeight: "bold",
-                            "&:hover": { bgcolor: "rgba(255,255,255,0.05)" },
-                            "&.Mui-selected": {
-                              bgcolor: "rgba(249, 115, 22, 0.2)",
-                              color: "#f97316",
-                              "&:hover": { bgcolor: "rgba(249, 115, 22, 0.3)" },
+                {!isWithDriver && (
+                  <FormControl fullWidth size="small">
+                    <InputLabel
+                      sx={{
+                        color: "rgba(255,255,255,0.4)",
+                        "&.Mui-focused": { color: "#f97316" },
+                        fontWeight: "bold",
+                        fontSize: "0.85rem",
+                      }}
+                    >
+                      {t("booking.kmPerDay")}
+                    </InputLabel>
+                    <Select
+                      value={kmPerDay}
+                      onChange={(e) => setKmPerDay(e.target.value)}
+                      label={t("booking.kmPerDay")}
+                      sx={{
+                        borderRadius: 3,
+                        bgcolor: "rgba(255,255,255,0.03)",
+                        color: "white",
+                        "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
+                        "&.Mui-focused fieldset": { borderColor: "#f97316" },
+                        "& .MuiSelect-icon": { color: "rgba(255,255,255,0.4)" },
+                      }}
+                      MenuProps={{
+                        PaperProps: {
+                          sx: {
+                            bgcolor: "#0f172a",
+                            border: "1px solid rgba(255,255,255,0.1)",
+                            color: "white",
+                            borderRadius: "1rem",
+                            "& .MuiMenuItem-root": {
+                              fontSize: "0.85rem",
+                              fontWeight: "bold",
+                              "&:hover": { bgcolor: "rgba(255,255,255,0.05)" },
+                              "&.Mui-selected": {
+                                bgcolor: "rgba(249, 115, 22, 0.2)",
+                                color: "#f97316",
+                                "&:hover": { bgcolor: "rgba(249, 115, 22, 0.3)" },
+                              },
                             },
                           },
                         },
-                      },
-                    }}
-                  >
-                    <MenuItem value={300}>
-                      {t("booking.kmOption", { km: 300 })}
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                      }}
+                    >
+                      <MenuItem value={300}>
+                        {t("booking.kmOption", { km: 300 })}
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                )}
 
-                {car?.category !== "with_driver" && (
                 <section>
                   <div className="flex items-center gap-2 mb-3 sm:mb-5 text-white">
                     <div className="p-1.5 sm:p-2 bg-primary/20 rounded-lg border border-primary/30">
@@ -676,7 +735,7 @@ export default function BookingPage() {
                     </h3>
                   </div>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={isWithDriver ? 12 : 6}>
                       <div
                         className={`border-2 border-dashed rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center cursor-pointer relative transition-all duration-500 overflow-hidden group/upload ${
                           idCardFile
@@ -709,42 +768,43 @@ export default function BookingPage() {
                         </div>
                       </div>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <div
-                        className={`border-2 border-dashed rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center cursor-pointer relative transition-all duration-500 overflow-hidden group/upload ${
-                          licenseFile
-                            ? "border-green-500/50 bg-green-500/5 shadow-[0_0_20px_rgba(34,197,94,0.1)]"
-                            : "border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary/50"
-                        }`}
-                      >
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="absolute inset-0 opacity-0 cursor-pointer z-20"
-                          onChange={(e) => setLicenseFile(e.target.files[0])}
-                        />
-                        <div className="relative z-10">
-                          {licenseFile ? (
-                            <CheckCircle className="mb-2 text-green-500 text-3xl block mx-auto animate-in zoom-in duration-500" />
-                          ) : (
-                            <UploadFile className="mb-2 text-primary text-3xl block mx-auto group-hover/upload:scale-110 transition-transform duration-500" />
-                          )}
-                          <p className="font-black text-white text-sm">
-                            {t("booking.licenseLabel")}
-                          </p>
-                          <p
-                            className={`text-[10px] mt-1 font-bold truncate px-2 ${licenseFile ? "text-green-400" : "text-slate-500"}`}
-                          >
-                            {licenseFile
-                              ? licenseFile.name
-                              : t("booking.uploadHint")}
-                          </p>
+                    {!isWithDriver && (
+                      <Grid item xs={12} sm={6}>
+                        <div
+                          className={`border-2 border-dashed rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center cursor-pointer relative transition-all duration-500 overflow-hidden group/upload ${
+                            licenseFile
+                              ? "border-green-500/50 bg-green-500/5 shadow-[0_0_20px_rgba(34,197,94,0.1)]"
+                              : "border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary/50"
+                          }`}
+                        >
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="absolute inset-0 opacity-0 cursor-pointer z-20"
+                            onChange={(e) => setLicenseFile(e.target.files[0])}
+                          />
+                          <div className="relative z-10">
+                            {licenseFile ? (
+                              <CheckCircle className="mb-2 text-green-500 text-3xl block mx-auto animate-in zoom-in duration-500" />
+                            ) : (
+                              <UploadFile className="mb-2 text-primary text-3xl block mx-auto group-hover/upload:scale-110 transition-transform duration-500" />
+                            )}
+                            <p className="font-black text-white text-sm">
+                              {t("booking.licenseLabel")}
+                            </p>
+                            <p
+                              className={`text-[10px] mt-1 font-bold truncate px-2 ${licenseFile ? "text-green-400" : "text-slate-500"}`}
+                            >
+                              {licenseFile
+                                ? licenseFile.name
+                                : t("booking.uploadHint")}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </Grid>
+                      </Grid>
+                    )}
                   </Grid>
                 </section>
-                )}
 
                 <div className="bg-primary/5 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-primary/20 flex items-start gap-2 sm:gap-3">
                   <CheckCircleOutline
@@ -830,13 +890,13 @@ export default function BookingPage() {
                 />
 
                 <div className="space-y-2 sm:space-y-3 relative z-10">
-                  {isHourlyWithDriver ? (
+                  {isWithDriver ? (
                     <div className="flex justify-between items-center text-xs sm:text-sm">
                       <span className="text-slate-400 font-bold">
-                        {t("booking.driverHourlyRate") || "التكلفة بالساعة"}:
+                        {t("booking.packagePrice")}:
                       </span>
                       <span className="font-black text-white">
-                        {car?.driverHourlyRate || 0} {t("common.currency")}
+                        {selectedDriverPackagePrice} {t("common.currency")}
                       </span>
                     </div>
                   ) : (
@@ -864,8 +924,8 @@ export default function BookingPage() {
                       {t("booking.duration")}:
                     </span>
                     <span className="font-black text-white">
-                      {isHourlyWithDriver
-                        ? `${computedDriverHours} ${t("common.hours")}`
+                      {isWithDriver
+                        ? t(selectedDriverPackage.labelKey)
                         : `${diffDays} ${t("booking.days")}`}
                     </span>
                   </div>
