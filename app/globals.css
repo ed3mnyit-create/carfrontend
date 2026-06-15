@@ -14,6 +14,16 @@
   --app-frame-shadow: rgba(37, 99, 235, 0.22);
 }
 
+:root[data-theme="light"] {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --secondary: #e0e7ff;
+  --midnight: #ffffff;
+  --slate-dark: #eef2ff;
+  --app-frame-border: rgba(15, 23, 42, 0.12);
+  --app-frame-shadow: rgba(15, 23, 42, 0.08);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -38,6 +48,72 @@ body {
   font-family: var(--font-almarai), "Almarai", sans-serif;
   transition: background-color 0.5s ease;
   min-height: 100vh;
+}
+
+* {
+  box-shadow: none !important;
+}
+
+html[data-theme="light"],
+body[data-theme="light"] {
+  background-color: var(--background) !important;
+  color: var(--foreground);
+}
+
+html[data-theme="light"] .bg-midnight {
+  background-color: #ffffff !important;
+}
+
+html[data-theme="light"] .bg-slate-dark {
+  background-color: #eef2ff !important;
+}
+
+html[data-theme="light"] .text-white {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .theme-dark-media,
+html[data-theme="light"] .theme-dark-media .text-white,
+html[data-theme="light"] .theme-dark-media .text-white\/90 {
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] .bg-primary.text-white,
+html[data-theme="light"] .bg-primary\/90.text-white {
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] .text-slate-400,
+html[data-theme="light"] .text-gray-400 {
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .text-slate-500 {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/5 {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/10,
+html[data-theme="light"] .bg-white\/\[0\.04\],
+html[data-theme="light"] .bg-white\/\[0\.065\] {
+  background-color: rgba(255, 255, 255, 0.82) !important;
+}
+
+html[data-theme="light"] .bg-gray-900\/98 {
+  background-color: rgba(248, 250, 252, 0.98) !important;
+}
+
+html[data-theme="light"] input:-webkit-autofill,
+html[data-theme="light"] input:-webkit-autofill:hover,
+html[data-theme="light"] input:-webkit-autofill:focus,
+html[data-theme="light"] input:-webkit-autofill:active {
+  -webkit-text-fill-color: #0f172a !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
 }
 
 

@@ -20,7 +20,7 @@ const redirectToLogin = (request) => {
   return clearAuthCookies(response);
 };
 
-export async function middleware(request) {
+export async function proxy(request) {
   const { pathname } = request.nextUrl;
   const isAdminRoute = pathname.startsWith("/dashboard/admin");
   const isUserRoute = pathname.startsWith("/dashboard/user");

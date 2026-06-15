@@ -1,60 +1,47 @@
 "use client";
-import React, { useState, useEffect, useSyncExternalStore } from "react";
+
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { Select, MenuItem } from "@mui/material";
+import { MenuItem, Select } from "@mui/material";
 import {
   AdminPanelSettings,
-  Person,
-  Language,
-  DarkMode,
-  Menu,
-  Close,
-  DirectionsCar,
-  Phone,
-  LocationOn,
-  Facebook,
-  Twitter,
-  Instagram,
-  Dashboard,
-  Logout,
-  Home,
-  Business,
-  EventNote,
-  Group,
   Article,
+  Business,
+  Close,
+  DarkMode,
+  DirectionsCar,
+  Group,
+  Home,
+  LightMode,
+  LocationOn,
+  Logout,
+  Menu,
+  Person,
 } from "@mui/icons-material";
 import { useAuth } from "@/context/AuthContext";
-import Tooltip from "@/components/ui/Tooltip";
+import { useThemeMode } from "@/app/providers";
 import NotificationDropdown from "@/components/ui/NotificationDropdown";
+import Tooltip from "@/components/ui/Tooltip";
 
 const subscribeToHydration = () => () => {};
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { mode, toggleTheme } = useThemeMode();
   const { t, i18n } = useTranslation("common");
-  const [showTopBar, setShowTopBar] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mounted = useSyncExternalStore(
     subscribeToHydration,
     () => true,
     () => false,
   );
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Hide top bar after scrolling 50px
-      if (window.scrollY > 50) {
-        setShowTopBar(false);
-      } else {
-        setShowTopBar(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const isArabic = i18n.language?.startsWith("ar");
+  const dir = isArabic ? "rtl" : "ltr";
+  const themeLabel =
+    mode === "dark" ? t("navbar.lightMode") : t("navbar.darkMode");
 
   useEffect(() => {
     if (mounted) {
@@ -63,121 +50,113 @@ const Navbar = () => {
     }
   }, [i18n, mounted]);
 
+  const links = [
+    { href: "/", label: t("navbar.home"), icon: <Home fontSize="small" /> },
+    {
+      href: "/cars",
+      label: t("navbar.cars"),
+      icon: <DirectionsCar fontSize="small" />,
+    },
+    { href: "/individuals", label: t("navbar.individuals"), icon: <Group /> },
+    { href: "/with-driver", label: t("navbar.withDriver"), icon: <Person /> },
+    { href: "/corporate", label: t("navbar.corporate"), icon: <Business /> },
+    { href: "/blog", label: t("navbar.blog"), icon: <Article /> },
+  ];
+
+  const cityLinks = [
+    { href: "/jeddah", label: t("navbar.jeddah") },
+    { href: "/riyadh", label: t("navbar.riyadh") },
+    { href: "/sharqiya", label: t("navbar.sharqiya") },
+  ];
 
   return (
-    <header 
-      className="fixed top-0 left-0 right-0 z-50 shadow-lg transition-all duration-300 font-sans"
+    <header
+      className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-midnight/55 font-sans backdrop-blur-2xl transition-all duration-300 supports-[backdrop-filter]:bg-midnight/45"
       suppressHydrationWarning
+      dir={dir}
     >
-      {/* Top bar */}
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="grid min-h-12 grid-cols-[1fr_auto_1fr] items-center gap-3">
+          <nav className="hidden items-center gap-1 lg:flex">
+            {links.slice(0, 5).map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-3 py-1.5 text-xs font-bold text-white/78 transition-colors hover:text-primary"
+              >
+                <span>{link.label}</span>
+              </Link>
+            ))}
+          </nav>
 
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white transition-all hover:bg-white/10 hover:text-primary lg:hidden"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label={t("navbar.menu")}
+            title={t("navbar.menu")}
+            type="button"
+          >
+            <Menu />
+          </button>
 
+          <Link
+            href="/"
+            className="col-start-2 justify-self-center transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+            aria-label="C4R Platform Home"
+            title={t("navbar.logoTitle")}
+          >
+            <Image
+              src="/images/logo.webp"
+              alt={t("navbar.logoAlt")}
+              width={112}
+              height={48}
+              priority
+              sizes="112px"
+              className="h-auto w-24 rounded-xl object-contain sm:w-28"
+            />
+          </Link>
 
+          <div className="col-start-3 flex items-center justify-end gap-2">
+            <nav className="hidden items-center gap-1 xl:flex">
+              {cityLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-full px-3 py-1.5 text-xs font-bold text-white/78 transition-colors hover:text-primary"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                href="/blog"
+                className="rounded-full px-3 py-1.5 text-xs font-bold text-white/78 transition-colors hover:text-primary"
+              >
+                {t("navbar.blog")}
+              </Link>
+            </nav>
 
-      <div
-        className={`bg-slate-dark text-orange-400 text-sm font-medium tracking-wide transition-all duration-500 ease-in-out overflow-hidden ${
-          showTopBar ? "h-11 opacity-100" : "h-0 opacity-0"
-        }`}
-      >
-        <div
-          className="container mx-auto h-full flex items-center justify-between px-6"
-          dir="rtl"
-        >
-          {/* Right Side: Exact Text from Reference */}
-          {/* Right Side: Optimized for Mobile */}
-          <div className="flex items-center gap-2 sm:gap-6 h-full">
-            <Link
-              href="/individuals"
-              className="hover:text-orange-200 transition-all duration-300 border-l border-orange-700/30 pl-3 sm:pl-6 h-full flex items-center active:scale-95"
-              aria-label={t("navbar.individuals")}
-              title={t("navbar.individuals")}
-            >
-              <Tooltip text={t("navbar.individuals")} position="bottom">
-                <Group className="md:hidden ml-2" style={{ fontSize: 20 }} />
-                <span className="hidden md:inline">
-                  {t("navbar.individuals")}
-                </span>
-              </Tooltip>
-            </Link>
-            <Link
-              href="/corporate"
-              className="hover:text-orange-200 transition-all duration-300 border-l border-orange-700/30 pl-3 sm:pl-6 h-full flex items-center active:scale-95"
-              aria-label={t("navbar.corporate")}
-              title={t("navbar.corporate")}
-            >
-              <Tooltip text={t("navbar.corporate")} position="bottom">
-                <Business className="md:hidden ml-2" style={{ fontSize: 20 }} />
-                <span className="hidden md:inline">
-                  {t("navbar.corporate")}
-                </span>
-              </Tooltip>
-            </Link>
-            <Link
-              href="/with-driver"
-              className="hover:text-orange-200 transition-all duration-300 border-l border-orange-700/30 pl-3 sm:pl-6 h-full flex items-center active:scale-95"
-              aria-label={t("navbar.withDriver")}
-              title={t("navbar.withDriver")}
-            >
-              <Tooltip text={t("navbar.withDriver")} position="bottom">
-                <Person className="md:hidden ml-2" style={{ fontSize: 20 }} />
-                <span className="hidden md:inline">
-                  {t("navbar.withDriver")}
-                </span>
-              </Tooltip>
-            </Link>
-            <Link
-              href="/policy"
-              className="hover:text-orange-200 transition-all duration-300 border-l border-orange-700/30 pl-3 sm:pl-6 h-full flex items-center active:scale-95"
-            >
-              <Tooltip text={t("navbar.policy")} position="bottom">
-                <EventNote
-                  className="md:hidden ml-2"
-                  style={{ fontSize: 20 }}
-                />
-                <span className="hidden md:inline">{t("navbar.policy")}</span>
-              </Tooltip>
-            </Link>
-          </div>
-
-          {/* Left Side: Language (Hidden on mobile to save space) */}
-          <div className="hidden sm:flex items-center gap-4">
             <Select
               value={i18n.language}
               onChange={(e) => i18n.changeLanguage(e.target.value)}
               variant="standard"
               disableUnderline
+              className="hidden sm:block"
               sx={{
-                color: "inherit",
-                fontSize: "0.875rem",
-                fontWeight: "bold",
+                color: "rgba(255,255,255,0.78)",
+                fontSize: "0.75rem",
+                fontWeight: 700,
                 fontFamily: "inherit",
-                "& .MuiSelect-icon": { color: "inherit" },
-                "& .MuiSelect-select": {
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 0.5,
-                  py: 0,
-                },
+                minWidth: 72,
+                "& .MuiSelect-icon": { color: "rgba(255,255,255,0.78)" },
               }}
               MenuProps={{
                 PaperProps: {
                   sx: {
-                    bgcolor: "#1f2937",
-                    color: "white",
+                    bgcolor: "var(--midnight)",
+                    color: "var(--foreground)",
                     borderRadius: "0.75rem",
+                    border: "1px solid var(--app-frame-border)",
                     mt: 1,
-                    "& .MuiMenuItem-root": {
-                      justifyContent: "center",
-                      fontFamily: "inherit",
-                      fontSize: "0.875rem",
-                    },
-                    "& .MuiMenuItem-root:hover": {
-                      bgcolor: "rgba(255,255,255,0.1)",
-                    },
-                    "& .Mui-selected": {
-                      bgcolor: "rgba(249,115,22,0.2) !important",
-                      color: "#fb923c",
-                    },
                   },
                 },
               }}
@@ -189,291 +168,136 @@ const Navbar = () => {
                 English
               </MenuItem>
             </Select>
-          </div>
-        </div>
-      </div>
 
-      {/* Main navbar */}
-
-
-
-
-
-
-      <div className="bg-midnight border-b border-white/10 transition-all duration-300 relative">
-        <div className="container mx-auto px-4 sm:px-6 py-3" dir="rtl">
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 md:flex md:items-center md:justify-between">
-            {/* RIGHT: City Links + Home */}
-            <nav className="hidden md:flex items-center gap-3 min-w-max">
-              <Link
-                href="/"
-                className="text-primary hover:text-primary-hover font-extrabold text-sm lg:text-base transition-colors flex items-center gap-1"
-              >
-                <Home fontSize="small" />
-                {t("navbar.home")}
-              </Link>
-              <Link
-                href="/cars"
-                className="text-primary hover:text-primary-hover font-extrabold text-sm lg:text-base transition-colors flex items-center gap-1 border-l border-white/10 pl-6"
-              >
-                <DirectionsCar fontSize="small" />
-                {t("navbar.cars")}
-              </Link>
-              <Link
-                href="/jeddah"
-                className="text-primary hover:text-primary-hover font-extrabold text-sm lg:text-base transition-colors"
-              >
-                {t("navbar.jeddah")}
-              </Link>
-              <Link
-                href="/riyadh"
-                className="text-primary hover:text-primary-hover font-extrabold text-sm lg:text-base transition-colors"
-              >
-                {t("navbar.riyadh")}
-              </Link>
-              <Link
-                href="/sharqiya"
-                className="text-primary hover:text-primary-hover font-extrabold text-sm lg:text-base transition-colors border-l border-white/10 pl-6"
-              >
-                {t("navbar.sharqiya")}
-              </Link>
-              <Link
-                href="/blog"
-                className="text-primary hover:text-primary-hover font-extrabold text-sm lg:text-base transition-colors flex items-center gap-1"
-              >
-                <Article fontSize="small" />
-                {t("navbar.blog")}
-              </Link>
-            </nav>
-
-            {/* CENTER: LOGO - Centered and Scale-Optimized */}
-            <div className="col-start-2 justify-self-center shrink-0 px-1 sm:px-2 md:px-4 w-[7rem] sm:w-[8.25rem] md:w-40">
-              <Link
-                href="/"
-                className="group block transition-transform duration-300 ease-out hover:scale-[1.05] active:scale-95 focus:outline-none"
-                aria-label="C4R Platform Home"
-                title={t("navbar.logoTitle")}
-              >
-                <Image
-                  src="/images/logo.webp"
-                  alt={t("navbar.logoAlt")}
-                  width={160}
-                  height={65}
-                  priority
-                  sizes="(max-width: 640px) 112px, (max-width: 768px) 132px, 160px"
-                  className="h-auto w-full object-contain rounded-[15px] logo-premium-glow"
-                />
-              </Link>
-            </div>
-
-            {/* LEFT: ICONS (Admin, Login) - Strictly Role-Gated */}
-            <div className="col-start-3 justify-self-end flex items-center gap-2 sm:gap-6 min-w-max justify-end z-10">
-              {/* User Dashboard icon / Login Button */}
-              {mounted && (
-                <>
-                  {user ? (
-                    <div className="flex items-center gap-1 sm:gap-4 border-r border-white/10 pr-1 sm:pr-4">
-                      <NotificationDropdown />
-                      <Link
-                        href={
-                          user.role === "admin"
-                            ? "/dashboard/admin"
-                            : "/dashboard/user"
-                        }
-                        className="flex items-center justify-center gap-2 text-primary hover:text-primary-hover transition-colors active:scale-95 min-h-[44px] min-w-[44px]"
-                        title={
-                          user.role === "admin"
-                            ? t("navbar.adminPanel")
-                            : t("navbar.myAccount")
-                        }
-                      >
-                        {user.role === "admin" ? (
-                          <AdminPanelSettings className="text-orange-500" />
-                        ) : (
-                          <Person />
-                        )}
-                        <span className="hidden lg:inline text-sm font-extrabold">
-                          {user.role === "admin"
-                            ? t("navbar.adminPanel")
-                            : t("navbar.myAccount")}
-                        </span>
-                      </Link>
-                      <button
-                        onClick={logout}
-                        className="flex items-center justify-center text-red-500 hover:text-red-400 transition-colors active:scale-95 min-h-[44px] min-w-[44px]"
-                        title={t("navbar.logout")}
-                      >
-                        <Logout fontSize="small" />
-                        <span className="hidden lg:inline text-sm font-extrabold mr-1">
-                          {t("navbar.logout")}
-                        </span>
-                      </button>
-                    </div>
+            {mounted && (
+              <Tooltip text={themeLabel} position="bottom">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="flex min-h-10 min-w-10 items-center justify-center rounded-full text-white/78 transition-all hover:bg-white/10 hover:text-primary active:scale-95"
+                  aria-label={themeLabel}
+                  title={themeLabel}
+                >
+                  {mode === "dark" ? (
+                    <LightMode fontSize="small" />
                   ) : (
-                    <Link
-                      href="/auth/login"
-                      className="flex items-center justify-center gap-2 text-primary hover:text-primary-hover transition-colors border-r border-white/10 pr-2 sm:pr-4 active:scale-95 min-h-[44px] min-w-[44px]"
-                      title={t("navbar.login")}
-                    >
-                      <Person />
-                      <span className="hidden lg:inline text-sm font-extrabold">
-                        {t("navbar.login")}
-                      </span>
-                    </Link>
+                    <DarkMode fontSize="small" />
                   )}
-                </>
-              )}
-              {/* Mobile Menu Toggle */}
-              <button
-                className="md:hidden flex items-center justify-center w-10 h-10 text-white hover:text-primary transition-colors active:scale-95"
-                onClick={() => setMobileMenuOpen(true)}
-                aria-label={t("navbar.menu")}
-                title={t("navbar.menu")}
-              >
-                <Menu fontSize="medium" />
-              </button>
-            </div>
+                  <span className="hidden px-2 text-xs font-bold xl:inline">
+                    {themeLabel}
+                  </span>
+                </button>
+              </Tooltip>
+            )}
+
+            {mounted && user && <NotificationDropdown />}
+
+            {mounted &&
+              (user ? (
+                <div className="hidden items-center gap-2 sm:flex">
+                  <Link
+                    href={
+                      user.role === "admin"
+                        ? "/dashboard/admin"
+                        : "/dashboard/user"
+                    }
+                    className="flex min-h-10 min-w-10 items-center justify-center gap-2 rounded-full text-white/78 transition-colors hover:bg-white/10 hover:text-primary"
+                    title={
+                      user.role === "admin"
+                        ? t("navbar.adminPanel")
+                        : t("navbar.myAccount")
+                    }
+                  >
+                    {user.role === "admin" ? (
+                      <AdminPanelSettings className="text-orange-500" />
+                    ) : (
+                      <Person />
+                    )}
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="flex min-h-10 min-w-10 items-center justify-center rounded-full text-red-400 transition-colors hover:bg-white/10 hover:text-red-300"
+                    title={t("navbar.logout")}
+                    type="button"
+                  >
+                    <Logout fontSize="small" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/auth/login"
+                  className="hidden min-h-10 items-center justify-center gap-2 rounded-full px-3 text-xs font-bold text-white/78 transition-colors hover:bg-white/10 hover:text-primary sm:flex"
+                  title={t("navbar.login")}
+                >
+                  <Person />
+                  <span className="hidden xl:inline">{t("navbar.login")}</span>
+                </Link>
+              ))}
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-[60] bg-gray-900/98 backdrop-blur-xl transition-all duration-300 md:hidden flex flex-col ${
+        className={`fixed inset-0 z-[60] flex flex-col bg-gray-900/98 backdrop-blur-xl transition-all duration-300 lg:hidden ${
           mobileMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         }`}
-        dir="rtl"
+        dir={dir}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-black text-white">
-              {t("navbar.menu")}
-            </span>
-          </div>
+        <div className="flex items-center justify-between border-b border-white/10 p-6">
+          <span className="text-xl font-black text-white">
+            {t("navbar.menu")}
+          </span>
           <button
             onClick={() => setMobileMenuOpen(false)}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-white transition-colors hover:bg-white/10"
+            type="button"
           >
             <Close />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
-          <nav className="flex flex-col gap-4">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <Home className="text-primary" />
-              {t("navbar.home")}
-            </Link>
-            <Link
-              href="/cars"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <DirectionsCar className="text-primary" />
-              {t("navbar.cars")}
-            </Link>
-            <Link
-              href="/jeddah"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <LocationOn className="text-primary" />
-              {t("navbar.jeddah")}
-            </Link>
-            <Link
-              href="/riyadh"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <LocationOn className="text-primary" />
-              {t("navbar.riyadh")}
-            </Link>
-            <Link
-              href="/sharqiya"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <LocationOn className="text-primary" />
-              {t("navbar.sharqiya")}
-            </Link>
-            <Link
-              href="/blog"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <Article className="text-primary" />
-              {t("navbar.blog")}
-            </Link>
-            <div className="h-px bg-white/10 w-full my-1" />
-            <Link
-              href="/individuals"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <Group className="text-primary" />
-              {t("navbar.individuals")}
-            </Link>
-            <Link
-              href="/corporate"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <Business className="text-primary" />
-              {t("navbar.corporate")}
-            </Link>
-            <Link
-              href="/with-driver"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-bold text-white hover:text-primary transition-colors flex items-center gap-3 p-2 rounded-xl hover:bg-white/5"
-            >
-              <Person className="text-primary" />
-              {t("navbar.withDriver")}
-            </Link>
+        <div className="flex flex-1 flex-col gap-6 overflow-y-auto p-6">
+          <nav className="grid grid-cols-1 gap-3">
+            {[...links, ...cityLinks].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex min-h-12 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 text-base font-bold text-white transition-colors hover:border-primary/35 hover:text-primary"
+              >
+                {link.icon || <LocationOn className="text-primary" />}
+                <span>{link.label}</span>
+              </Link>
+            ))}
           </nav>
 
-          <div className="h-px bg-white/10 w-full" />
+          <div className="grid grid-cols-1 gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex min-h-12 items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 text-white transition-all hover:border-primary/35 hover:bg-white/10"
+            >
+              <span className="text-sm font-bold">{themeLabel}</span>
+              {mode === "dark" ? <LightMode /> : <DarkMode />}
+            </button>
 
-          {/* Mobile Language Selector */}
-          <div className="flex flex-col gap-3">
-            <span className="text-sm font-bold text-gray-400">
-              {t("navbar.language")}
-            </span>
             <Select
               value={i18n.language}
               onChange={(e) => i18n.changeLanguage(e.target.value)}
-              variant="outlined" // Outlined is better for mobile touch targets
+              variant="outlined"
               fullWidth
               sx={{
-                color: "white",
-                bgcolor: "white/5",
+                color: "var(--foreground)",
                 borderRadius: "0.75rem",
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(255,255,255,0.1)",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(255,255,255,0.2)",
+                  borderColor: "var(--app-frame-border)",
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                   borderColor: "var(--primary)",
                 },
-                "& .MuiSelect-icon": { color: "white" },
-              }}
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    bgcolor: "#1f2937",
-                    color: "white",
-                    borderRadius: "0.75rem",
-                  },
-                },
+                "& .MuiSelect-icon": { color: "var(--foreground)" },
               }}
             >
               <MenuItem value="ar" dir="rtl">

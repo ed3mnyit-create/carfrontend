@@ -13,9 +13,13 @@
     "myAccount": "My Account",
     "adminPanel": "Admin Panel",
     "logout": "Logout",
+    "logoTitle": "C4R Platform - Car Rental Saudi Arabia",
+    "logoAlt": "C4R Platform - Best car rental platform in Saudi Arabia",
     "menu": "Menu",
     "blog": "Blog",
-    "notification": "Notifications"
+    "notification": "Notifications",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode"
   },
   "bottomNav": {
     "home": "Home",
@@ -93,6 +97,88 @@
     "corporateTitle": "Corporate Section",
     "corporateDesc": "Customized rental solutions for companies and institutions with competitive prices and VIP service.",
     "corporateAction": "Contact Us"
+  },
+  "homeSections": {
+    "about": {
+      "eyebrow": "About Us",
+      "title": "C4R makes car rental simpler, clearer, and more reliable",
+      "text": "We connect customers with rental options for individuals, companies, and chauffeur service across Saudi Arabia, with a clear booking experience and direct confirmation support.",
+      "imageAlt": "Customer browsing C4R car rental options",
+      "imageNote": "We document booking details and help you choose the right car before confirming the request.",
+      "points": {
+        "verified": "Verified cars",
+        "flexible": "Flexible durations",
+        "support": "Fast follow-up"
+      }
+    },
+    "services": {
+      "eyebrow": "Our Services",
+      "title": "Every service has a clear path inside the platform",
+      "text": "Choose individual rental, chauffeur service, or corporate solutions without complicating the booking steps.",
+      "action": "Explore service",
+      "items": {
+        "individual": {
+          "title": "Individual Rental",
+          "text": "Daily and monthly cars for personal use, city errands, and trips between destinations."
+        },
+        "driver": {
+          "title": "Cars With Driver",
+          "text": "4, 8, and 12-hour chauffeur packages for business trips, events, and daily movement."
+        },
+        "corporate": {
+          "title": "Corporate Solutions",
+          "text": "Flexible options for teams and companies that need multiple cars or longer contracts."
+        }
+      }
+    },
+    "cars": {
+      "eyebrow": "Our Cars",
+      "title": "A selected fleet for different needs",
+      "text": "Browse available cars with price, city, and category details before sending your request.",
+      "action": "View all cars",
+      "fallback": {
+        "luxury": {
+          "title": "Luxury Cars",
+          "text": "Premium choices for events and formal transportation."
+        },
+        "family": {
+          "title": "Family Cars",
+          "text": "Space and comfort for daily trips and travel."
+        },
+        "economy": {
+          "title": "Economy Cars",
+          "text": "Practical options with suitable pricing for frequent use."
+        }
+      }
+    },
+    "luxury": {
+      "eyebrow": "Luxury Cars",
+      "title": "A refined presence for important trips and occasions",
+      "text": "Choose a luxury car or chauffeur service for a calmer, more organized ride, whether for an important meeting or a private event.",
+      "imageAlt": "Luxury car from the C4R fleet",
+      "action": "Explore luxury cars",
+      "points": {
+        "driver": "Available with driver",
+        "events": "Ideal for business and events"
+      }
+    },
+    "cta": {
+      "eyebrow": "Ready to book?",
+      "title": "Choose your car now and let our team confirm the details with you",
+      "text": "Start from the cars page or go directly to chauffeur service based on what you need.",
+      "primary": "Book a car",
+      "secondary": "Car with driver"
+    },
+    "contact": {
+      "eyebrow": "Contact Section",
+      "title": "Need help choosing the right car?",
+      "text": "Contact us by WhatsApp or phone, and we will help you choose the right service based on city and duration.",
+      "whatsapp": "WhatsApp",
+      "phone": "Phone",
+      "email": "Email",
+      "coverage": "Coverage",
+      "cities": "Riyadh, Jeddah, and Eastern Province"
+    }
   },
   "faq": {
     "titlePart1": "Frequently",
