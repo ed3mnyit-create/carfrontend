@@ -5,7 +5,7 @@ import { ChevronLeft } from "@mui/icons-material";
 
 import { useTranslation } from "react-i18next";
 
-const Breadcrumbs = ({ items }) => {
+const Breadcrumbs = ({ items = [] }) => {
   const { t, i18n } = useTranslation("common");
   return (
     <div className="py-4">

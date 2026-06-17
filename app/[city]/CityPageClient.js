@@ -13,9 +13,12 @@ const cityToRegionMap = {
   sharqiya: "eastern",
 };
 
+const allowedRegions = new Set(["riyadh", "jeddah", "eastern"]);
+
 export default function CityPageClient({ city }) {
   const { t, i18n } = useTranslation("common");
   const region = cityToRegionMap[city] || city;
+  const isValidRegion = allowedRegions.has(region);
   const {
     data: carsData,
     isLoading,
@@ -23,9 +26,11 @@ export default function CityPageClient({ city }) {
   } = useQuery({
     queryKey: ["cars", region],
     queryFn: () => carService.getAll({ region }),
+    enabled: isValidRegion,
+    retry: 1,
   });
 
-  const cars = carsData?.data?.cars || [];
+  const cars = Array.isArray(carsData?.data?.cars) ? carsData.data.cars : [];
 
   if (isLoading) {
     return (
@@ -62,7 +67,7 @@ export default function CityPageClient({ city }) {
         </div>
 
         {/* Cars Grid */}
-        {cars.length === 0 ? (
+        {!isValidRegion || error || cars.length === 0 ? (
           <div className="text-center py-24 bg-white/5 backdrop-blur-xl rounded-[3rem] border border-white/10 shadow-2xl">
             <p className="text-slate-500 font-black text-xl">
               {t("cityPage.noCars")}

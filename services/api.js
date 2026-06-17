@@ -192,10 +192,24 @@ export const bookingService = {
 };
 
 // Car Services (for Admin Dashboard)
+const sanitizeCarParams = (params = {}) => {
+  const allowedRegions = new Set(["riyadh", "jeddah", "eastern", "sharqiya"]);
+  const allowedCategories = new Set(["regular", "with_driver", "corporate"]);
+
+  return Object.entries(params).reduce((cleanParams, [key, value]) => {
+    if (value === undefined || value === null || value === "") return cleanParams;
+    if (key === "region" && !allowedRegions.has(value)) return cleanParams;
+    if (key === "category" && !allowedCategories.has(value)) return cleanParams;
+
+    cleanParams[key] = value;
+    return cleanParams;
+  }, {});
+};
+
 export const carService = {
   getAll: async (params) => {
     try {
-      const response = await api.get("/cars", { params });
+      const response = await api.get("/cars", { params: sanitizeCarParams(params) });
       return response.data;
     } catch (error) {
       console.error("carService.getAll error:", error);
