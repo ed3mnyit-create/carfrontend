@@ -156,7 +156,6 @@ export default function AdminSettings() {
     address: "",
   });
   const [homeSettings, setHomeSettings] = useState(defaultHomeSettings);
-  const [homeJson, setHomeJson] = useState(JSON.stringify(defaultHomeSettings, null, 2));
 
   // Fetch Settings
   const { data: settingsData, isLoading } = useQuery({
@@ -181,10 +180,9 @@ export default function AdminSettings() {
         if (item.key === "contact_info" && item.data) {
           setContact(prev => ({ ...prev, ...item.data }));
         }
-        if (item.key === "home_page" && item.data) {
+        if (item.key === "homepage_content" && item.data) {
           const merged = mergeHomeSettings(item.data);
           setHomeSettings(merged);
-          setHomeJson(JSON.stringify(merged, null, 2));
         }
       });
     }
@@ -214,7 +212,7 @@ export default function AdminSettings() {
     mutationFn: settingService.upsert,
     onSuccess: () => {
       queryClient.invalidateQueries(["site-settings"]);
-      queryClient.invalidateQueries({ queryKey: ["setting", "home_page"] });
+      queryClient.invalidateQueries({ queryKey: ["setting", "homepage_content"] });
       toast.success(t("dashboard.admin.settings.saveSuccess"));
     },
     onError: (error) => {
@@ -236,7 +234,6 @@ export default function AdminSettings() {
         cursor = cursor[key];
       });
       cursor[path[path.length - 1]] = value;
-      setHomeJson(JSON.stringify(next, null, 2));
       return next;
     });
   };
@@ -247,15 +244,110 @@ export default function AdminSettings() {
   };
 
   const handleSaveHome = () => {
-    try {
-      const parsed = JSON.parse(homeJson);
-      const merged = mergeHomeSettings(parsed);
-      setHomeSettings(merged);
-      handleSave("home_page", merged);
-    } catch {
-      toast.error("صيغة JSON غير صحيحة، يرجى مراجعة الأقواس والفواصل");
-    }
+    handleSave("homepage_content", mergeHomeSettings(homeSettings));
   };
+
+  const sectionLabels = {
+    hero: "الهيرو",
+    departments: "بطاقات الأقسام",
+    about: "من نحن",
+    features: "المميزات",
+    cars: "السيارات",
+    driverCars: "سيارات بسائق",
+    services: "الخدمات",
+    cta: "دعوة لاتخاذ إجراء",
+    promos: "العروض",
+    reviews: "التقييمات",
+    faq: "الأسئلة الشائعة",
+    contact: "التواصل",
+  };
+
+  const getHomeValue = (path) =>
+    path.reduce((cursor, key) => cursor?.[key], homeSettings);
+
+  const renderHomeField = (label, path, options = {}) => (
+    <TextField
+      fullWidth
+      multiline={options.multiline}
+      rows={options.rows || (options.multiline ? 3 : 1)}
+      label={label}
+      value={getHomeValue(path) || ""}
+      onChange={(e) => updateHome(path, e.target.value)}
+      sx={eliteInputStyle}
+      InputProps={options.link ? {
+        startAdornment: <InputAdornment position="start"><LinkIcon sx={{ color: "var(--primary)" }} /></InputAdornment>,
+      } : undefined}
+    />
+  );
+
+  const renderLocalizedHomeFields = (labelAr, labelEn, path, options = {}) => (
+    <>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          multiline={options.multiline}
+          rows={options.rows || (options.multiline ? 3 : 1)}
+          label={labelAr}
+          value={getHomeValue([...path, "ar"]) || ""}
+          onChange={(e) => updateHomeLocalized(path, "ar", e.target.value)}
+          sx={eliteInputStyle}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <TextField
+          fullWidth
+          multiline={options.multiline}
+          rows={options.rows || (options.multiline ? 3 : 1)}
+          label={labelEn}
+          value={getHomeValue([...path, "en"]) || ""}
+          onChange={(e) => updateHomeLocalized(path, "en", e.target.value)}
+          sx={eliteInputStyle}
+        />
+      </Grid>
+    </>
+  );
+
+  const updateHomeArrayItem = (path, index, field, value) => {
+    const currentArray = getHomeValue(path) || [];
+    const nextArray = [...currentArray];
+    nextArray[index] = { ...nextArray[index], [field]: value };
+    updateHome(path, nextArray);
+  };
+
+  const updateHomeArrayLocalized = (path, index, field, lang, value) => {
+    const currentArray = getHomeValue(path) || [];
+    const item = currentArray[index] || {};
+    const localizedValue = item[field] || {};
+    updateHomeArrayItem(path, index, field, { ...localizedValue, [lang]: value });
+  };
+
+  const addHomeArrayItem = (path, item) => {
+    updateHome(path, [...(getHomeValue(path) || []), item]);
+  };
+
+  const removeHomeArrayItem = (path, index) => {
+    updateHome(path, (getHomeValue(path) || []).filter((_, itemIndex) => itemIndex !== index));
+  };
+
+  const panelSx = {
+    p: 3,
+    borderRadius: "1.5rem",
+    bgcolor: "rgba(255,255,255,0.03)",
+    border: "1px solid rgba(255,255,255,0.06)",
+  };
+
+  const renderPanelTitle = (title, subtitle) => (
+    <Box sx={{ mb: 3 }}>
+      <Typography sx={{ color: "white", fontWeight: "900", fontSize: "1.1rem" }}>
+        {title}
+      </Typography>
+      {subtitle && (
+        <Typography sx={{ color: "rgba(255,255,255,0.5)", fontWeight: "700", mt: 0.5 }}>
+          {subtitle}
+        </Typography>
+      )}
+    </Box>
+  );
 
   if (isLoading) {
     return (
@@ -735,7 +827,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={{ p: 3, borderRadius: "1.5rem", bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <Paper sx={panelSx}>
                     <Typography sx={{ color: "white", fontWeight: "900", mb: 2 }}>
                       {t("dashboard.admin.settings.home.visibility")}
                     </Typography>
@@ -753,7 +845,7 @@ export default function AdminSettings() {
                                 }}
                               />
                             }
-                            label={<span className="font-bold text-white">{key}</span>}
+                            label={<span className="font-bold text-white">{sectionLabels[key] || key}</span>}
                           />
                         </Grid>
                       ))}
@@ -765,123 +857,209 @@ export default function AdminSettings() {
                   <Divider sx={{ borderColor: "rgba(255,255,255,0.08)" }} />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="عنوان الهيرو بالعربية"
-                    value={homeSettings.hero.title.ar}
-                    onChange={(e) => updateHomeLocalized(["hero", "title"], "ar", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Hero title English"
-                    value={homeSettings.hero.title.en}
-                    onChange={(e) => updateHomeLocalized(["hero", "title"], "en", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={3}
-                    label="وصف الهيرو بالعربية"
-                    value={homeSettings.hero.description.ar}
-                    onChange={(e) => updateHomeLocalized(["hero", "description"], "ar", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={3}
-                    label="Hero description English"
-                    value={homeSettings.hero.description.en}
-                    onChange={(e) => updateHomeLocalized(["hero", "description"], "en", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="رابط صورة خلفية الهيرو"
-                    value={homeSettings.hero.backgroundImage}
-                    onChange={(e) => updateHome(["hero", "backgroundImage"], e.target.value)}
-                    sx={eliteInputStyle}
-                    InputProps={{ startAdornment: <InputAdornment position="start"><LinkIcon sx={{ color: "var(--primary)" }} /></InputAdornment> }}
-                  />
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="عنوان قسم من نحن بالعربية"
-                    value={homeSettings.about.title.ar}
-                    onChange={(e) => updateHomeLocalized(["about", "title"], "ar", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="About title English"
-                    value={homeSettings.about.title.en}
-                    onChange={(e) => updateHomeLocalized(["about", "title"], "en", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="صورة قسم من نحن"
-                    value={homeSettings.about.image}
-                    onChange={(e) => updateHome(["about", "image"], e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="عنوان CTA بالعربية"
-                    value={homeSettings.cta.title.ar}
-                    onChange={(e) => updateHomeLocalized(["cta", "title"], "ar", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="CTA title English"
-                    value={homeSettings.cta.title.en}
-                    onChange={(e) => updateHomeLocalized(["cta", "title"], "en", e.target.value)}
-                    sx={eliteInputStyle}
-                  />
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("قسم الهيرو", "الصورة الرئيسية، العنوان، الوصف، وأزرار البداية")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("عنوان الهيرو بالعربية", "Hero title English", ["hero", "title"])}
+                      {renderLocalizedHomeFields("وصف الهيرو بالعربية", "Hero description English", ["hero", "description"], { multiline: true })}
+                      <Grid item xs={12}>{renderHomeField("رابط صورة خلفية الهيرو", ["hero", "backgroundImage"], { link: true })}</Grid>
+                      {renderLocalizedHomeFields("نص الزر الأساسي بالعربية", "Primary button English", ["hero", "primaryLabel"])}
+                      <Grid item xs={12} md={6}>{renderHomeField("رابط الزر الأساسي", ["hero", "primaryHref"], { link: true })}</Grid>
+                      {renderLocalizedHomeFields("نص الزر الثانوي بالعربية", "Secondary button English", ["hero", "secondaryLabel"])}
+                      <Grid item xs={12} md={6}>{renderHomeField("رابط الزر الثانوي", ["hero", "secondaryHref"], { link: true })}</Grid>
+                    </Grid>
+                  </Paper>
                 </Grid>
 
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    minRows={14}
-                    label={t("dashboard.admin.settings.home.jsonLabel")}
-                    value={homeJson}
-                    onChange={(e) => setHomeJson(e.target.value)}
-                    sx={{
-                      ...eliteInputStyle,
-                      "& textarea": {
-                        fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-                        fontSize: "0.85rem",
-                        lineHeight: 1.7,
-                        direction: "ltr",
-                      },
-                    }}
-                    helperText={t("dashboard.admin.settings.home.jsonHint")}
-                  />
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("بطاقات الأقسام", "الأفراد، سيارات بسائق، والشركات")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("عنوان القسم الرئيسي بالعربية", "Main title English", ["departments", "titlePart1"])}
+                      {renderLocalizedHomeFields("العنوان المميز بالعربية", "Highlighted title English", ["departments", "titlePart2"])}
+                      {(homeSettings.departments.cards || []).map((card, index) => (
+                        <Grid item xs={12} key={`department-${index}`}>
+                          <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12}>
+                                <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>
+                                  بطاقة {index + 1}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <TextField fullWidth label="العنوان بالعربية" value={card.title?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["departments", "cards"], index, "title", "ar", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <TextField fullWidth label="Title English" value={card.title?.en || ""} onChange={(e) => updateHomeArrayLocalized(["departments", "cards"], index, "title", "en", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <TextField fullWidth multiline rows={2} label="الوصف بالعربية" value={card.description?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["departments", "cards"], index, "description", "ar", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <TextField fullWidth multiline rows={2} label="Description English" value={card.description?.en || ""} onChange={(e) => updateHomeArrayLocalized(["departments", "cards"], index, "description", "en", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <TextField fullWidth label="رابط البطاقة" value={card.href || ""} onChange={(e) => updateHomeArrayItem(["departments", "cards"], index, "href", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12} md={6}>
+                                <TextField fullWidth label="رابط الصورة" value={card.image || ""} onChange={(e) => updateHomeArrayItem(["departments", "cards"], index, "image", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                            </Grid>
+                          </Paper>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("قسم من نحن والمميزات", "النص التعريفي وبطاقات المميزات")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["about", "eyebrow"])}
+                      {renderLocalizedHomeFields("العنوان بالعربية", "Title English", ["about", "title"])}
+                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["about", "text"], { multiline: true })}
+                      <Grid item xs={12}>{renderHomeField("رابط صورة قسم من نحن", ["about", "image"], { link: true })}</Grid>
+                      {renderLocalizedHomeFields("النص فوق الصورة بالعربية", "Image note English", ["about", "imageNote"], { multiline: true, rows: 2 })}
+                      {(homeSettings.features || []).map((feature, index) => (
+                        <Grid item xs={12} md={4} key={`home-feature-${index}`}>
+                          <Paper sx={{ p: 2.5, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12}>
+                                <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>ميزة {index + 1}</Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <TextField fullWidth label="العنوان بالعربية" value={feature.title?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["features"], index, "title", "ar", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <TextField fullWidth label="Title English" value={feature.title?.en || ""} onChange={(e) => updateHomeArrayLocalized(["features"], index, "title", "en", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <TextField fullWidth multiline rows={2} label="الوصف بالعربية" value={feature.text?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["features"], index, "text", "ar", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <TextField fullWidth multiline rows={2} label="Text English" value={feature.text?.en || ""} onChange={(e) => updateHomeArrayLocalized(["features"], index, "text", "en", e.target.value)} sx={eliteInputStyle} />
+                              </Grid>
+                            </Grid>
+                          </Paper>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("السيارات وسيارات بسائق", "عناوين وروابط أقسام عرض السيارات في الصفحة الرئيسية")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("عنوان سياراتنا بالعربية", "Cars title English", ["cars", "title"])}
+                      {renderLocalizedHomeFields("وصف سياراتنا بالعربية", "Cars text English", ["cars", "text"], { multiline: true, rows: 2 })}
+                      <Grid item xs={12} md={6}>{renderHomeField("رابط عرض كل السيارات", ["cars", "href"], { link: true })}</Grid>
+                      {renderLocalizedHomeFields("عنوان سيارات بسائق بالعربية", "Driver cars title English", ["driverCars", "title"])}
+                      {renderLocalizedHomeFields("وصف سيارات بسائق بالعربية", "Driver cars text English", ["driverCars", "text"], { multiline: true, rows: 2 })}
+                      <Grid item xs={12} md={6}>{renderHomeField("رابط سيارات بسائق", ["driverCars", "href"], { link: true })}</Grid>
+                    </Grid>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("قسم الخدمات", "بطاقات الخدمات وروابطها")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("عنوان الخدمات بالعربية", "Services title English", ["services", "title"])}
+                      {renderLocalizedHomeFields("وصف الخدمات بالعربية", "Services text English", ["services", "text"], { multiline: true, rows: 2 })}
+                      {(homeSettings.services.items || []).map((service, index) => (
+                        <Grid item xs={12} key={`service-${index}`}>
+                          <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>خدمة {index + 1}</Typography>
+                                {(homeSettings.services.items || []).length > 1 && (
+                                  <IconButton color="error" onClick={() => removeHomeArrayItem(["services", "items"], index)}><Delete /></IconButton>
+                                )}
+                              </Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth label="العنوان بالعربية" value={service.title?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["services", "items"], index, "title", "ar", e.target.value)} sx={eliteInputStyle} /></Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth label="Title English" value={service.title?.en || ""} onChange={(e) => updateHomeArrayLocalized(["services", "items"], index, "title", "en", e.target.value)} sx={eliteInputStyle} /></Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth multiline rows={2} label="الوصف بالعربية" value={service.text?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["services", "items"], index, "text", "ar", e.target.value)} sx={eliteInputStyle} /></Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth multiline rows={2} label="Description English" value={service.text?.en || ""} onChange={(e) => updateHomeArrayLocalized(["services", "items"], index, "text", "en", e.target.value)} sx={eliteInputStyle} /></Grid>
+                              <Grid item xs={12}>{renderHomeField("رابط الخدمة", ["services", "items", index, "href"], { link: true })}</Grid>
+                            </Grid>
+                          </Paper>
+                        </Grid>
+                      ))}
+                      <Grid item xs={12}>
+                        <Button startIcon={<Add />} onClick={() => addHomeArrayItem(["services", "items"], { title: { ar: "", en: "" }, text: { ar: "", en: "" }, href: "/cars" })} sx={{ color: "var(--primary)", fontWeight: "900" }}>
+                          إضافة خدمة
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("قسم CTA", "البطاقة الكبيرة قبل الأسئلة والتواصل")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["cta", "eyebrow"])}
+                      {renderLocalizedHomeFields("العنوان بالعربية", "Title English", ["cta", "title"])}
+                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["cta", "text"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("زر أساسي بالعربية", "Primary button English", ["cta", "primaryLabel"])}
+                      <Grid item xs={12} md={6}>{renderHomeField("رابط الزر الأساسي", ["cta", "primaryHref"], { link: true })}</Grid>
+                      {renderLocalizedHomeFields("زر ثانوي بالعربية", "Secondary button English", ["cta", "secondaryLabel"])}
+                      <Grid item xs={12} md={6}>{renderHomeField("رابط الزر الثانوي", ["cta", "secondaryHref"], { link: true })}</Grid>
+                    </Grid>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("قسم الأسئلة الشائعة", "أعلى 5 أسئلة تظهر في الصفحة الرئيسية")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("عنوان أول بالعربية", "Title part 1 English", ["faq", "titlePart1"])}
+                      {renderLocalizedHomeFields("عنوان ثاني بالعربية", "Title part 2 English", ["faq", "titlePart2"])}
+                      {renderLocalizedHomeFields("وصف القسم بالعربية", "Section description English", ["faq", "description"], { multiline: true, rows: 2 })}
+                      <Grid item xs={12}>{renderHomeField("رابط صورة FAQ", ["faq", "image"], { link: true })}</Grid>
+                      {(homeSettings.faq.items || []).slice(0, 5).map((item, index) => (
+                        <Grid item xs={12} key={`faq-${index}`}>
+                          <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>سؤال {index + 1}</Typography>
+                                {(homeSettings.faq.items || []).length > 1 && (
+                                  <IconButton color="error" onClick={() => removeHomeArrayItem(["faq", "items"], index)}><Delete /></IconButton>
+                                )}
+                              </Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth label="السؤال بالعربية" value={item.question?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["faq", "items"], index, "question", "ar", e.target.value)} sx={eliteInputStyle} /></Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth label="Question English" value={item.question?.en || ""} onChange={(e) => updateHomeArrayLocalized(["faq", "items"], index, "question", "en", e.target.value)} sx={eliteInputStyle} /></Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth multiline rows={3} label="الإجابة بالعربية" value={item.answer?.ar || ""} onChange={(e) => updateHomeArrayLocalized(["faq", "items"], index, "answer", "ar", e.target.value)} sx={eliteInputStyle} /></Grid>
+                              <Grid item xs={12} md={6}><TextField fullWidth multiline rows={3} label="Answer English" value={item.answer?.en || ""} onChange={(e) => updateHomeArrayLocalized(["faq", "items"], index, "answer", "en", e.target.value)} sx={eliteInputStyle} /></Grid>
+                            </Grid>
+                          </Paper>
+                        </Grid>
+                      ))}
+                      {(homeSettings.faq.items || []).length < 5 && (
+                        <Grid item xs={12}>
+                          <Button startIcon={<Add />} onClick={() => addHomeArrayItem(["faq", "items"], { question: { ar: "", en: "" }, answer: { ar: "", en: "" } })} sx={{ color: "var(--primary)", fontWeight: "900" }}>
+                            إضافة سؤال
+                          </Button>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Paper sx={panelSx}>
+                    {renderPanelTitle("قسم التواصل في الرئيسية", "النص الظاهر فوق كروت التواصل والنموذج")}
+                    <Grid container spacing={3}>
+                      {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["contact", "eyebrow"])}
+                      {renderLocalizedHomeFields("العنوان بالعربية", "Title English", ["contact", "title"])}
+                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["contact", "text"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("نطاق التغطية بالعربية", "Coverage English", ["contact", "coverage"])}
+                      {renderLocalizedHomeFields("زر الإرسال بالعربية", "Submit button English", ["contact", "submit"])}
+                    </Grid>
+                  </Paper>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -899,7 +1077,7 @@ export default function AdminSettings() {
                     }}
                     startIcon={<Save />}
                   >
-                    {saveMutation.isPending && saveMutation.variables?.key === "home_page"
+                    {saveMutation.isPending && saveMutation.variables?.key === "homepage_content"
                       ? t("dashboard.admin.settings.saving")
                       : t("common.save")}
                   </Button>

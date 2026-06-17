@@ -379,9 +379,7 @@
         "home": {
           "title": "Home Page Settings",
           "subtitle": "Control homepage sections, copy, images, links, and advanced content from one place.",
-          "visibility": "Show and hide sections",
-          "jsonLabel": "Advanced homepage content JSON",
-          "jsonHint": "Edit all text, images, links, FAQs, services, and cards here. Save valid JSON only."
+          "visibility": "Show and hide sections"
         },
         "saveSuccess": "Website settings updated successfully",
         "saveError": "Failed to save changes, please try again",

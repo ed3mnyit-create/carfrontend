@@ -6,8 +6,8 @@ import { defaultHomeSettings, mergeHomeSettings } from "./homeSettings";
 
 export function useHomeSettings() {
   const query = useQuery({
-    queryKey: ["setting", "home_page"],
-    queryFn: () => settingService.getOne("home_page"),
+    queryKey: ["setting", "homepage_content"],
+    queryFn: () => settingService.getOne("homepage_content"),
     staleTime: 1000 * 60 * 5,
     retry: 1,
   });
