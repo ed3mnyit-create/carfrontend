@@ -4,29 +4,24 @@ import React from "react";
 import Link from "next/link";
 import { ArrowBack, DirectionsCar, WhatsApp } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { localized } from "./homeSettings";
+import { useHomeSettings } from "./useHomeSettings";
 
 const HeroAd = () => {
-  const { t, i18n } = useTranslation("common");
+  const { i18n } = useTranslation("common");
+  const { settings } = useHomeSettings();
   const isArabic = i18n.language?.startsWith("ar");
   const dir = isArabic ? "rtl" : "ltr";
+  const hero = settings.hero;
 
-  const copy = {
-    title: isArabic
-      ? "تجربة تأجير سيارات راقية لاختيار واثق"
-      : "A premium car rental experience for a confident choice",
-    description: isArabic
-      ? "اختر من سيارات فاخرة واقتصادية، للأفراد والشركات أو مع سائق، مع حجز واضح ومتابعة مباشرة حتى تأكيد الطلب."
-      : "Choose luxury and economy cars for individuals, companies, or chauffeur service, with clear booking and direct follow-up until confirmation.",
-    primary: isArabic ? "اكتشف السيارات" : "Discover cars",
-    secondary: isArabic ? "تواصل معنا" : "Contact us",
-  };
+  if (!settings.sections.hero) return null;
 
   return (
     <section
       className="theme-dark-media relative isolate h-[88vh] min-h-[760px] w-full overflow-hidden bg-midnight bg-cover bg-center bg-no-repeat"
       dir={dir}
       style={{
-        backgroundImage: "url('/images/hero-rolls-royce.jpg')",
+        backgroundImage: `url('${hero.backgroundImage || "/images/hero-rolls-royce.jpg"}')`,
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
@@ -50,28 +45,28 @@ const HeroAd = () => {
           </span>
 
           <h1 className="text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl xl:text-7xl">
-            {copy.title}
+            {localized(hero.title, i18n.language)}
           </h1>
 
           <p className="max-w-2xl text-base font-black leading-8 text-white/78 sm:text-lg">
-            {copy.description}
+            {localized(hero.description, i18n.language)}
           </p>
 
           <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
             <Link
-              href="/cars"
+              href={hero.primaryHref}
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-black text-white transition hover:bg-primary-hover active:scale-95 sm:min-w-44"
             >
-              {copy.primary}
+              {localized(hero.primaryLabel, i18n.language)}
               <ArrowBack sx={{ fontSize: 18 }} />
             </Link>
             <Link
-              href="https://wa.me/966554118873"
+              href={hero.secondaryHref}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-6 py-3 text-sm font-black text-white backdrop-blur-md transition hover:border-primary/40 hover:bg-white/10 active:scale-95 sm:min-w-44"
             >
-              {copy.secondary}
+              {localized(hero.secondaryLabel, i18n.language)}
               <WhatsApp sx={{ fontSize: 18 }} />
             </Link>
           </div>

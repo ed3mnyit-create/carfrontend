@@ -338,7 +338,54 @@
         "security": "Security",
         "categories": "Categories",
         "blog": "Blog",
-        "promos": "Promos & Banners"
+        "promos": "Promos & Banners",
+        "settings": "Website Settings"
+      },
+      "settings": {
+        "title": "Website Content Management",
+        "subtitle": "Control social links, about page content, contact information, and homepage sections",
+        "tabs": {
+          "social": "Social Links",
+          "about": "About Page",
+          "contact": "Contact Info",
+          "home": "Home Page"
+        },
+        "social": {
+          "title": "Social Media Links",
+          "instagram": "Instagram",
+          "twitter": "Twitter (X)",
+          "tiktok": "TikTok",
+          "whatsapp": "WhatsApp",
+          "snapchat": "Snapchat",
+          "facebook": "Facebook"
+        },
+        "about": {
+          "title": "About Page Content",
+          "badge": "Small Badge",
+          "mainTitlePart1": "Main Title - Part 1",
+          "mainTitlePart2": "Main Title - Part 2",
+          "description": "Main Description",
+          "storyTitle": "Story Title",
+          "storyText": "Story Text",
+          "featuresTitle": "Features Title"
+        },
+        "contact": {
+          "title": "Unified Contact Information",
+          "phone": "Phone Number",
+          "whatsapp": "WhatsApp Number",
+          "email": "Contact Email",
+          "address": "Registered Address"
+        },
+        "home": {
+          "title": "Home Page Settings",
+          "subtitle": "Control homepage sections, copy, images, links, and advanced content from one place.",
+          "visibility": "Show and hide sections",
+          "jsonLabel": "Advanced homepage content JSON",
+          "jsonHint": "Edit all text, images, links, FAQs, services, and cards here. Save valid JSON only."
+        },
+        "saveSuccess": "Website settings updated successfully",
+        "saveError": "Failed to save changes, please try again",
+        "saving": "Saving..."
       },
       "bookings": {
         "title": "Manage Bookings",

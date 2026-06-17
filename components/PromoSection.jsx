@@ -6,14 +6,18 @@ import Image from "next/image";
 import { Button, CircularProgress } from "@mui/material";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { useHomeSettings } from "@/components/home/useHomeSettings";
 
 const PromoSection = () => {
   const { t, i18n } = useTranslation("common");
+  const { settings } = useHomeSettings();
   const { data: promoData, isLoading } = useQuery({
     queryKey: ["activePromos"],
     queryFn: () => promoService.getAllActive(),
     staleTime: 1000 * 60 * 10,
   });
+
+  if (!settings.sections.promos) return null;
 
   if (isLoading) {
     return (

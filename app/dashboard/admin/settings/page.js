@@ -15,6 +15,9 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  Switch,
+  FormControlLabel,
+  Divider,
 } from "@mui/material";
 import {
   Settings,
@@ -48,6 +51,7 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { SiTiktok, SiLinktree } from "react-icons/si";
 import Image from "next/image";
+import { defaultHomeSettings, mergeHomeSettings } from "@/components/home/homeSettings";
 
 // --- Static Constants Outside Component ---
 const eliteInputStyle = {
@@ -151,6 +155,8 @@ export default function AdminSettings() {
     email: "",
     address: "",
   });
+  const [homeSettings, setHomeSettings] = useState(defaultHomeSettings);
+  const [homeJson, setHomeJson] = useState(JSON.stringify(defaultHomeSettings, null, 2));
 
   // Fetch Settings
   const { data: settingsData, isLoading } = useQuery({
@@ -174,6 +180,11 @@ export default function AdminSettings() {
         }
         if (item.key === "contact_info" && item.data) {
           setContact(prev => ({ ...prev, ...item.data }));
+        }
+        if (item.key === "home_page" && item.data) {
+          const merged = mergeHomeSettings(item.data);
+          setHomeSettings(merged);
+          setHomeJson(JSON.stringify(merged, null, 2));
         }
       });
     }
@@ -203,6 +214,7 @@ export default function AdminSettings() {
     mutationFn: settingService.upsert,
     onSuccess: () => {
       queryClient.invalidateQueries(["site-settings"]);
+      queryClient.invalidateQueries({ queryKey: ["setting", "home_page"] });
       toast.success(t("dashboard.admin.settings.saveSuccess"));
     },
     onError: (error) => {
@@ -213,6 +225,36 @@ export default function AdminSettings() {
 
   const handleSave = (key, data) => {
     saveMutation.mutate({ key, data });
+  };
+
+  const updateHome = (path, value) => {
+    setHomeSettings((current) => {
+      const next = structuredClone(current);
+      let cursor = next;
+      path.slice(0, -1).forEach((key) => {
+        cursor[key] = cursor[key] ?? {};
+        cursor = cursor[key];
+      });
+      cursor[path[path.length - 1]] = value;
+      setHomeJson(JSON.stringify(next, null, 2));
+      return next;
+    });
+  };
+
+  const updateHomeLocalized = (path, lang, value) => {
+    const currentValue = path.reduce((cursor, key) => cursor?.[key], homeSettings) || {};
+    updateHome(path, { ...currentValue, [lang]: value });
+  };
+
+  const handleSaveHome = () => {
+    try {
+      const parsed = JSON.parse(homeJson);
+      const merged = mergeHomeSettings(parsed);
+      setHomeSettings(merged);
+      handleSave("home_page", merged);
+    } catch {
+      toast.error("صيغة JSON غير صحيحة، يرجى مراجعة الأقواس والفواصل");
+    }
   };
 
   if (isLoading) {
@@ -262,6 +304,7 @@ export default function AdminSettings() {
           <Tab icon={<Share sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.social")} />
           <Tab icon={<Info sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.about")} />
           <Tab icon={<Phone sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.contact")} />
+          <Tab icon={<DirectionsCar sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.home")} />
         </Tabs>
       </Box>
 
@@ -670,6 +713,194 @@ export default function AdminSettings() {
                   >
                     {saveMutation.isPending && saveMutation.variables?.key === "contact_info" 
                       ? t("dashboard.admin.settings.saving") 
+                      : t("common.save")}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </motion.div>
+        )}
+
+        {activeTab === 3 && (
+          <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <Paper sx={{ p: 4, borderRadius: "2rem", bgcolor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <Grid container spacing={4}>
+                <Grid item xs={12}>
+                  <Typography sx={{ color: "white", fontWeight: "900", fontSize: "1.4rem", mb: 1 }}>
+                    {t("dashboard.admin.settings.home.title")}
+                  </Typography>
+                  <Typography sx={{ color: "rgba(255,255,255,0.55)", fontWeight: "700", mb: 3 }}>
+                    {t("dashboard.admin.settings.home.subtitle")}
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Paper sx={{ p: 3, borderRadius: "1.5rem", bgcolor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                    <Typography sx={{ color: "white", fontWeight: "900", mb: 2 }}>
+                      {t("dashboard.admin.settings.home.visibility")}
+                    </Typography>
+                    <Grid container spacing={1}>
+                      {Object.keys(homeSettings.sections).map((key) => (
+                        <Grid item xs={12} sm={6} md={4} key={key}>
+                          <FormControlLabel
+                            control={
+                              <Switch
+                                checked={Boolean(homeSettings.sections[key])}
+                                onChange={(event) => updateHome(["sections", key], event.target.checked)}
+                                sx={{
+                                  "& .MuiSwitch-switchBase.Mui-checked": { color: "var(--primary)" },
+                                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": { backgroundColor: "var(--primary)" },
+                                }}
+                              />
+                            }
+                            label={<span className="font-bold text-white">{key}</span>}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Divider sx={{ borderColor: "rgba(255,255,255,0.08)" }} />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="عنوان الهيرو بالعربية"
+                    value={homeSettings.hero.title.ar}
+                    onChange={(e) => updateHomeLocalized(["hero", "title"], "ar", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Hero title English"
+                    value={homeSettings.hero.title.en}
+                    onChange={(e) => updateHomeLocalized(["hero", "title"], "en", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    label="وصف الهيرو بالعربية"
+                    value={homeSettings.hero.description.ar}
+                    onChange={(e) => updateHomeLocalized(["hero", "description"], "ar", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    label="Hero description English"
+                    value={homeSettings.hero.description.en}
+                    onChange={(e) => updateHomeLocalized(["hero", "description"], "en", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="رابط صورة خلفية الهيرو"
+                    value={homeSettings.hero.backgroundImage}
+                    onChange={(e) => updateHome(["hero", "backgroundImage"], e.target.value)}
+                    sx={eliteInputStyle}
+                    InputProps={{ startAdornment: <InputAdornment position="start"><LinkIcon sx={{ color: "var(--primary)" }} /></InputAdornment> }}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="عنوان قسم من نحن بالعربية"
+                    value={homeSettings.about.title.ar}
+                    onChange={(e) => updateHomeLocalized(["about", "title"], "ar", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="About title English"
+                    value={homeSettings.about.title.en}
+                    onChange={(e) => updateHomeLocalized(["about", "title"], "en", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="صورة قسم من نحن"
+                    value={homeSettings.about.image}
+                    onChange={(e) => updateHome(["about", "image"], e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="عنوان CTA بالعربية"
+                    value={homeSettings.cta.title.ar}
+                    onChange={(e) => updateHomeLocalized(["cta", "title"], "ar", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="CTA title English"
+                    value={homeSettings.cta.title.en}
+                    onChange={(e) => updateHomeLocalized(["cta", "title"], "en", e.target.value)}
+                    sx={eliteInputStyle}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    minRows={14}
+                    label={t("dashboard.admin.settings.home.jsonLabel")}
+                    value={homeJson}
+                    onChange={(e) => setHomeJson(e.target.value)}
+                    sx={{
+                      ...eliteInputStyle,
+                      "& textarea": {
+                        fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                        fontSize: "0.85rem",
+                        lineHeight: 1.7,
+                        direction: "ltr",
+                      },
+                    }}
+                    helperText={t("dashboard.admin.settings.home.jsonHint")}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    onClick={handleSaveHome}
+                    disabled={saveMutation.isPending}
+                    sx={{
+                      borderRadius: "1rem",
+                      py: 1.5,
+                      px: 6,
+                      fontWeight: "900",
+                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
+                    }}
+                    startIcon={<Save />}
+                  >
+                    {saveMutation.isPending && saveMutation.variables?.key === "home_page"
+                      ? t("dashboard.admin.settings.saving")
                       : t("common.save")}
                   </Button>
                 </Grid>

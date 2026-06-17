@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Email, LocationOn, Phone, Send, WhatsApp } from "@mui/icons-material";
 import { settingService } from "@/services/api";
+import { localized } from "./homeSettings";
+import { useHomeSettings } from "./useHomeSettings";
 
 const ContactCard = ({ item }) => {
   const content = (
@@ -49,6 +51,9 @@ export default function HomeContact() {
     message: "",
   });
   const isArabic = i18n.language?.startsWith("ar");
+  const { settings } = useHomeSettings();
+  const lang = i18n.language;
+  const content = settings.contact;
 
   const { data: contactData } = useQuery({
     queryKey: ["setting", "contact_info"],
@@ -66,12 +71,12 @@ export default function HomeContact() {
   const email = contact.email || "Team@C4Rplatform.com";
   const normalizedPhone = phone.startsWith("+") ? phone : `+${phone}`;
   const normalizedWhatsapp = whatsapp.startsWith("+") ? whatsapp : `+${whatsapp}`;
+  if (!settings.sections.contact) return null;
+
   const copy = {
-    eyebrow: isArabic ? "تواصل معنا" : "Contact",
-    title: isArabic ? "تحتاج مساعدة في اختيار السيارة؟" : "Need help choosing the right car?",
-    text: isArabic
-      ? "أرسل بياناتك أو تواصل مباشرة عبر القنوات المتاحة، وسنساعدك في اختيار الخدمة الأنسب حسب المدينة والمدة."
-      : "Send your details or contact us directly, and we will help you choose the right service based on city and duration.",
+    eyebrow: localized(content.eyebrow, lang),
+    title: localized(content.title, lang),
+    text: localized(content.text, lang),
     name: isArabic ? "الاسم" : "Name",
     phone: isArabic ? "رقم الجوال" : "Phone number",
     message: isArabic ? "رسالتك" : "Message",
@@ -80,7 +85,7 @@ export default function HomeContact() {
     placeholderMessage: isArabic
       ? "ما المدينة والمدة ونوع السيارة المطلوب؟"
       : "Which city, duration, and car type do you need?",
-    submit: isArabic ? "إرسال عبر البريد" : "Send by email",
+    submit: localized(content.submit, lang),
   };
 
   const handleSubmit = (event) => {
@@ -126,9 +131,7 @@ export default function HomeContact() {
         defaultValue: isArabic ? "التغطية" : "Coverage",
       }),
       value: t("homeSections.contact.cities", {
-        defaultValue: isArabic
-          ? "الرياض، جدة، والمنطقة الشرقية"
-          : "Riyadh, Jeddah, and Eastern Province",
+        defaultValue: localized(content.coverage, lang),
       }),
       dir: i18n.dir(),
     },
@@ -139,17 +142,13 @@ export default function HomeContact() {
       <div className="container mx-auto px-4 md:px-6">
         <div className={`mb-8 md:mb-12 ${isArabic ? "text-right" : "text-left"}`}>
           <p className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-primary">
-            {t("homeSections.contact.eyebrow", { defaultValue: copy.eyebrow })}
+            {copy.eyebrow}
           </p>
           <h2 className="max-w-3xl text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
-            {t("homeSections.contact.title", {
-              defaultValue: copy.title,
-            })}
+            {copy.title}
           </h2>
           <p className="mt-4 max-w-3xl text-sm font-bold leading-7 text-slate-400 sm:text-base">
-            {t("homeSections.contact.text", {
-              defaultValue: copy.text,
-            })}
+            {copy.text}
           </p>
         </div>
 

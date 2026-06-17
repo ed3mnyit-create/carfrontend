@@ -7,15 +7,19 @@ import Marquee from "react-fast-marquee";
 import { Star, DirectionsCar } from "@mui/icons-material";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import { useHomeSettings } from "./useHomeSettings";
 
 export default function ReviewMarquee() {
   const { t, i18n } = useTranslation("common");
+  const { settings } = useHomeSettings();
   const { data, isLoading } = useQuery({
     queryKey: ["recentReviews"],
     queryFn: () => reviewService.getRecent(),
   });
 
   let reviews = data?.data || [];
+
+  if (!settings.sections.reviews) return null;
 
   if (isLoading) {
     return (

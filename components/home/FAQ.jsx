@@ -9,79 +9,28 @@ import {
 } from "@mui/material";
 import { ExpandMore, HelpOutline } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { localized } from "./homeSettings";
+import { useHomeSettings } from "./useHomeSettings";
 
 const FAQ = () => {
   const { t, i18n } = useTranslation("common");
   const [expanded, setExpanded] = useState(false);
   const isArabic = i18n.language?.startsWith("ar");
+  const { settings } = useHomeSettings();
+  const lang = i18n.language;
+  const faqSettings = settings.faq;
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const faqs = [
-    {
-      id: "panel1",
-      question: t("faq.q1.question", {
-        defaultValue: isArabic
-          ? "ما المستندات المطلوبة للحجز؟"
-          : "What documents are required for booking?",
-      }),
-      answer: t("faq.q1.answer", {
-        defaultValue: isArabic
-          ? "تحتاج رخصة قيادة سارية وبطاقة هوية/إقامة سارية وبطاقة ائتمان للضمان."
-          : "You need a valid driver's license, valid ID/residency, and a credit card for guarantee.",
-      }),
-    },
-    {
-      id: "panel2",
-      question: t("faq.q2.question", {
-        defaultValue: isArabic
-          ? "هل يمكن توصيل السيارة في مدينة أخرى؟"
-          : "Can I return the car in a different city?",
-      }),
-      answer: t("faq.q2.answer", {
-        defaultValue: isArabic
-          ? "نعم، نوفر خدمة التوصيل بين المدن برجاء التواصل لترتيب ذلك مع رسوم إضافية."
-          : "Yes, we offer inter-city delivery service. Please contact us to arrange this with a small additional fee.",
-      }),
-    },
-    {
-      id: "panel3",
-      question: t("faq.q3.question", {
-        defaultValue: isArabic ? "ما سياسة الإلغاء؟" : "What is the cancellation policy?",
-      }),
-      answer: t("faq.q3.answer", {
-        defaultValue: isArabic
-          ? "يمكنك إلغاء الحجز قبل 24 ساعة من الاستلام بدون رسوم. بعد ذلك قد تُطبق رسوم إلغاء."
-          : "You can cancel 24 hours before pickup without charges. After that, cancellation fees may apply.",
-      }),
-    },
-    {
-      id: "panel4",
-      question: t("faq.q4.question", {
-        defaultValue: isArabic ? "هل التأمين مشمول؟" : "Is insurance included?",
-      }),
-      answer: t("faq.q4.answer", {
-        defaultValue: isArabic
-          ? "نعم، جميع سياراتنا مؤمنة بالكامل. يمكنك الترقية لتغطية أوسع عند الحجز."
-          : "Yes, all our cars are comprehensively insured. You can upgrade for broader coverage when booking.",
-      }),
-    },
-    {
-      id: "panel5",
-      question: t("faq.q5.question", {
-        defaultValue: isArabic
-          ? "ما الحد الأدنى للعمر للاستئجار؟"
-          : "What is the minimum rental age?",
-      }),
-      answer: t("faq.q5.answer", {
-        defaultValue: isArabic
-          ? "الحد الأدنى 21 سنة مع رخصة قيادة سارية لمدة عام على الأقل."
-          : "The minimum age is 21 years with a valid driver's license for at least one year.",
-      }),
-    },
-  ];
+  if (!settings.sections.faq) return null;
+
+  const faqs = (faqSettings.items || []).slice(0, 5).map((item, index) => ({
+    id: `panel${index + 1}`,
+    question: localized(item.question, lang),
+    answer: localized(item.answer, lang),
+  }));
 
   return (
     <section className="py-24 bg-transparent relative" dir={i18n.dir()}>
@@ -93,22 +42,14 @@ const FAQ = () => {
               <HelpOutline className="text-primary" sx={{ fontSize: 32 }} />
             </div>
             <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tighter">
-              {t("faq.titlePart1", {
-                defaultValue: isArabic ? "الأسئلة" : "Frequently",
-              })}{" "}
+              {localized(faqSettings.titlePart1, lang)}{" "}
               <span className="text-primary">
-                {t("faq.titlePart2", {
-                  defaultValue: isArabic ? "الشائعة" : "Asked Questions",
-                })}
+                {localized(faqSettings.titlePart2, lang)}
               </span>
             </h2>
           </div>
           <p className="text-slate-400 font-bold max-w-xl mx-auto">
-            {t("faq.description", {
-              defaultValue: isArabic
-                ? "إجابات على أهم الأسئلة قبل إرسال طلب الحجز"
-                : "Answers to the most important questions before sending your booking request",
-            })}
+            {localized(faqSettings.description, lang)}
           </p>
         </div>
 
@@ -200,12 +141,8 @@ const FAQ = () => {
 
           <div className="theme-dark-media relative min-h-[520px] overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl md:rounded-[3rem]">
             <Image
-              src="/images/car-with-driver.webp"
-              alt={t("faq.imageAlt", {
-                defaultValue: isArabic
-                  ? "خدمة تأجير سيارات من منصة C4R"
-                  : "C4R car rental service",
-              })}
+              src={faqSettings.image || "/images/car-with-driver.webp"}
+              alt={localized(faqSettings.imageAlt, lang)}
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 45vw"
@@ -216,14 +153,10 @@ const FAQ = () => {
                 C4R
               </p>
               <h3 className="mt-2 text-2xl font-black leading-tight text-white">
-                {isArabic
-                  ? "حجز أوضح قبل الانطلاق"
-                  : "Clearer booking before you go"}
+                {localized(faqSettings.imageTitle, lang)}
               </h3>
               <p className="mt-3 text-sm font-bold leading-7 text-white/80">
-                {isArabic
-                  ? "راجع أهم التفاصيل ثم أرسل طلبك، وسيقوم فريقنا بتأكيد السيارة والمدة معك."
-                  : "Review the key details, send your request, and our team will confirm the car and duration with you."}
+                {localized(faqSettings.imageText, lang)}
               </p>
             </div>
           </div>
