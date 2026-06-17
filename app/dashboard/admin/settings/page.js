@@ -262,6 +262,18 @@ export default function AdminSettings() {
     contact: "التواصل",
   };
 
+  const homeNavItems = [
+    { id: "home-visibility", label: "الظهور", description: "تشغيل وإيقاف الأقسام" },
+    { id: "home-hero", label: "الهيرو", description: "الخلفية والعنوان والأزرار" },
+    { id: "home-departments", label: "بطاقات الأقسام", description: "الأفراد، السائق، الشركات" },
+    { id: "home-about", label: "من نحن", description: "النص التعريفي والمميزات" },
+    { id: "home-cars", label: "السيارات", description: "سياراتنا وسيارات بسائق" },
+    { id: "home-services", label: "الخدمات", description: "بطاقات وروابط الخدمات" },
+    { id: "home-cta", label: "CTA", description: "دعوة الحجز الرئيسية" },
+    { id: "home-faq", label: "FAQ", description: "أعلى 5 أسئلة" },
+    { id: "home-contact", label: "التواصل", description: "النموذج وبيانات التواصل" },
+  ];
+
   const getHomeValue = (path) =>
     path.reduce((cursor, key) => cursor?.[key], homeSettings);
 
@@ -330,19 +342,20 @@ export default function AdminSettings() {
   };
 
   const panelSx = {
-    p: 3,
-    borderRadius: "1.5rem",
-    bgcolor: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255,255,255,0.06)",
+    p: { xs: 2.5, md: 3 },
+    borderRadius: "1.25rem",
+    bgcolor: "rgba(255,255,255,0.025)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    overflow: "hidden",
   };
 
   const renderPanelTitle = (title, subtitle) => (
-    <Box sx={{ mb: 3 }}>
-      <Typography sx={{ color: "white", fontWeight: "900", fontSize: "1.1rem" }}>
+    <Box sx={{ mb: 3, pb: 2.5, borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+      <Typography sx={{ color: "white", fontWeight: "900", fontSize: "1.15rem", letterSpacing: "-0.01em" }}>
         {title}
       </Typography>
       {subtitle && (
-        <Typography sx={{ color: "rgba(255,255,255,0.5)", fontWeight: "700", mt: 0.5 }}>
+        <Typography sx={{ color: "rgba(255,255,255,0.52)", fontWeight: "700", mt: 0.75, fontSize: "0.9rem" }}>
           {subtitle}
         </Typography>
       )}
@@ -358,12 +371,13 @@ export default function AdminSettings() {
   }
 
   return (
-    <div className="p-4 md:p-8 pt-24 max-w-6xl mx-auto" dir="rtl">
+    <div className="p-4 md:p-8 pt-24 max-w-7xl mx-auto" dir="rtl">
       {/* Header Area */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.025] p-5 md:p-7">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/20 shadow-[0_0_20px_rgba(249,115,22,0.2)]">
+            <div className="w-12 h-12 rounded-2xl bg-primary/15 flex items-center justify-center border border-primary/20">
               <Settings className="text-primary" />
             </div>
             <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">
@@ -374,22 +388,37 @@ export default function AdminSettings() {
             {t("dashboard.admin.settings.subtitle")}
           </p>
         </div>
+        <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm font-black text-slate-300">
+          إعدادات الموقع
+        </div>
+        </div>
       </div>
 
       {/* Tabs */}
-      <Box sx={{ borderBottom: 1, borderColor: "rgba(255,255,255,0.05)", mb: 6 }}>
+      <Box sx={{ mb: 6, p: 1, borderRadius: "1.25rem", border: "1px solid rgba(255,255,255,0.08)", bgcolor: "rgba(255,255,255,0.025)" }}>
         <Tabs
           value={activeTab}
           onChange={(e, v) => setActiveTab(v)}
+          variant="scrollable"
+          scrollButtons="auto"
           sx={{
-            "& .MuiTabs-indicator": { bgcolor: "var(--primary)", height: 3 },
+            minHeight: 0,
+            "& .MuiTabs-indicator": { display: "none" },
+            "& .MuiTabs-flexContainer": { gap: 1 },
             "& .MuiTab-root": {
               color: "rgba(255,255,255,0.4)",
               fontWeight: "900",
-              fontSize: "1rem",
-              py: 3,
-              px: { xs: 2, md: 4 },
-              "&.Mui-selected": { color: "white" },
+              fontSize: "0.9rem",
+              minHeight: 0,
+              borderRadius: "1rem",
+              py: 1.5,
+              px: { xs: 2, md: 3 },
+              border: "1px solid transparent",
+              "&.Mui-selected": {
+                color: "white",
+                bgcolor: "rgba(249,115,22,0.13)",
+                borderColor: "rgba(249,115,22,0.25)",
+              },
             },
           }}
         >
@@ -815,7 +844,53 @@ export default function AdminSettings() {
 
         {activeTab === 3 && (
           <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <Paper sx={{ p: 4, borderRadius: "2rem", bgcolor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+              <aside className="lg:sticky lg:top-28 lg:self-start">
+                <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
+                  <div className="border-b border-white/10 px-3 pb-4 pt-2">
+                    <p className="text-sm font-black text-white">إعدادات الرئيسية</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                      انتقل مباشرة للقسم المطلوب وعدل الحقول بدون تعقيد.
+                    </p>
+                  </div>
+                  <nav className="mt-3 grid gap-1">
+                    {homeNavItems.map((item) => (
+                      <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className="rounded-2xl border border-transparent px-3 py-3 transition hover:border-primary/25 hover:bg-primary/10"
+                      >
+                        <span className="block text-sm font-black text-white">{item.label}</span>
+                        <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">
+                          {item.description}
+                        </span>
+                      </a>
+                    ))}
+                  </nav>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    onClick={handleSaveHome}
+                    disabled={saveMutation.isPending}
+                    sx={{
+                      mt: 2,
+                      borderRadius: "1rem",
+                      py: 1.35,
+                      fontWeight: "900",
+                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
+                    }}
+                    startIcon={<Save />}
+                  >
+                    {saveMutation.isPending && saveMutation.variables?.key === "homepage_content"
+                      ? t("dashboard.admin.settings.saving")
+                      : t("common.save")}
+                  </Button>
+                </div>
+              </aside>
+
+              <div className="space-y-6">
+            <Paper sx={{ p: { xs: 2.5, md: 4 }, borderRadius: "1.5rem", bgcolor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)" }}>
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <Typography sx={{ color: "white", fontWeight: "900", fontSize: "1.4rem", mb: 1 }}>
@@ -827,7 +902,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-visibility" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     <Typography sx={{ color: "white", fontWeight: "900", mb: 2 }}>
                       {t("dashboard.admin.settings.home.visibility")}
                     </Typography>
@@ -858,7 +933,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-hero" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("قسم الهيرو", "الصورة الرئيسية، العنوان، الوصف، وأزرار البداية")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان الهيرو بالعربية", "Hero title English", ["hero", "title"])}
@@ -873,7 +948,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-departments" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("بطاقات الأقسام", "الأفراد، سيارات بسائق، والشركات")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان القسم الرئيسي بالعربية", "Main title English", ["departments", "titlePart1"])}
@@ -914,7 +989,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-about" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("قسم من نحن والمميزات", "النص التعريفي وبطاقات المميزات")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["about", "eyebrow"])}
@@ -950,7 +1025,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-cars" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("السيارات وسيارات بسائق", "عناوين وروابط أقسام عرض السيارات في الصفحة الرئيسية")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان سياراتنا بالعربية", "Cars title English", ["cars", "title"])}
@@ -964,7 +1039,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-services" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("قسم الخدمات", "بطاقات الخدمات وروابطها")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان الخدمات بالعربية", "Services title English", ["services", "title"])}
@@ -998,7 +1073,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-cta" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("قسم CTA", "البطاقة الكبيرة قبل الأسئلة والتواصل")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["cta", "eyebrow"])}
@@ -1013,7 +1088,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-faq" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("قسم الأسئلة الشائعة", "أعلى 5 أسئلة تظهر في الصفحة الرئيسية")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان أول بالعربية", "Title part 1 English", ["faq", "titlePart1"])}
@@ -1050,7 +1125,7 @@ export default function AdminSettings() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper sx={panelSx}>
+                  <Paper id="home-contact" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
                     {renderPanelTitle("قسم التواصل في الرئيسية", "النص الظاهر فوق كروت التواصل والنموذج")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["contact", "eyebrow"])}
@@ -1084,6 +1159,8 @@ export default function AdminSettings() {
                 </Grid>
               </Grid>
             </Paper>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
