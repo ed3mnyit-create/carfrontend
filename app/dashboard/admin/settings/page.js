@@ -282,11 +282,30 @@ export default function AdminSettings() {
   const getHomeValue = (path) =>
     path.reduce((cursor, key) => cursor?.[key], homeSettings);
 
+  const getInputRows = (options = {}) => {
+    if (!options.multiline) return 1;
+    return Math.max(options.rows || 5, 4);
+  };
+
+  const getInputSx = (options = {}) => ({
+    ...eliteInputStyle,
+    "& .MuiOutlinedInput-root": {
+      ...eliteInputStyle["& .MuiOutlinedInput-root"],
+      minHeight: options.multiline ? "136px" : "56px",
+      alignItems: options.multiline ? "flex-start" : "center",
+    },
+    "& textarea": {
+      minHeight: options.multiline ? "96px" : undefined,
+      lineHeight: 1.75,
+    },
+  });
+
   const fieldGroupSx = {
-    p: 2,
+    p: 2.25,
     borderRadius: "1rem",
     bgcolor: "rgba(0,0,0,0.12)",
     border: "1px solid rgba(255,255,255,0.07)",
+    height: "100%",
   };
 
   const renderFieldLabel = (title, hint) => (
@@ -308,11 +327,11 @@ export default function AdminSettings() {
       <TextField
         fullWidth
         multiline={options.multiline}
-        rows={options.rows || (options.multiline ? 3 : 1)}
+        rows={getInputRows(options)}
         label={options.placeholder || label}
         value={getHomeValue(path) || ""}
         onChange={(e) => updateHome(path, e.target.value)}
-        sx={eliteInputStyle}
+        sx={getInputSx(options)}
         InputProps={options.link ? {
           startAdornment: <InputAdornment position="start"><LinkIcon sx={{ color: "var(--primary)" }} /></InputAdornment>,
         } : undefined}
@@ -332,22 +351,22 @@ export default function AdminSettings() {
               <TextField
                 fullWidth
                 multiline={options.multiline}
-                rows={options.rows || (options.multiline ? 3 : 1)}
+                rows={getInputRows(options)}
                 label="العربية"
                 value={getHomeValue([...path, "ar"]) || ""}
                 onChange={(e) => updateHomeLocalized(path, "ar", e.target.value)}
-                sx={eliteInputStyle}
+                sx={getInputSx(options)}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 multiline={options.multiline}
-                rows={options.rows || (options.multiline ? 3 : 1)}
+                rows={getInputRows(options)}
                 label="English"
                 value={getHomeValue([...path, "en"]) || ""}
                 onChange={(e) => updateHomeLocalized(path, "en", e.target.value)}
-                sx={eliteInputStyle}
+                sx={getInputSx(options)}
               />
             </Grid>
           </Grid>
@@ -365,22 +384,22 @@ export default function AdminSettings() {
             <TextField
               fullWidth
               multiline={options.multiline}
-              rows={options.rows || (options.multiline ? 3 : 1)}
+              rows={getInputRows(options)}
               label="العربية"
               value={getHomeValue(path)?.[index]?.[field]?.ar || ""}
               onChange={(e) => updateHomeArrayLocalized(path, index, field, "ar", e.target.value)}
-              sx={eliteInputStyle}
+              sx={getInputSx(options)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
               fullWidth
               multiline={options.multiline}
-              rows={options.rows || (options.multiline ? 3 : 1)}
+              rows={getInputRows(options)}
               label="English"
               value={getHomeValue(path)?.[index]?.[field]?.en || ""}
               onChange={(e) => updateHomeArrayLocalized(path, index, field, "en", e.target.value)}
-              sx={eliteInputStyle}
+              sx={getInputSx(options)}
             />
           </Grid>
         </Grid>
@@ -396,7 +415,7 @@ export default function AdminSettings() {
         label={options.placeholder || label}
         value={getHomeValue(path)?.[index]?.[field] || ""}
         onChange={(e) => updateHomeArrayItem(path, index, field, e.target.value)}
-        sx={eliteInputStyle}
+        sx={getInputSx(options)}
         InputProps={options.link ? {
           startAdornment: <InputAdornment position="start"><LinkIcon sx={{ color: "var(--primary)" }} /></InputAdornment>,
         } : undefined}
@@ -1022,7 +1041,7 @@ export default function AdminSettings() {
                     {renderPanelTitle("قسم الهيرو", "الصورة الرئيسية، العنوان، الوصف، وأزرار البداية")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان الهيرو بالعربية", "Hero title English", ["hero", "title"])}
-                      {renderLocalizedHomeFields("وصف الهيرو بالعربية", "Hero description English", ["hero", "description"], { multiline: true })}
+                      {renderLocalizedHomeFields("وصف الهيرو بالعربية", "Hero description English", ["hero", "description"], { multiline: true, rows: 5 })}
                       <Grid item xs={12}>{renderHomeField("رابط صورة خلفية الهيرو", ["hero", "backgroundImage"], { link: true })}</Grid>
                       {renderLocalizedHomeFields("نص الزر الأساسي بالعربية", "Primary button English", ["hero", "primaryLabel"])}
                       <Grid item xs={12} md={6}>{renderHomeField("رابط الزر الأساسي", ["hero", "primaryHref"], { link: true })}</Grid>
@@ -1048,7 +1067,7 @@ export default function AdminSettings() {
                                 </Typography>
                               </Grid>
                               {renderArrayLocalizedFields("عنوان البطاقة", ["departments", "cards"], index, "title")}
-                              {renderArrayLocalizedFields("وصف البطاقة", ["departments", "cards"], index, "description", { multiline: true, rows: 2 })}
+                              {renderArrayLocalizedFields("وصف البطاقة", ["departments", "cards"], index, "description", { multiline: true, rows: 4 })}
                               <Grid item xs={12} md={6}>
                                 {renderArrayField("رابط البطاقة", ["departments", "cards"], index, "href", { link: true })}
                               </Grid>
@@ -1069,18 +1088,18 @@ export default function AdminSettings() {
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["about", "eyebrow"])}
                       {renderLocalizedHomeFields("العنوان بالعربية", "Title English", ["about", "title"])}
-                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["about", "text"], { multiline: true })}
+                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["about", "text"], { multiline: true, rows: 5 })}
                       <Grid item xs={12}>{renderHomeField("رابط صورة قسم من نحن", ["about", "image"], { link: true })}</Grid>
-                      {renderLocalizedHomeFields("النص فوق الصورة بالعربية", "Image note English", ["about", "imageNote"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("النص فوق الصورة بالعربية", "Image note English", ["about", "imageNote"], { multiline: true, rows: 4 })}
                       {(homeSettings.features || []).map((feature, index) => (
-                        <Grid item xs={12} md={4} key={`home-feature-${index}`}>
+                        <Grid item xs={12} key={`home-feature-${index}`}>
                           <Paper sx={{ p: 2.5, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
                             <Grid container spacing={2}>
                               <Grid item xs={12}>
                                 <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>ميزة {index + 1}</Typography>
                               </Grid>
                               {renderArrayLocalizedFields("عنوان الميزة", ["features"], index, "title")}
-                              {renderArrayLocalizedFields("وصف الميزة", ["features"], index, "text", { multiline: true, rows: 2 })}
+                              {renderArrayLocalizedFields("وصف الميزة", ["features"], index, "text", { multiline: true, rows: 4 })}
                             </Grid>
                           </Paper>
                         </Grid>
@@ -1094,10 +1113,10 @@ export default function AdminSettings() {
                     {renderPanelTitle("السيارات وسيارات بسائق", "عناوين وروابط أقسام عرض السيارات في الصفحة الرئيسية")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان سياراتنا بالعربية", "Cars title English", ["cars", "title"])}
-                      {renderLocalizedHomeFields("وصف سياراتنا بالعربية", "Cars text English", ["cars", "text"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("وصف سياراتنا بالعربية", "Cars text English", ["cars", "text"], { multiline: true, rows: 4 })}
                       <Grid item xs={12} md={6}>{renderHomeField("رابط عرض كل السيارات", ["cars", "href"], { link: true })}</Grid>
                       {renderLocalizedHomeFields("عنوان سيارات بسائق بالعربية", "Driver cars title English", ["driverCars", "title"])}
-                      {renderLocalizedHomeFields("وصف سيارات بسائق بالعربية", "Driver cars text English", ["driverCars", "text"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("وصف سيارات بسائق بالعربية", "Driver cars text English", ["driverCars", "text"], { multiline: true, rows: 4 })}
                       <Grid item xs={12} md={6}>{renderHomeField("رابط سيارات بسائق", ["driverCars", "href"], { link: true })}</Grid>
                     </Grid>
                   </Paper>
@@ -1108,7 +1127,7 @@ export default function AdminSettings() {
                     {renderPanelTitle("قسم الخدمات", "بطاقات الخدمات وروابطها")}
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان الخدمات بالعربية", "Services title English", ["services", "title"])}
-                      {renderLocalizedHomeFields("وصف الخدمات بالعربية", "Services text English", ["services", "text"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("وصف الخدمات بالعربية", "Services text English", ["services", "text"], { multiline: true, rows: 4 })}
                       {(homeSettings.services.items || []).map((service, index) => (
                         <Grid item xs={12} key={`service-${index}`}>
                           <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
@@ -1120,7 +1139,7 @@ export default function AdminSettings() {
                                 )}
                               </Grid>
                               {renderArrayLocalizedFields("عنوان الخدمة", ["services", "items"], index, "title")}
-                              {renderArrayLocalizedFields("وصف الخدمة", ["services", "items"], index, "text", { multiline: true, rows: 2 })}
+                              {renderArrayLocalizedFields("وصف الخدمة", ["services", "items"], index, "text", { multiline: true, rows: 4 })}
                               <Grid item xs={12}>{renderHomeField("رابط الخدمة", ["services", "items", index, "href"], { link: true })}</Grid>
                             </Grid>
                           </Paper>
@@ -1141,7 +1160,7 @@ export default function AdminSettings() {
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["cta", "eyebrow"])}
                       {renderLocalizedHomeFields("العنوان بالعربية", "Title English", ["cta", "title"])}
-                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["cta", "text"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["cta", "text"], { multiline: true, rows: 4 })}
                       {renderLocalizedHomeFields("زر أساسي بالعربية", "Primary button English", ["cta", "primaryLabel"])}
                       <Grid item xs={12} md={6}>{renderHomeField("رابط الزر الأساسي", ["cta", "primaryHref"], { link: true })}</Grid>
                       {renderLocalizedHomeFields("زر ثانوي بالعربية", "Secondary button English", ["cta", "secondaryLabel"])}
@@ -1156,7 +1175,7 @@ export default function AdminSettings() {
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("عنوان أول بالعربية", "Title part 1 English", ["faq", "titlePart1"])}
                       {renderLocalizedHomeFields("عنوان ثاني بالعربية", "Title part 2 English", ["faq", "titlePart2"])}
-                      {renderLocalizedHomeFields("وصف القسم بالعربية", "Section description English", ["faq", "description"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("وصف القسم بالعربية", "Section description English", ["faq", "description"], { multiline: true, rows: 4 })}
                       <Grid item xs={12}>{renderHomeField("رابط صورة FAQ", ["faq", "image"], { link: true })}</Grid>
                       {(homeSettings.faq.items || []).slice(0, 5).map((item, index) => (
                         <Grid item xs={12} key={`faq-${index}`}>
@@ -1191,7 +1210,7 @@ export default function AdminSettings() {
                     <Grid container spacing={3}>
                       {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["contact", "eyebrow"])}
                       {renderLocalizedHomeFields("العنوان بالعربية", "Title English", ["contact", "title"])}
-                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["contact", "text"], { multiline: true, rows: 2 })}
+                      {renderLocalizedHomeFields("الوصف بالعربية", "Description English", ["contact", "text"], { multiline: true, rows: 4 })}
                       {renderLocalizedHomeFields("نطاق التغطية بالعربية", "Coverage English", ["contact", "coverage"])}
                       {renderLocalizedHomeFields("زر الإرسال بالعربية", "Submit button English", ["contact", "submit"])}
                     </Grid>
