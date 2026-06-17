@@ -48,11 +48,40 @@
 :root[data-theme="light"] {
   --background: #f8fafc;
   --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --border: rgba(15, 23, 42, 0.12);
+  --input: rgba(15, 23, 42, 0.14);
+  --ring: rgba(249, 115, 22, 0.38);
   --secondary: #e0e7ff;
   --midnight: #ffffff;
   --slate-dark: #eef2ff;
   --app-frame-border: rgba(15, 23, 42, 0.12);
   --app-frame-shadow: rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="dark"],
+body[data-theme="dark"] {
+  --background: #041233;
+  --foreground: #f8fafc;
+  --card: #07183a;
+  --card-foreground: #f8fafc;
+  --popover: #07183a;
+  --popover-foreground: #f8fafc;
+  --muted: #0f2448;
+  --muted-foreground: #cbd5e1;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: rgba(249, 115, 22, 0.45);
+  --secondary: #0f2448;
+  --midnight: #041233;
+  --slate-dark: #061e42;
+  --app-frame-border: rgba(59, 130, 246, 0.85);
+  --app-frame-shadow: rgba(37, 99, 235, 0.22);
 }
 
 @theme inline {
@@ -128,11 +157,20 @@ html[data-theme="light"] .bg-midnight {
   background-color: #ffffff !important;
 }
 
+html[data-theme="light"] .bg-midnight\/95,
+html[data-theme="light"] .bg-midnight\/90,
+html[data-theme="light"] .bg-midnight\/80 {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+}
+
 html[data-theme="light"] .bg-slate-dark {
   background-color: #eef2ff !important;
 }
 
-html[data-theme="light"] .text-white {
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-white\/70,
+html[data-theme="light"] .text-white\/80,
+html[data-theme="light"] .text-white\/90 {
   color: #0f172a !important;
 }
 
@@ -157,19 +195,66 @@ html[data-theme="light"] .text-slate-500 {
 }
 
 html[data-theme="light"] .border-white\/10,
-html[data-theme="light"] .border-white\/5 {
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-white\/20,
+html[data-theme="light"] .border-white\/\[0\.08\] {
   border-color: rgba(15, 23, 42, 0.12) !important;
 }
 
 html[data-theme="light"] .bg-white\/5,
 html[data-theme="light"] .bg-white\/10,
+html[data-theme="light"] .bg-white\/\[0\.018\],
+html[data-theme="light"] .bg-white\/\[0\.025\],
+html[data-theme="light"] .bg-white\/\[0\.03\],
 html[data-theme="light"] .bg-white\/\[0\.04\],
-html[data-theme="light"] .bg-white\/\[0\.065\] {
-  background-color: rgba(255, 255, 255, 0.82) !important;
+html[data-theme="light"] .bg-white\/\[0\.065\],
+html[data-theme="light"] .bg-white\/\[0\.07\] {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+}
+
+html[data-theme="light"] .bg-black\/15,
+html[data-theme="light"] .bg-black\/20,
+html[data-theme="light"] .bg-black\/30 {
+  background-color: rgba(15, 23, 42, 0.04) !important;
 }
 
 html[data-theme="light"] .bg-gray-900\/98 {
   background-color: rgba(248, 250, 252, 0.98) !important;
+}
+
+html[data-theme="light"] .shadow-2xl,
+html[data-theme="light"] .shadow-xl,
+html[data-theme="light"] .shadow-lg {
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .MuiPaper-root,
+html[data-theme="light"] .MuiDialog-paper {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html[data-theme="light"] .MuiTypography-root,
+html[data-theme="light"] .MuiFormLabel-root,
+html[data-theme="light"] .MuiInputBase-input,
+html[data-theme="light"] .MuiSelect-select,
+html[data-theme="light"] .MuiMenuItem-root {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .MuiInputBase-root,
+html[data-theme="light"] .MuiOutlinedInput-root {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+html[data-theme="light"] .MuiSvgIcon-root {
+  color: currentColor;
 }
 
 html[data-theme="light"] input:-webkit-autofill,
