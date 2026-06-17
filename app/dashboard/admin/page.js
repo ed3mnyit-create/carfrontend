@@ -137,7 +137,7 @@ const AdminTabsContent = ({ user }) => {
   };
 
   return (
-    <div className="bg-white/5 backdrop-blur-xl p-3 sm:p-6 md:p-8 lg:p-10 rounded-xl sm:rounded-2xl md:rounded-3xl lg:rounded-[3rem] border border-white/10 shadow-2xl min-h-[400px] md:min-h-[600px]">
+    <div className="min-h-[520px] rounded-3xl border border-white/10 bg-white/[0.025] p-3 sm:p-5 lg:p-6">
       <Tabs
         value={value}
         onChange={handleChange}
@@ -145,6 +145,7 @@ const AdminTabsContent = ({ user }) => {
         variant="fullWidth"
         orientation="vertical"
         sx={{
+          display: "none",
           "& .MuiTabs-flexContainer": {
             flexDirection: { xs: "column", sm: "row" },
           },
