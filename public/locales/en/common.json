@@ -348,7 +348,8 @@
           "social": "Social Links",
           "about": "About Page",
           "contact": "Contact Info",
-          "home": "Home Page"
+          "home": "Home Page",
+          "corporate": "Corporate Page"
         },
         "social": {
           "title": "Social Media Links",

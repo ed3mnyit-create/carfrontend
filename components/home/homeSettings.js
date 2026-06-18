@@ -233,6 +233,157 @@ export const defaultHomeSettings = {
     coverage: { ar: "الرياض، جدة، والمنطقة الشرقية", en: "Riyadh, Jeddah, and Eastern Province" },
     submit: { ar: "إرسال عبر البريد", en: "Send by email" },
   },
+  corporatePage: {
+    hero: {
+      backgroundImage: "/images/car-companys.jpg",
+      badge: { ar: "حلول الشركات", en: "Corporate mobility" },
+      title: {
+        ar: "حلول تأجير سيارات مريحة وواضحة لفرق العمل والشركات",
+        en: "Comfortable, clear car rental solutions for teams and companies",
+      },
+      highlight: { ar: "بعرض مخصص", en: "with a tailored offer" },
+      description: {
+        ar: "نوفر خيارات تأجير مرنة للشركات، الفرق، المناسبات، والتنقلات اليومية مع متابعة مباشرة حتى تجهيز العرض المناسب.",
+        en: "We provide flexible rental options for companies, teams, events, and daily operations with direct follow-up until your offer is ready.",
+      },
+      primaryLabel: { ar: "احصل على عرض", en: "Get your offer" },
+      primaryHref: "#corporate-offer",
+    },
+    features: {
+      eyebrow: { ar: "لماذا C4R للشركات؟", en: "Why C4R for companies?" },
+      title: {
+        ar: "تجربة تأجير أوضح للفرق التي تحتاج حركة يومية موثوقة",
+        en: "A clearer rental experience for teams that need reliable daily mobility",
+      },
+      items: [
+        {
+          title: { ar: "أسطول مناسب", en: "Suitable fleet" },
+          text: {
+            ar: "خيارات متعددة حسب المدينة والمدة وطبيعة استخدام الشركة.",
+            en: "Multiple options based on city, duration, and company usage.",
+          },
+        },
+        {
+          title: { ar: "عروض مرنة", en: "Flexible offers" },
+          text: {
+            ar: "نجهز العرض حسب عدد السيارات والمدة واحتياج فريقك.",
+            en: "We prepare offers around car count, duration, and team needs.",
+          },
+        },
+        {
+          title: { ar: "متابعة مباشرة", en: "Direct support" },
+          text: {
+            ar: "فريقنا يراجع الطلب ويتواصل معك لتأكيد التفاصيل بسرعة.",
+            en: "Our team reviews the request and follows up to confirm details quickly.",
+          },
+        },
+      ],
+    },
+    services: {
+      eyebrow: { ar: "خدمات الشركات", en: "Corporate services" },
+      title: { ar: "حلول عملية حسب طريقة عمل شركتك", en: "Practical services around how your company moves" },
+      text: {
+        ar: "صممنا الصفحة لتقود العميل خطوة بخطوة من فهم الخدمة إلى طلب العرض.",
+        en: "The page guides customers from understanding the service to requesting an offer.",
+      },
+      items: [
+        {
+          title: { ar: "عقود شهرية وطويلة", en: "Monthly and long-term contracts" },
+          text: {
+            ar: "مناسبة للشركات التي تحتاج سيارات لفترات مستمرة وبمتابعة واضحة.",
+            en: "Ideal for companies that need cars for continuous periods with clear support.",
+          },
+        },
+        {
+          title: { ar: "تنقل فرق العمل", en: "Team transportation" },
+          text: {
+            ar: "خيارات للموظفين، الزيارات الميدانية، والتنقلات اليومية بين المواقع.",
+            en: "Options for staff, field visits, and daily movement between locations.",
+          },
+        },
+        {
+          title: { ar: "المناسبات والضيافة", en: "Events and hospitality" },
+          text: {
+            ar: "سيارات وسائقون للفعاليات، الوفود، وضيوف الشركات عند الحاجة.",
+            en: "Cars and chauffeurs for events, delegations, and corporate guests when needed.",
+          },
+        },
+      ],
+    },
+    cta: {
+      eyebrow: { ar: "عرض مخصص", en: "Tailored offer" },
+      title: {
+        ar: "دعنا نجهز لك عرضاً يناسب حجم شركتك ومدة الاستخدام",
+        en: "Let us prepare an offer that fits your company size and usage duration",
+      },
+      text: {
+        ar: "شاركنا المدينة وعدد السيارات والمدة، وسنساعدك في اختيار صيغة تأجير عملية وواضحة.",
+        en: "Share the city, number of cars, and duration, and we will help you choose a practical rental setup.",
+      },
+      action: { ar: "ابدأ طلب العرض", en: "Start offer request" },
+    },
+    steps: {
+      eyebrow: { ar: "كيف تعمل الخدمة؟", en: "How it works" },
+      title: { ar: "ثلاث خطوات بسيطة للوصول إلى عرض مناسب", en: "Three simple steps to reach the right offer" },
+      text: {
+        ar: "لا تحتاج لاختيار باقة معقدة. أرسل الاحتياج وسنرتب التفاصيل معك.",
+        en: "No complicated package selection. Send your needs and we will arrange the details with you.",
+      },
+      items: [
+        { text: { ar: "أرسل بيانات الشركة والمدينة وعدد السيارات.", en: "Send company details, city, and number of cars." } },
+        { text: { ar: "نراجع الاحتياج ونقترح الخيارات المناسبة.", en: "We review the need and suggest suitable options." } },
+        { text: { ar: "يصلك عرض واضح لتأكيد التفاصيل والبدء.", en: "You receive a clear offer to confirm details and start." } },
+      ],
+    },
+    faq: {
+      eyebrow: { ar: "أسئلة الشركات", en: "Corporate FAQ" },
+      title: { ar: "إجابات سريعة قبل طلب العرض", en: "Quick answers before requesting an offer" },
+      items: [
+        {
+          question: { ar: "هل يمكن تجهيز عقد شهري أو سنوي؟", en: "Can you arrange monthly or yearly contracts?" },
+          answer: {
+            ar: "نعم، يمكن تجهيز عروض حسب مدة الاستخدام وعدد السيارات والمدينة بعد مراجعة الطلب.",
+            en: "Yes, offers can be prepared based on duration, car count, and city after reviewing the request.",
+          },
+        },
+        {
+          question: { ar: "هل الخدمة متاحة في أكثر من مدينة؟", en: "Is the service available in more than one city?" },
+          answer: {
+            ar: "نعم، يمكن ترتيب حلول الشركات في المدن المتاحة على المنصة مع تأكيد التوفر بعد مراجعة الطلب.",
+            en: "Yes, corporate solutions can be arranged in available platform cities, with availability confirmed after request review.",
+          },
+        },
+        {
+          question: { ar: "هل يمكن طلب سيارات بسائق للشركات؟", en: "Can companies request chauffeur cars?" },
+          answer: {
+            ar: "نعم، يمكن طلب سيارات بسائق للمناسبات، الضيافة، أو التنقلات الرسمية.",
+            en: "Yes, chauffeur cars can be requested for corporate events, hospitality, or formal transportation.",
+          },
+        },
+        {
+          question: { ar: "متى يصلني العرض؟", en: "When will I receive the offer?" },
+          answer: {
+            ar: "بعد إرسال الطلب، يتم التواصل معك لمراجعة التفاصيل وتجهيز العرض المناسب في أقرب وقت.",
+            en: "After submitting the request, we contact you to review details and prepare the suitable offer as soon as possible.",
+          },
+        },
+      ],
+    },
+    form: {
+      eyebrow: { ar: "احصل على عرضك", en: "Get your offer" },
+      title: { ar: "أرسل احتياج شركتك وسنعود لك بالعرض المناسب", en: "Send your company needs and we will return with the right offer" },
+      text: {
+        ar: "النموذج يفتح تطبيق البريد برسالة جاهزة إلى البريد المحدد في إعدادات المنصة.",
+        en: "The form opens your email app with a prepared message sent to the email configured in platform settings.",
+      },
+      submit: { ar: "إرسال طلب العرض", en: "Send offer request" },
+      sendTo: { ar: "يتم الإرسال إلى", en: "Sent to" },
+      placeholder: {
+        ar: "اكتب أي تفاصيل إضافية مثل نوع السيارات المطلوبة أو موعد بداية الخدمة.",
+        en: "Add any extra details such as car type or expected start date.",
+      },
+    },
+  },
 };
 
 const isPlainObject = (value) =>

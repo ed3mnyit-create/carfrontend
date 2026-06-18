@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import {
   Settings,
+  Business,
   Facebook,
   Twitter,
   Instagram,
@@ -279,6 +280,16 @@ export default function AdminSettings() {
     { id: "home-contact", label: "التواصل", description: "النموذج وبيانات التواصل" },
   ];
 
+  const corporateNavItems = [
+    { id: "corporate-hero", label: "الهيرو", description: "الصورة، العنوان، والوصف" },
+    { id: "corporate-features", label: "المميزات", description: "لماذا تختار الشركات الخدمة" },
+    { id: "corporate-services", label: "الخدمات", description: "بطاقات خدمات الشركات" },
+    { id: "corporate-cta", label: "CTA", description: "دعوة طلب العرض" },
+    { id: "corporate-steps", label: "طريقة العمل", description: "خطوات الحصول على عرض" },
+    { id: "corporate-faq", label: "FAQ", description: "أسئلة صفحة الشركات" },
+    { id: "corporate-form", label: "نموذج العرض", description: "عنوان ونص النموذج" },
+  ];
+
   const getHomeValue = (path) =>
     path.reduce((cursor, key) => cursor?.[key], homeSettings);
 
@@ -530,6 +541,7 @@ export default function AdminSettings() {
           <Tab icon={<Info sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.about")} />
           <Tab icon={<Phone sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.contact")} />
           <Tab icon={<DirectionsCar sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.home")} />
+          <Tab icon={<Business sx={{ mb: 1 }} />} label={t("dashboard.admin.settings.tabs.corporate")} />
         </Tabs>
       </Box>
 
@@ -1239,6 +1251,258 @@ export default function AdminSettings() {
                 </Grid>
               </Grid>
             </Paper>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {activeTab === 4 && (
+          <motion.div key="corporate-page" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+              <aside className="lg:sticky lg:top-28 lg:self-start">
+                <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-3">
+                  <div className="border-b border-white/10 px-3 pb-4 pt-2">
+                    <p className="text-sm font-black text-white">إعدادات صفحة الشركات</p>
+                    <p className="mt-1 text-xs font-bold leading-5 text-slate-500">
+                      كل محتوى صفحة الشركات قابل للتعديل من هنا بدون JSON.
+                    </p>
+                  </div>
+                  <nav className="mt-3 grid gap-1">
+                    {corporateNavItems.map((item) => (
+                      <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className="rounded-2xl border border-transparent px-3 py-3 transition hover:border-primary/25 hover:bg-primary/10"
+                      >
+                        <span className="block text-sm font-black text-white">{item.label}</span>
+                        <span className="mt-1 block text-xs font-bold leading-5 text-slate-500">
+                          {item.description}
+                        </span>
+                      </a>
+                    ))}
+                  </nav>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    onClick={handleSaveHome}
+                    disabled={saveMutation.isPending}
+                    sx={{
+                      mt: 2,
+                      borderRadius: "1rem",
+                      py: 1.35,
+                      fontWeight: "900",
+                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
+                    }}
+                    startIcon={<Save />}
+                  >
+                    {saveMutation.isPending && saveMutation.variables?.key === "homepage_content"
+                      ? t("dashboard.admin.settings.saving")
+                      : t("common.save")}
+                  </Button>
+                </div>
+              </aside>
+
+              <div className="space-y-6">
+                <Paper sx={{ p: { xs: 2.5, md: 4 }, borderRadius: "1.5rem", bgcolor: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <Grid container spacing={4}>
+                    <Grid item xs={12}>
+                      <Typography sx={{ color: "white", fontWeight: "900", fontSize: "1.4rem", mb: 1 }}>
+                        إعدادات صفحة الشركات
+                      </Typography>
+                      <Typography sx={{ color: "rgba(255,255,255,0.55)", fontWeight: "700" }}>
+                        عدّل نصوص صفحة الشركات، أقسامها، الأسئلة، ودعوة طلب العرض من تبويب مستقل بجانب الصفحة الرئيسية.
+                      </Typography>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Paper id="corporate-hero" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
+                        {renderPanelTitle("قسم الهيرو", "الخلفية، الشارة، العنوان، الوصف، وزر طلب العرض")}
+                        <Grid container spacing={3}>
+                          <Grid item xs={12}>{renderHomeField("رابط صورة خلفية الهيرو", ["corporatePage", "hero", "backgroundImage"], { link: true })}</Grid>
+                          {renderLocalizedHomeFields("الشارة بالعربية", "Badge English", ["corporatePage", "hero", "badge"])}
+                          {renderLocalizedHomeFields("عنوان الهيرو بالعربية", "Hero title English", ["corporatePage", "hero", "title"], { multiline: true, rows: 4 })}
+                          {renderLocalizedHomeFields("النص المميز بالعربية", "Highlighted text English", ["corporatePage", "hero", "highlight"])}
+                          {renderLocalizedHomeFields("وصف الهيرو بالعربية", "Hero description English", ["corporatePage", "hero", "description"], { multiline: true, rows: 5 })}
+                          {renderLocalizedHomeFields("نص زر طلب العرض بالعربية", "Offer button English", ["corporatePage", "hero", "primaryLabel"])}
+                          <Grid item xs={12} md={6}>{renderHomeField("رابط زر طلب العرض", ["corporatePage", "hero", "primaryHref"], { link: true })}</Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Paper id="corporate-features" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
+                        {renderPanelTitle("قسم المميزات", "العنوان وبطاقات الأسباب التي تقنع الشركات بالخدمة")}
+                        <Grid container spacing={3}>
+                          {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["corporatePage", "features", "eyebrow"])}
+                          {renderLocalizedHomeFields("عنوان القسم بالعربية", "Section title English", ["corporatePage", "features", "title"], { multiline: true, rows: 4 })}
+                          {(homeSettings.corporatePage.features.items || []).map((item, index) => (
+                            <Grid item xs={12} key={`corporate-feature-${index}`}>
+                              <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>ميزة {index + 1}</Typography>
+                                    {(homeSettings.corporatePage.features.items || []).length > 1 && (
+                                      <IconButton color="error" onClick={() => removeHomeArrayItem(["corporatePage", "features", "items"], index)}><Delete /></IconButton>
+                                    )}
+                                  </Grid>
+                                  {renderArrayLocalizedFields("عنوان الميزة", ["corporatePage", "features", "items"], index, "title")}
+                                  {renderArrayLocalizedFields("وصف الميزة", ["corporatePage", "features", "items"], index, "text", { multiline: true, rows: 4 })}
+                                </Grid>
+                              </Paper>
+                            </Grid>
+                          ))}
+                          <Grid item xs={12}>
+                            <Button startIcon={<Add />} onClick={() => addHomeArrayItem(["corporatePage", "features", "items"], { title: { ar: "", en: "" }, text: { ar: "", en: "" } })} sx={{ color: "var(--primary)", fontWeight: "900" }}>
+                              إضافة ميزة
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Paper id="corporate-services" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
+                        {renderPanelTitle("قسم خدمات الشركات", "بطاقات الخدمات التي تظهر في الصفحة")}
+                        <Grid container spacing={3}>
+                          {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["corporatePage", "services", "eyebrow"])}
+                          {renderLocalizedHomeFields("عنوان الخدمات بالعربية", "Services title English", ["corporatePage", "services", "title"], { multiline: true, rows: 4 })}
+                          {renderLocalizedHomeFields("وصف الخدمات بالعربية", "Services text English", ["corporatePage", "services", "text"], { multiline: true, rows: 4 })}
+                          {(homeSettings.corporatePage.services.items || []).map((service, index) => (
+                            <Grid item xs={12} key={`corporate-service-${index}`}>
+                              <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>خدمة {index + 1}</Typography>
+                                    {(homeSettings.corporatePage.services.items || []).length > 1 && (
+                                      <IconButton color="error" onClick={() => removeHomeArrayItem(["corporatePage", "services", "items"], index)}><Delete /></IconButton>
+                                    )}
+                                  </Grid>
+                                  {renderArrayLocalizedFields("عنوان الخدمة", ["corporatePage", "services", "items"], index, "title")}
+                                  {renderArrayLocalizedFields("وصف الخدمة", ["corporatePage", "services", "items"], index, "text", { multiline: true, rows: 4 })}
+                                </Grid>
+                              </Paper>
+                            </Grid>
+                          ))}
+                          <Grid item xs={12}>
+                            <Button startIcon={<Add />} onClick={() => addHomeArrayItem(["corporatePage", "services", "items"], { title: { ar: "", en: "" }, text: { ar: "", en: "" } })} sx={{ color: "var(--primary)", fontWeight: "900" }}>
+                              إضافة خدمة
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Paper id="corporate-cta" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
+                        {renderPanelTitle("قسم CTA", "دعوة واضحة قبل خطوات العمل")}
+                        <Grid container spacing={3}>
+                          {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["corporatePage", "cta", "eyebrow"])}
+                          {renderLocalizedHomeFields("العنوان بالعربية", "Title English", ["corporatePage", "cta", "title"], { multiline: true, rows: 4 })}
+                          {renderLocalizedHomeFields("الوصف بالعربية", "Text English", ["corporatePage", "cta", "text"], { multiline: true, rows: 4 })}
+                          {renderLocalizedHomeFields("نص الزر بالعربية", "Button English", ["corporatePage", "cta", "action"])}
+                        </Grid>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Paper id="corporate-steps" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
+                        {renderPanelTitle("قسم طريقة العمل", "العنوان والوصف وخطوات الحصول على عرض")}
+                        <Grid container spacing={3}>
+                          {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["corporatePage", "steps", "eyebrow"])}
+                          {renderLocalizedHomeFields("عنوان القسم بالعربية", "Section title English", ["corporatePage", "steps", "title"], { multiline: true, rows: 4 })}
+                          {renderLocalizedHomeFields("وصف القسم بالعربية", "Section text English", ["corporatePage", "steps", "text"], { multiline: true, rows: 4 })}
+                          {(homeSettings.corporatePage.steps.items || []).map((step, index) => (
+                            <Grid item xs={12} key={`corporate-step-${index}`}>
+                              <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>خطوة {index + 1}</Typography>
+                                    {(homeSettings.corporatePage.steps.items || []).length > 1 && (
+                                      <IconButton color="error" onClick={() => removeHomeArrayItem(["corporatePage", "steps", "items"], index)}><Delete /></IconButton>
+                                    )}
+                                  </Grid>
+                                  {renderArrayLocalizedFields("نص الخطوة", ["corporatePage", "steps", "items"], index, "text", { multiline: true, rows: 3 })}
+                                </Grid>
+                              </Paper>
+                            </Grid>
+                          ))}
+                          <Grid item xs={12}>
+                            <Button startIcon={<Add />} onClick={() => addHomeArrayItem(["corporatePage", "steps", "items"], { text: { ar: "", en: "" } })} sx={{ color: "var(--primary)", fontWeight: "900" }}>
+                              إضافة خطوة
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Paper id="corporate-faq" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
+                        {renderPanelTitle("قسم الأسئلة الشائعة", "أسئلة واعتراضات الشركات قبل طلب العرض")}
+                        <Grid container spacing={3}>
+                          {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["corporatePage", "faq", "eyebrow"])}
+                          {renderLocalizedHomeFields("عنوان القسم بالعربية", "Section title English", ["corporatePage", "faq", "title"])}
+                          {(homeSettings.corporatePage.faq.items || []).map((item, index) => (
+                            <Grid item xs={12} key={`corporate-faq-${index}`}>
+                              <Paper sx={{ p: 3, borderRadius: "1.25rem", bgcolor: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <Typography sx={{ color: "var(--primary)", fontWeight: "900" }}>سؤال {index + 1}</Typography>
+                                    {(homeSettings.corporatePage.faq.items || []).length > 1 && (
+                                      <IconButton color="error" onClick={() => removeHomeArrayItem(["corporatePage", "faq", "items"], index)}><Delete /></IconButton>
+                                    )}
+                                  </Grid>
+                                  {renderArrayLocalizedFields("السؤال", ["corporatePage", "faq", "items"], index, "question")}
+                                  {renderArrayLocalizedFields("الإجابة", ["corporatePage", "faq", "items"], index, "answer", { multiline: true, rows: 4 })}
+                                </Grid>
+                              </Paper>
+                            </Grid>
+                          ))}
+                          <Grid item xs={12}>
+                            <Button startIcon={<Add />} onClick={() => addHomeArrayItem(["corporatePage", "faq", "items"], { question: { ar: "", en: "" }, answer: { ar: "", en: "" } })} sx={{ color: "var(--primary)", fontWeight: "900" }}>
+                              إضافة سؤال
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Paper id="corporate-form" sx={{ ...panelSx, scrollMarginTop: "7rem" }}>
+                        {renderPanelTitle("قسم نموذج طلب العرض", "النصوص التي تظهر قبل النموذج وزر الإرسال")}
+                        <Grid container spacing={3}>
+                          {renderLocalizedHomeFields("العنوان الصغير بالعربية", "Eyebrow English", ["corporatePage", "form", "eyebrow"])}
+                          {renderLocalizedHomeFields("عنوان النموذج بالعربية", "Form title English", ["corporatePage", "form", "title"], { multiline: true, rows: 4 })}
+                          {renderLocalizedHomeFields("وصف النموذج بالعربية", "Form text English", ["corporatePage", "form", "text"], { multiline: true, rows: 4 })}
+                          {renderLocalizedHomeFields("Placeholder الرسالة بالعربية", "Message placeholder English", ["corporatePage", "form", "placeholder"], { multiline: true, rows: 3 })}
+                          {renderLocalizedHomeFields("نص الإرسال إلى بالعربية", "Send to label English", ["corporatePage", "form", "sendTo"])}
+                          {renderLocalizedHomeFields("نص زر الإرسال بالعربية", "Submit button English", ["corporatePage", "form", "submit"])}
+                        </Grid>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Button
+                        variant="contained"
+                        onClick={handleSaveHome}
+                        disabled={saveMutation.isPending}
+                        sx={{
+                          borderRadius: "1rem",
+                          py: 1.5,
+                          px: 6,
+                          fontWeight: "900",
+                          background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                          "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
+                        }}
+                        startIcon={<Save />}
+                      >
+                        {saveMutation.isPending && saveMutation.variables?.key === "homepage_content"
+                          ? t("dashboard.admin.settings.saving")
+                          : t("common.save")}
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
               </div>
             </div>
           </motion.div>
