@@ -820,8 +820,99 @@
     "heroBadge": "Corporate Section",
     "heroTitlePart1": "Mobility Solutions",
     "heroTitlePart2": "For Business",
-    "heroDesc": "Premium fleet for business needs with highest standards of luxury and safety.",
-    "empty": "No corporate cars available at the moment."
+    "heroDesc": "A premium fleet for companies and business teams, with flexible contracts and tailored offers based on your team size and usage duration.",
+    "empty": "No corporate cars available at the moment.",
+    "cta": {
+      "primary": "Request an offer",
+      "secondary": "Browse cars"
+    },
+    "benefits": {
+      "fleet": {
+        "title": "Business-ready fleet",
+        "text": "Options for executives, sales teams, hospitality, and daily business mobility."
+      },
+      "offers": {
+        "title": "Tailored offers",
+        "text": "We review fleet size, duration, and city to suggest a practical offer."
+      },
+      "support": {
+        "title": "Direct follow-up",
+        "text": "Our team contacts you to confirm details and arrange the next steps."
+      }
+    },
+    "features": {
+      "eyebrow": "Why C4R for companies?",
+      "title": "A clearer rental experience for teams that need reliable daily mobility"
+    },
+    "services": {
+      "eyebrow": "Corporate services",
+      "title": "Rental solutions shaped for teams and organizations",
+      "contracts": {
+        "title": "Flexible contracts",
+        "text": "Daily, monthly, or long-term options based on your company policy and operations."
+      },
+      "teams": {
+        "title": "Employee mobility",
+        "text": "Practical solutions for field teams, visits, meetings, and inter-city movement."
+      },
+      "events": {
+        "title": "Events and hospitality",
+        "text": "Cars suited for guest reception, events, and formal business meetings."
+      }
+    },
+    "midCta": {
+      "eyebrow": "Tailored offer",
+      "title": "Let us prepare an offer that fits your company size and usage duration",
+      "text": "Share the city, number of cars, and duration, and we will help you choose a practical rental setup."
+    },
+    "steps": {
+      "eyebrow": "How we prepare the offer",
+      "title": "Three clear steps",
+      "text": "Send your needs and we will review them to suggest the best rental setup.",
+      "step1": "You define the city, number of cars, and expected duration.",
+      "step2": "The team reviews suitable cars, availability, and pricing.",
+      "step3": "We send a clear offer and arrange confirmation directly with you."
+    },
+    "faq": {
+      "eyebrow": "Corporate FAQ",
+      "title": "Quick answers before requesting an offer",
+      "items": {
+        "contract": {
+          "question": "Can we request a monthly or long-term contract?",
+          "answer": "Yes, monthly and long-term offers can be prepared based on fleet size, city, and usage duration."
+        },
+        "cities": {
+          "question": "Is the service available in multiple cities?",
+          "answer": "Yes, corporate solutions can be arranged in available platform cities, with availability confirmed after request review."
+        },
+        "driver": {
+          "question": "Can companies request cars with drivers?",
+          "answer": "Yes, chauffeur cars can be requested for corporate events, hospitality, or formal transportation."
+        },
+        "offer": {
+          "question": "When will we receive the offer?",
+          "answer": "After submitting the request, the team reviews the details and sends a suitable offer based on availability and needs."
+        }
+      }
+    },
+    "fleetEyebrow": "Corporate cars",
+    "fleetTitle": "Available options for companies and organizations",
+    "fleetAction": "Request a tailored offer",
+    "form": {
+      "eyebrow": "Offer request",
+      "title": "Send your company needs and we will return with the right offer",
+      "text": "The form opens your email app with a prepared message sent to the email configured in platform settings.",
+      "sendTo": "Sends to",
+      "companyName": "Company name",
+      "contactName": "Contact person",
+      "phone": "Phone number",
+      "city": "City",
+      "fleetSize": "Required number of cars",
+      "duration": "Expected contract duration",
+      "message": "Additional details",
+      "placeholder": "Write car type, cities, start date, and any special requirements.",
+      "submit": "Send offer request"
+    }
   },
   "withDriver": {
     "pageTitle": "Cars with Driver",
