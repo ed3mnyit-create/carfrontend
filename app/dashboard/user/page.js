@@ -37,6 +37,7 @@ import {
   DirectionsCar,
   Email,
   Phone,
+  Badge,
   Settings,
   WhatsApp,
   Notifications,
@@ -214,10 +215,19 @@ export default function UserDashboard() {
 
 function ProfileSection({ user }) {
   const { t } = useTranslation("common");
-  const [isEditing, setIsEditing] = useState(false);
+  const searchParams = useSearchParams();
+  const shouldCompleteProfile = searchParams.get("completeProfile") === "1";
+  const [isEditing, setIsEditing] = useState(
+    shouldCompleteProfile || !user?.phoneNumber,
+  );
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
+    nationalId:
+      user?.nationalId ||
+      user?.saudiNationalId ||
+      user?.identityNumber ||
+      "",
     phoneNumber: user?.phoneNumber || "",
   });
   const [loading, setLoading] = useState(false);
@@ -227,10 +237,17 @@ function ProfileSection({ user }) {
       toast.warning(t("dashboard.user.profile.validationError"));
       return;
     }
+
+    const phoneDigits = formData.phoneNumber.replace(/\D/g, "");
+    if (phoneDigits.length < 9) {
+      toast.warning(t("dashboard.user.profile.phoneValidationError"));
+      return;
+    }
+
     setLoading(true);
     try {
       // Create a payload without email, as it likely cannot be updated
-      const { email, ...updatePayload } = formData;
+      const { email, nationalId, ...updatePayload } = formData;
       await userService.updateProfile(updatePayload);
       toast.success(t("dashboard.user.profile.updateSuccess"));
       setIsEditing(false);
@@ -315,6 +332,29 @@ function ProfileSection({ user }) {
             startAdornment: (
               <InputAdornment position="start">
                 <Email className="text-primary" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            ...inputStyle,
+            "& .MuiFormHelperText-root": {
+              color: "rgba(255,255,255,0.3)",
+              fontWeight: "bold",
+              textAlign: "right",
+            },
+          }}
+        />
+        <TextField
+          label={t("dashboard.user.profile.nationalId")}
+          fullWidth
+          value={formData.nationalId}
+          disabled={true}
+          variant="outlined"
+          helperText={t("dashboard.user.profile.nationalIdHelper")}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Badge className="text-primary" />
               </InputAdornment>
             ),
           }}

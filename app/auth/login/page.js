@@ -13,14 +13,19 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material";
-import { Visibility, VisibilityOff, Email, Lock } from "@mui/icons-material";
+import { Visibility, VisibilityOff, Badge, Lock } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import {
+  buildNationalIdAccountEmail,
+  isValidSaudiNationalId,
+  normalizeNationalId,
+} from "@/lib/saudiNationalId";
 
 export default function LoginPage() {
   const { t, i18n } = useTranslation("common");
   const { login, user } = useAuth();
   const router = useRouter();
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ nationalId: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,8 +48,22 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const nationalId = normalizeNationalId(formData.nationalId);
+
+    if (!isValidSaudiNationalId(nationalId)) {
+      toast.error(t("auth.invalidNationalId"));
+      return;
+    }
+
     setLoading(true);
-    await login(formData);
+    await login({
+      email: buildNationalIdAccountEmail(nationalId),
+      nationalId,
+      saudiNationalId: nationalId,
+      identityNumber: nationalId,
+      password: formData.password,
+    });
     setLoading(false);
   };
 
@@ -83,18 +102,23 @@ export default function LoginPage() {
           <div>
             <TextField
               fullWidth
-              label={t("auth.email")}
+              label={t("auth.nationalId")}
               variant="outlined"
-              type="email"
-              value={formData.email}
+              type="text"
+              inputMode="numeric"
+              autoComplete="username"
+              value={formData.nationalId}
               onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
+                setFormData({
+                  ...formData,
+                  nationalId: normalizeNationalId(e.target.value),
+                })
               }
               required
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Email className="text-primary" />
+                    <Badge className="text-primary" />
                   </InputAdornment>
                 ),
                 className:

@@ -15,20 +15,23 @@ import {
 import {
   Visibility,
   VisibilityOff,
-  Email,
   Lock,
-  Person,
+  Badge,
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import {
+  buildNationalIdAccountEmail,
+  isValidSaudiNationalId,
+  normalizeNationalId,
+} from "@/lib/saudiNationalId";
 
 export default function RegisterPage() {
   const { t, i18n } = useTranslation("common");
   const { register, user } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    nationalId: "",
     password: "",
     confirmPassword: "",
   });
@@ -41,13 +44,38 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const nationalId = normalizeNationalId(formData.nationalId);
+
+    if (!isValidSaudiNationalId(nationalId)) {
+      toast.error(t("auth.invalidNationalId"));
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      toast.error(t("auth.weakPassword"));
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast.error(t("auth.passwordMismatch"));
       return;
     }
 
     setLoading(true);
-    await register(formData);
+    await register(
+      {
+        name: t("auth.newUserPlaceholder", { id: nationalId.slice(-4) }),
+        email: buildNationalIdAccountEmail(nationalId),
+        nationalId,
+        saudiNationalId: nationalId,
+        identityNumber: nationalId,
+        password: formData.password,
+      },
+      {
+        autoLogin: true,
+        redirectTo: "/dashboard/user?tab=profile&completeProfile=1",
+      },
+    );
     setLoading(false);
   };
 
@@ -86,17 +114,24 @@ export default function RegisterPage() {
           <div>
             <TextField
               fullWidth
-              label={t("auth.name")}
+              label={t("auth.nationalId")}
               variant="outlined"
-              value={formData.name}
+              type="text"
+              inputMode="numeric"
+              autoComplete="username"
+              value={formData.nationalId}
               onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
+                setFormData({
+                  ...formData,
+                  nationalId: normalizeNationalId(e.target.value),
+                })
               }
               required
+              helperText={t("auth.nationalIdHelper")}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Person className="text-primary" />
+                    <Badge className="text-primary" />
                   </InputAdornment>
                 ),
                 className:
@@ -114,42 +149,10 @@ export default function RegisterPage() {
                 },
                 "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
                 "& .MuiInputBase-input": { color: "white" },
-              }}
-            />
-          </div>
-
-          <div>
-            <TextField
-              fullWidth
-              label={t("auth.email")}
-              variant="outlined"
-              type="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email className="text-primary" />
-                  </InputAdornment>
-                ),
-                className:
-                  "rounded-2xl font-bold bg-white/5 text-white hover:bg-white/10 transition-all duration-300",
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "16px",
-                  "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
-                  "&.Mui-focused fieldset": { borderColor: "#0A2373" },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "rgba(255,255,255,0.5)",
+                "& .MuiFormHelperText-root": {
+                  color: "rgba(255,255,255,0.45)",
                   fontWeight: "bold",
                 },
-                "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
-                "& .MuiInputBase-input": { color: "white" },
               }}
             />
           </div>
@@ -160,6 +163,7 @@ export default function RegisterPage() {
               label={t("auth.password")}
               variant="outlined"
               type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })

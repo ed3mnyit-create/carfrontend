@@ -270,6 +270,8 @@
     "confirmPassword": "Confirm Password",
     "name": "Full Name",
     "phone": "Phone Number",
+    "nationalId": "Saudi National ID",
+    "nationalIdHelper": "Enter 10 digits. Saudi national IDs start with 1",
     "loginButton": "Sign In",
     "registerButton": "Sign Up",
     "noAccount": "Don't have an account?",
@@ -280,8 +282,11 @@
     "createAccount": "Create Account",
     "backToHome": "Back to Home",
     "passwordMismatch": "Passwords do not match",
+    "invalidNationalId": "Invalid Saudi national ID number",
+    "weakPassword": "Password must be at least 8 characters",
+    "newUserPlaceholder": "C4R User {{id}}",
     "registerTitle": "Create New Account",
-    "registerSubtitle": "Welcome! Create your account to get started",
+    "registerSubtitle": "Create your account with your Saudi national ID, then complete your profile details",
     "loginLink": "Login Now",
     "forgotTitle": "Forgot Password?",
     "forgotSubtitle": "Enter your email to reset your password",
@@ -667,6 +672,8 @@
         "name": "Name",
         "email": "Email",
         "emailHelper": "Email cannot be changed",
+        "nationalId": "National ID",
+        "nationalIdHelper": "Your national ID is protected and cannot be changed",
         "phone": "Phone Number",
         "editButton": "Edit Profile",
         "saveButton": "Save Changes",
@@ -674,6 +681,7 @@
         "successMessage": "Profile updated successfully",
         "errorMessage": "Failed to update profile",
         "validationError": "Please fill in name and phone number",
+        "phoneValidationError": "Please enter a valid phone number",
         "updateSuccess": "Profile updated successfully",
         "updateError": "Failed to update profile"
       },
@@ -991,6 +999,17 @@
     "uploadError": "Failed to upload image file, please check file size",
     "requiredFields": "Please fill in the specified mandatory fields",
     "fillAll": "Please complete all data to proceed"
+  },
+  "feedback": {
+    "auth": {
+      "loginSuccess": "Logged in successfully",
+      "loginError": "Invalid login details. Please try again",
+      "signupSuccess": "Account created successfully. Please complete your profile details",
+      "logoutSuccess": "Logged out successfully"
+    },
+    "common": {
+      "error": "Something went wrong. Please try again"
+    }
   },
   "blog": {
     "pageTitle": "Blog",

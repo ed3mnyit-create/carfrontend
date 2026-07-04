@@ -100,14 +100,23 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async (credentials) => {
+  const login = async (credentials, options = {}) => {
     try {
+      const loginPayload = credentials.email
+        ? { email: credentials.email, password: credentials.password }
+        : {
+            nationalId: credentials.nationalId,
+            saudiNationalId: credentials.saudiNationalId,
+            identityNumber: credentials.identityNumber,
+            password: credentials.password,
+          };
+
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify(loginPayload),
       });
       const data = await response.json().catch(() => null);
 
@@ -120,7 +129,7 @@ export const AuthProvider = ({ children }) => {
         // Handle redirection
         const searchParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
         const returnUrl = searchParams ? searchParams.get("returnUrl") : null;
-        const targetUrl = getSafeReturnUrl(returnUrl);
+        const targetUrl = getSafeReturnUrl(options.redirectTo || returnUrl);
 
         if (typeof window !== "undefined") {
           window.location.assign(targetUrl);
@@ -140,12 +149,34 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (userData) => {
+  const register = async (userData, options = {}) => {
     try {
       const data = await authService.register(userData);
       if (data && data.success) {
         toast.success(t("feedback.auth.signupSuccess"));
-        router.push("/auth/login");
+
+        if (options.autoLogin) {
+          const profileRedirect = options.redirectTo || "/dashboard/user?tab=profile";
+          const didLogin = await login(
+            {
+              email: userData.email,
+              nationalId: userData.nationalId,
+              saudiNationalId: userData.saudiNationalId,
+              identityNumber: userData.identityNumber,
+              password: userData.password,
+            },
+            { redirectTo: profileRedirect },
+          );
+
+          if (didLogin) return true;
+
+          router.push(
+            `/auth/login?returnUrl=${encodeURIComponent(profileRedirect)}`,
+          );
+          return true;
+        }
+
+        router.push(options.redirectTo || "/auth/login");
         return true;
       } else {
         toast.error(data?.message || t("feedback.common.error"));
