@@ -86,11 +86,11 @@ function DashboardNavContent({
               sx={{
                 width: 46,
                 height: 46,
-                bgcolor: "rgba(249,115,22,0.14)",
-                color: "#f97316",
+                bgcolor: "rgba(10, 35, 115,0.14)",
+                color: "#0A2373",
                 fontFamily: "inherit",
                 fontWeight: "900",
-                border: "1px solid rgba(249,115,22,0.25)",
+                border: "1px solid rgba(10, 35, 115,0.25)",
               }}
             >
               {getInitials(user?.name)}

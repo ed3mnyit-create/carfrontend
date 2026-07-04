@@ -16,7 +16,7 @@ const almarai = Almarai({
 });
 
 export const viewport = {
-  themeColor: "#0D1117",
+  themeColor: "#0A2373",
   width: "device-width",
   initialScale: 1,
 };
@@ -62,9 +62,9 @@ export const metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
-    shortcut: ["/favicon.ico"],
-    apple: [{ url: "/images/logo.jpeg", sizes: "180x180", type: "image/jpeg" }],
+    icon: [{ url: "/images/c4r-logo-official.png", type: "image/png" }],
+    shortcut: ["/images/c4r-logo-official.png"],
+    apple: [{ url: "/images/c4r-logo-official.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     title: "منصة C4R | أفضل تأجير سيارات في السعودية | Car Rental KSA",
@@ -88,7 +88,7 @@ export const metadata = {
     title: "منصة C4R | تأجير سيارات في السعودية | Car Rental KSA",
     description:
       "أفضل وأرخص سيارات للإيجار في السعودية. حجز سريع وبأسعار تبدأ من 200 ريال. Best car rental KSA.",
-    images: ["/images/logo.jpeg"],
+    images: ["/images/c4r-logo-official.png"],
   },
 };
 
@@ -112,7 +112,7 @@ export default function RootLayout({ children }) {
                       "name": "C4R Platform | سي فور آر لتأجير السيارات",
                       "alternateName": "C4R Car Rental Saudi Arabia",
                       "description": "Best and affordable car rental services in Saudi Arabia starting from 200 SAR. Rent cheap, luxury, and economy cars in Riyadh, Jeddah, and Eastern Province.",
-                      "logo": "https://c4rplatform.com/images/logo.jpeg",
+                      "logo": "https://c4rplatform.com/images/c4r-logo-official.png",
                       "url": "https://c4rplatform.com",
                       "telephone": "+966554118873",
                       "priceRange": "SAR 200 - SAR 5000",

@@ -54,7 +54,7 @@ export default async function CityPage({ params }) {
       "name": "تأجير سيارات الرياض - C4R",
       "url": "https://c4rplatform.com/riyadh",
       "description": "أرخص خدمات تأجير السيارات في الرياض بأسعار تبدأ من 200 ريال.",
-      "image": "https://c4rplatform.com/images/logo.jpeg",
+      "image": "https://c4rplatform.com/images/c4r-logo-official.png",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Riyadh",
@@ -74,7 +74,7 @@ export default async function CityPage({ params }) {
       "name": "تأجير سيارات جدة - C4R",
       "url": "https://c4rplatform.com/jeddah",
       "description": "أرخص خدمات تأجير السيارات في جدة بأسعار تبدأ من 200 ريال.",
-      "image": "https://c4rplatform.com/images/logo.jpeg",
+      "image": "https://c4rplatform.com/images/c4r-logo-official.png",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Jeddah",
@@ -94,7 +94,7 @@ export default async function CityPage({ params }) {
       "name": "تأجير سيارات الشرقية - C4R",
       "url": "https://c4rplatform.com/eastern",
       "description": "أرخص خدمات تأجير السيارات في الدمام والخبر بأسعار تبدأ من 200 ريال.",
-      "image": "https://c4rplatform.com/images/logo.jpeg",
+      "image": "https://c4rplatform.com/images/c4r-logo-official.png",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Dammam",

@@ -73,13 +73,13 @@ export default function HomeSections() {
 
   const { data: carsData } = useQuery({
     queryKey: ["homeSectionsCars"],
-    queryFn: () => carService.getAll({ page: 1, limit: 3 }),
+    queryFn: () => carService.getAll({ page: 1, limit: 6 }),
     staleTime: 1000 * 60 * 5,
   });
 
   const { data: driverCarsData } = useQuery({
     queryKey: ["homeSectionsDriverCars"],
-    queryFn: () => carService.getAll({ category: "with_driver", page: 1, limit: 3 }),
+    queryFn: () => carService.getAll({ category: "with_driver", page: 1, limit: 6 }),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -143,6 +143,24 @@ export default function HomeSections() {
       ),
       image: "/images/car-companys.jpg",
     },
+    {
+      icon: <DirectionsCar />,
+      title: isArabic ? "سيارات يومية" : "Daily Rentals",
+      text: isArabic ? "خيارات عملية للتنقل اليومي داخل المدينة." : "Practical options for daily movement in the city.",
+      image: "/images/individuals.jpg",
+    },
+    {
+      icon: <CheckCircle />,
+      title: isArabic ? "اختيارات موثوقة" : "Trusted Choices",
+      text: isArabic ? "سيارات واضحة التفاصيل قبل إرسال طلب الحجز." : "Cars with clear details before sending your booking request.",
+      image: "/images/p-3.jpeg",
+    },
+    {
+      icon: <EventAvailable />,
+      title: isArabic ? "مدد مرنة" : "Flexible Durations",
+      text: isArabic ? "حجز يناسب يومك أو احتياجك الطويل." : "Booking that fits your day or longer-term needs.",
+      image: "/images/p-4.jpeg",
+    },
   ];
 
   const driverFallbackCars = [
@@ -163,6 +181,24 @@ export default function HomeSections() {
       title: isArabic ? "للمناسبات" : "For Occasions",
       text: isArabic ? "خيارات مناسبة للمناسبات والضيافة الخاصة." : "Options suited for events and private hospitality.",
       image: "/images/car-companys.jpg",
+    },
+    {
+      icon: <Shield />,
+      title: isArabic ? "تنقل آمن" : "Safe Transfers",
+      text: isArabic ? "رحلات منظمة مع متابعة واضحة لتفاصيل الطلب." : "Organized rides with clear follow-up on request details.",
+      image: "/images/hero-luxury-mercedes.jpg",
+    },
+    {
+      icon: <BusinessCenter />,
+      title: isArabic ? "للأعمال" : "Business Ready",
+      text: isArabic ? "مناسبة للاجتماعات والزيارات الرسمية." : "Suitable for meetings and formal business visits.",
+      image: "/images/car-indevadulals.jpg",
+    },
+    {
+      icon: <EventAvailable />,
+      title: isArabic ? "باقات ساعات" : "Hourly Packages",
+      text: isArabic ? "اختر 4 أو 8 أو 12 ساعة حسب جدولك." : "Choose 4, 8, or 12 hours based on your schedule.",
+      image: "/images/p5.JPEG",
     },
   ];
 
@@ -374,7 +410,7 @@ export default function HomeSections() {
                 <h2 className="max-w-3xl text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
                   {localized(settings.cta.title, lang)}
                 </h2>
-                <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-orange-100/80 sm:text-base">
+                <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-slate-400 sm:text-base">
                   {localized(settings.cta.text, lang)}
                 </p>
               </div>

@@ -70,7 +70,7 @@ const BottomNav = () => {
             className={`flex flex-col items-center gap-1 transition-all duration-300 ${isActive ? "scale-110" : "active:scale-95"}`}
           >
             <div
-              className={`p-2 rounded-xl transition-colors ${isActive ? "bg-primary/10 shadow-[0_0_15px_rgba(249,115,22,0.2)]" : ""} ${iconColorClass}`}
+              className={`p-2 rounded-xl transition-colors ${isActive ? "bg-primary/10 shadow-[0_0_15px_rgba(10, 35, 115,0.2)]" : ""} ${iconColorClass}`}
             >
               {link.icon}
             </div>

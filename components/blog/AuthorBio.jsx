@@ -14,12 +14,12 @@ const AuthorBio = () => {
       <div className="flex items-start gap-5">
         {/* Circle Avatar with Ring */}
         <div className="relative shrink-0">
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-primary/20 ring-offset-2 ring-offset-transparent">
+          <div className="w-16 h-16 md:w-20 md:h-20 overflow-hidden ring-2 ring-primary/20 ring-offset-2 ring-offset-transparent">
             <Image 
-              src="/images/logo.jpeg" 
+              src="/images/c4r-logo-official.png" 
               alt="C4R Automotive Experts" 
               fill 
-              className="object-cover" 
+              className="object-contain" 
             />
           </div>
           <div className="absolute -bottom-1 -right-1 bg-primary text-white w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
@@ -42,7 +42,7 @@ const AuthorBio = () => {
           <div className="flex flex-wrap items-center gap-3">
             <Link 
               href="/about" 
-              className="inline-flex items-center gap-2 bg-primary hover:bg-orange-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
             >
               {t("blog.author.learnMore")}
             </Link>

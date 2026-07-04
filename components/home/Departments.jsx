@@ -78,7 +78,7 @@ const Departments = () => {
                   </div>
 
                   <div>
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-black mb-1 sm:mb-2 text-transparent bg-clip-text bg-linear-to-r from-orange-400 to-primary drop-shadow-lg">
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-black mb-1 sm:mb-2 text-transparent bg-clip-text bg-linear-to-r from-primary-light to-primary drop-shadow-lg">
                       {title}
                     </h3>
                     <p className="text-slate-200 text-sm sm:text-base md:text-lg mb-4 max-w-sm leading-relaxed font-bold opacity-90 line-clamp-2">

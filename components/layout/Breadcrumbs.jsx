@@ -16,7 +16,7 @@ const Breadcrumbs = ({ items = [] }) => {
         >
           <Link
             href="/"
-            className="text-orange-500 text-xl hover:text-orange-400 font-bold transition-colors"
+            className="text-primary text-xl hover:text-primary font-bold transition-colors"
           >
             {t("navbar.home")}
           </Link>
@@ -26,7 +26,7 @@ const Breadcrumbs = ({ items = [] }) => {
               {item.href ? (
                 <Link
                   href={item.href}
-                  className="text-orange-500 hover:text-orange-400 font-bold transition-colors"
+                  className="text-primary hover:text-primary font-bold transition-colors"
                 >
                   {item.label}
                 </Link>

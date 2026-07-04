@@ -59,7 +59,7 @@ export default function CarDetailsClient({ initialCarData }) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
         <h2 className="text-2xl font-bold mb-4">{t("carDetails.notFound")}</h2>
-        <Link href="/" className="text-orange-500">
+        <Link href="/" className="text-primary">
           {t("carDetails.backHome")}
         </Link>
       </div>
@@ -119,12 +119,12 @@ export default function CarDetailsClient({ initialCarData }) {
                     }
                     label={t(`regions.${car.region}`)}
                     sx={{
-                      bgcolor: "#f97316",
+                      bgcolor: "#0A2373",
                       color: "white",
                       fontWeight: "900",
                       height: "32px",
                       px: 0.5,
-                      boxShadow: "0 4px 15px rgba(249, 115, 22, 0.5)",
+                      boxShadow: "0 4px 15px rgba(10, 35, 115, 0.5)",
                       "& .MuiChip-label": {
                         paddingLeft: "8px",
                         paddingRight: "8px",
@@ -315,7 +315,7 @@ export default function CarDetailsClient({ initialCarData }) {
                       });
                     }
                   }}
-                  className="w-full bg-primary hover:bg-primary-hover text-white py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl md:rounded-[2rem] font-black text-base sm:text-lg md:text-xl transition-all shadow-[0_20px_40px_-10px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2 sm:gap-4 group hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full bg-primary hover:bg-primary-hover text-white py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl md:rounded-[2rem] font-black text-base sm:text-lg md:text-xl transition-all shadow-[0_20px_40px_-10px_rgba(10, 35, 115,0.4)] flex items-center justify-center gap-2 sm:gap-4 group hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span className="tracking-tighter">
                     {t("carDetails.bookButton")}
@@ -405,7 +405,7 @@ export default function CarDetailsClient({ initialCarData }) {
                       precision={1}
                       size="small"
                       sx={{
-                        "& .MuiRating-iconFilled": { color: "#f97316" },
+                        "& .MuiRating-iconFilled": { color: "#0A2373" },
                         "& .MuiRating-iconEmpty": {
                           color: "rgba(255,255,255,0.1)",
                         },

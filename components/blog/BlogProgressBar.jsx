@@ -28,7 +28,7 @@ const BlogProgressBar = () => {
       aria-label="معدل قراءة المقال"
     >
       <div
-        className="h-full bg-gradient-to-r from-primary to-orange-500 transition-all duration-150 ease-out"
+        className="h-full bg-gradient-to-r from-primary to-primary-hover transition-all duration-150 ease-out"
         style={{ width: `${progress}%` }}
       />
     </div>

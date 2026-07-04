@@ -89,12 +89,12 @@ const eliteInputStyle = {
     transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
     "&:hover": {
       bgcolor: "rgba(255,255,255,0.04)",
-      borderColor: "rgba(249,115,22,0.3)",
+      borderColor: "rgba(10, 35, 115,0.3)",
     },
     "&.Mui-focused": {
       bgcolor: "rgba(255,255,255,0.05)",
       borderColor: "var(--primary)",
-      boxShadow: "0 0 0 4px rgba(249,115,22,0.15), 0 0 20px rgba(249,115,22,0.1)",
+      boxShadow: "0 0 0 4px rgba(10, 35, 115,0.15), 0 0 20px rgba(10, 35, 115,0.1)",
     },
     "&.Mui-error": {
       borderColor: "#ef4444",
@@ -163,7 +163,7 @@ const EliteSEOModule = ({ formData, setFormData, t }) => {
   
   const getProgressColor = (length, min, max) => {
     if (length === 0) return "#475569";
-    if (length < min) return "#f97316"; // Orange
+    if (length < min) return "#0A2373"; // Orange
     if (length <= max) return "#10b981"; // Emerald Green
     return "#ef4444"; // Red
   };
@@ -483,7 +483,7 @@ export default function AdminBlogs() {
           onClick={() => handleOpenDialog()}
           sx={{
             borderRadius: "1.5rem", px: 4, py: 1.5, fontWeight: "900", bgcolor: "var(--primary)",
-            boxShadow: "0 10px 20px rgba(249, 115, 22, 0.2)", "&:hover": { transform: "translateY(-3px)" },
+            boxShadow: "0 10px 20px rgba(10, 35, 115, 0.2)", "&:hover": { transform: "translateY(-3px)" },
             transition: "all 0.3s"
           }}
         >
@@ -510,7 +510,7 @@ export default function AdminBlogs() {
                      label={t(`dashboard.admin.blog.statuses.${blog.status || 'draft'}`)} 
                      size="small" 
                      sx={{ 
-                       bgcolor: blog.status === 'published' ? 'rgba(16,185,129,0.9)' : 'rgba(249,115,22,0.9)', 
+                       bgcolor: blog.status === 'published' ? 'rgba(16,185,129,0.9)' : 'rgba(10, 35, 115,0.9)', 
                        color: 'white', 
                        fontWeight: '900',
                        backdropFilter: 'blur(10px)'
@@ -612,7 +612,7 @@ export default function AdminBlogs() {
           sx: {
             borderRadius: "2.5rem",
             bgcolor: "#020617",
-            backgroundImage: "radial-gradient(circle at 50% -20%, rgba(249, 115, 22, 0.15) 0%, transparent 80%)",
+            backgroundImage: "radial-gradient(circle at 50% -20%, rgba(10, 35, 115, 0.15) 0%, transparent 80%)",
             border: "1px solid rgba(255,255,255,0.08)",
             maxHeight: "92vh",
             overflow: "hidden",
@@ -760,7 +760,7 @@ export default function AdminBlogs() {
                         key={key} 
                         label={t.name} 
                         {...tagProps} 
-                        sx={{ bgcolor: '#f97316', color: 'white', fontWeight: '900', borderRadius: '8px' }} 
+                        sx={{ bgcolor: '#0A2373', color: 'white', fontWeight: '900', borderRadius: '8px' }} 
                       />
                     );
                   })}
@@ -793,8 +793,8 @@ export default function AdminBlogs() {
             fullWidth
             sx={{
               borderRadius: '1rem', py: 1.5, fontWeight: '900', fontSize: '1.1rem',
-              backgroundImage: 'linear-gradient(135deg, var(--primary) 0%, #f97316 100%)',
-              boxShadow: '0 10px 20px rgba(249, 115, 22, 0.2)'
+              backgroundImage: 'linear-gradient(135deg, var(--primary) 0%, #0A2373 100%)',
+              boxShadow: '0 10px 20px rgba(10, 35, 115, 0.2)'
             }}
           >
             {uploading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : (selectedBlog ? t("dashboard.admin.blog.elite.update") : t("dashboard.admin.blog.elite.publish"))}

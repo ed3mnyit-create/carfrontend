@@ -55,14 +55,13 @@ export default function LoginPage() {
           <Link href="/" className="inline-block mb-4 md:mb-6 relative group">
             <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <Image
-              src="/images/logo.jpeg"
+              src="/images/c4r-logo-official.png"
               alt="C4R Logo"
               width={120}
               height={60}
               priority
-              className="object-contain relative z-10 rounded-lg logo-premium-glow"
+              className="object-contain relative z-10 logo-premium-glow"
               style={{
-                filter: "brightness(1.2) contrast(1.1)",
                 maxHeight: "60px",
                 width: "auto",
               }}
@@ -106,7 +105,7 @@ export default function LoginPage() {
                   borderRadius: "16px",
                   "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#f97316",
+                    borderColor: "#0A2373",
                   },
                 },
                 "& .MuiInputLabel-root": {
@@ -114,7 +113,7 @@ export default function LoginPage() {
                   fontWeight: "bold",
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#f97316",
+                  color: "#0A2373",
                 },
                 "& .MuiInputBase-input": {
                   color: "white",
@@ -159,7 +158,7 @@ export default function LoginPage() {
                   borderRadius: "16px",
                   "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#f97316",
+                    borderColor: "#0A2373",
                   },
                 },
                 "& .MuiInputLabel-root": {
@@ -167,7 +166,7 @@ export default function LoginPage() {
                   fontWeight: "bold",
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#f97316",
+                  color: "#0A2373",
                 },
                 "& .MuiInputBase-input": {
                   color: "white",

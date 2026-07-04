@@ -531,8 +531,8 @@ export default function AdminSettings() {
               border: "1px solid transparent",
               "&.Mui-selected": {
                 color: "white",
-                bgcolor: "rgba(249,115,22,0.13)",
-                borderColor: "rgba(249,115,22,0.25)",
+                bgcolor: "rgba(10, 35, 115,0.13)",
+                borderColor: "rgba(10, 35, 115,0.25)",
               },
             },
           }}
@@ -659,7 +659,7 @@ export default function AdminSettings() {
                             sx={{
                               borderRadius: '1rem', fontWeight: '700', color: 'white',
                               borderColor: 'rgba(255,255,255,0.15)',
-                              '&:hover': { borderColor: 'var(--primary)', bgcolor: 'rgba(249,115,22,0.05)' },
+                              '&:hover': { borderColor: 'var(--primary)', bgcolor: 'rgba(10, 35, 115,0.05)' },
                               '& .MuiButton-startIcon': { ml: 1, mr: -0.5 }
                             }}
                           >
@@ -716,7 +716,7 @@ export default function AdminSettings() {
                       py: 1.5,
                       px: 6,
                       fontWeight: "900",
-                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      background: "linear-gradient(45deg, var(--primary), #071A55)",
                       "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 } // RTL spacing fix
                     }}
                     startIcon={<Save />}
@@ -874,7 +874,7 @@ export default function AdminSettings() {
                       py: 1.5, 
                       px: 6, 
                       fontWeight: "900", 
-                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      background: "linear-gradient(45deg, var(--primary), #071A55)",
                       "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 } // RTL spacing fix
                     }}
                     startIcon={<Save />}
@@ -943,7 +943,7 @@ export default function AdminSettings() {
                       py: 1.5, 
                       px: 6, 
                       fontWeight: "900", 
-                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      background: "linear-gradient(45deg, var(--primary), #071A55)",
                       "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 } // RTL spacing fix
                     }}
                     startIcon={<Save />}
@@ -993,7 +993,7 @@ export default function AdminSettings() {
                       borderRadius: "1rem",
                       py: 1.35,
                       fontWeight: "900",
-                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      background: "linear-gradient(45deg, var(--primary), #071A55)",
                       "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
                     }}
                     startIcon={<Save />}
@@ -1239,7 +1239,7 @@ export default function AdminSettings() {
                       py: 1.5,
                       px: 6,
                       fontWeight: "900",
-                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      background: "linear-gradient(45deg, var(--primary), #071A55)",
                       "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
                     }}
                     startIcon={<Save />}
@@ -1291,7 +1291,7 @@ export default function AdminSettings() {
                       borderRadius: "1rem",
                       py: 1.35,
                       fontWeight: "900",
-                      background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                      background: "linear-gradient(45deg, var(--primary), #071A55)",
                       "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
                     }}
                     startIcon={<Save />}
@@ -1491,7 +1491,7 @@ export default function AdminSettings() {
                           py: 1.5,
                           px: 6,
                           fontWeight: "900",
-                          background: "linear-gradient(45deg, var(--primary), #fb923c)",
+                          background: "linear-gradient(45deg, var(--primary), #071A55)",
                           "& .MuiButton-startIcon": { ml: 1.5, mr: -0.5 },
                         }}
                         startIcon={<Save />}

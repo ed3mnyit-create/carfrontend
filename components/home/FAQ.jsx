@@ -71,7 +71,7 @@ const FAQ = () => {
                   backdropFilter: "blur(12px)",
                   boxShadow:
                     expanded === faq.id
-                      ? "0 10px 40px rgba(249, 115, 22, 0.1)"
+                      ? "0 10px 40px rgba(10, 35, 115, 0.1)"
                       : "none",
                   marginBottom: "12px",
                   "&:before": { display: "none" },
@@ -79,14 +79,14 @@ const FAQ = () => {
                     "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                   "&:hover": {
                     backgroundColor: "color-mix(in srgb, var(--midnight) 94%, var(--primary) 6%)",
-                    borderColor: "rgba(249, 115, 22, 0.35)",
+                    borderColor: "rgba(10, 35, 115, 0.35)",
                   },
                 }}
               >
                 <AccordionSummary
                   expandIcon={
                     <div
-                      className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-500 ${expanded === faq.id ? "bg-primary text-white shadow-[0_5px_15px_rgba(249,115,22,0.4)]" : "bg-white/5 text-slate-400"}`}
+                      className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-500 ${expanded === faq.id ? "bg-primary text-white shadow-[0_5px_15px_rgba(10, 35, 115,0.4)]" : "bg-white/5 text-slate-400"}`}
                     >
                       <ExpandMore />
                     </div>

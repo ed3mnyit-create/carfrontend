@@ -117,7 +117,7 @@ export default function BlogListClient({ initialData, searchParams }) {
               py: 2,
               bgcolor: "primary.main",
               "&:hover": { bgcolor: "primary.dark" },
-              boxShadow: "0 20px 40px rgba(249, 115, 22, 0.2)",
+              boxShadow: "0 20px 40px rgba(10, 35, 115, 0.2)",
             }}
           >
             {loading ? (

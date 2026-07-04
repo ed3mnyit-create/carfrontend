@@ -165,7 +165,7 @@ export default function PromosManagementPage() {
                 variant="contained"
                 startIcon={<Add />}
                 onClick={() => handleOpenForm()}
-                sx={{ borderRadius: "1.5rem", fontWeight: "900", px: 4, py: 2, boxShadow: "0 10px 40px rgba(249, 115, 22, 0.4)" }}
+                sx={{ borderRadius: "1.5rem", fontWeight: "900", px: 4, py: 2, boxShadow: "0 10px 40px rgba(10, 35, 115, 0.4)" }}
               >
                 إضافة عرض جديد
               </Button>
@@ -191,14 +191,14 @@ export default function PromosManagementPage() {
                 <div className="flex justify-between items-start">
                   <h3 className="text-2xl font-black text-white truncate leading-tight">{promo.title}</h3>
                   <div className="flex gap-1">
-                    <IconButton onClick={() => handleOpenForm(promo)} sx={{ color: "primary.main", bgcolor: "rgba(249,115,22,0.1)" }}><Edit fontSize="small" /></IconButton>
+                    <IconButton onClick={() => handleOpenForm(promo)} sx={{ color: "primary.main", bgcolor: "rgba(10, 35, 115,0.1)" }}><Edit fontSize="small" /></IconButton>
                     <IconButton onClick={() => deleteMutation.mutate(promo._id)} sx={{ color: "#ef4444", bgcolor: "rgba(239,68,68,0.1)" }}><Delete fontSize="small" /></IconButton>
                   </div>
                 </div>
                 <p className="text-slate-400 font-medium line-clamp-2">{promo.subtitle}</p>
                 <div className="flex gap-3 flex-wrap">
                   <Chip label={promo.layoutType} size="small" sx={{ bgcolor: "rgba(255,255,255,0.05)", color: "slate.400", fontWeight: "900", fontSize: "0.65rem", textTransform: "uppercase" }} />
-                  <Chip label={`Prio: ${promo.priority}`} size="small" sx={{ bgcolor: "rgba(259,115,22,0.1)", color: "primary.main", fontWeight: "900", fontSize: "0.65rem" }} />
+                  <Chip label={`Prio: ${promo.priority}`} size="small" sx={{ bgcolor: "rgba(10, 35, 115,0.1)", color: "primary.main", fontWeight: "900", fontSize: "0.65rem" }} />
                 </div>
               </div>
             </div>
@@ -230,7 +230,7 @@ export default function PromosManagementPage() {
           PaperProps={{
             sx: {
               bgcolor: "#0f172a",
-              backgroundImage: "radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.08) 0px, transparent 50%)",
+              backgroundImage: "radial-gradient(at 0% 0%, rgba(10, 35, 115, 0.08) 0px, transparent 50%)",
               borderRadius: "2rem",
               border: "1px solid rgba(255,255,255,0.1)",
               color: "white",
@@ -368,7 +368,7 @@ export default function PromosManagementPage() {
                 px: 8, 
                 py: 2, 
                 fontSize: "1.3rem",
-                boxShadow: "0 15px 40px rgba(249, 115, 22, 0.4)"
+                boxShadow: "0 15px 40px rgba(10, 35, 115, 0.4)"
               }}
             >
               {editingPromo ? "حفظ التغييرات" : "نشر العرض الآن"}
@@ -417,7 +417,7 @@ function PromoPreviewCard({ data }) {
                 px: 4, 
                 py: 1.5, 
                 fontSize: "0.85rem",
-                boxShadow: "0 8px 24px rgba(249, 115, 22, 0.3)" 
+                boxShadow: "0 8px 24px rgba(10, 35, 115, 0.3)" 
             }}
           >
              احجز الآن
@@ -449,7 +449,7 @@ const formInputStyle = {
       bgcolor: "rgba(255,255,255,0.03)",
       "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
       "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-      "&.Mui-focused fieldset": { borderColor: "#f97316" }
+      "&.Mui-focused fieldset": { borderColor: "#0A2373" }
     },
     "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.4)", fontWeight: "bold" }
 };

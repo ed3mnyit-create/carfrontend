@@ -44,7 +44,7 @@ const StickyMobileCTA = () => {
       <Link
         href="/cars"
         aria-label={t("blog.cta.mobileSticky.browseCars")}
-        className="w-full flex items-center justify-between bg-primary hover:bg-orange-600 text-white p-5 rounded-3xl shadow-[0_20px_40px_-10px_rgba(249,115,22,0.6)] font-black transition-all active:scale-95 border border-white/10"
+        className="w-full flex items-center justify-between bg-primary hover:bg-primary-hover text-white p-5 rounded-3xl shadow-[0_20px_40px_-10px_rgba(10, 35, 115,0.6)] font-black transition-all active:scale-95 border border-white/10"
       >
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center">

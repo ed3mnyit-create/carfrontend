@@ -130,7 +130,7 @@ export default function AllCarsPageClient() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-2 rounded-full mb-6 border border-primary/20 shadow-[0_0_30px_rgba(249,115,22,0.15)]"
+            className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-2 rounded-full mb-6 border border-primary/20 shadow-[0_0_30px_rgba(10, 35, 115,0.15)]"
           >
             <DirectionsCar fontSize="small" />
             <span className="font-black text-xs uppercase tracking-widest">
@@ -247,7 +247,7 @@ export default function AllCarsPageClient() {
                       height: 20,
                       backgroundColor: "#fff",
                       border: "2px solid currentColor",
-                      "&:hover": { boxShadow: "0 0 0 8px rgba(249, 115, 22, 0.16)" },
+                      "&:hover": { boxShadow: "0 0 0 8px rgba(10, 35, 115, 0.16)" },
                     },
                     "& .MuiSlider-track": { height: 6 },
                     "& .MuiSlider-rail": { height: 6, opacity: 0.2, bgcolor: 'white' },
@@ -317,10 +317,10 @@ export default function AllCarsPageClient() {
                       "&:hover": { 
                         bgcolor: "primary.dark",
                         transform: "translateY(-5px)",
-                        boxShadow: "0 25px 50px -12px rgba(249, 115, 22, 0.5)"
+                        boxShadow: "0 25px 50px -12px rgba(10, 35, 115, 0.5)"
                       },
                       transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      boxShadow: "0 20px 40px rgba(249, 115, 22, 0.2)",
+                      boxShadow: "0 20px 40px rgba(10, 35, 115, 0.2)",
                     }}
                   >
                     {isRefetching ? (

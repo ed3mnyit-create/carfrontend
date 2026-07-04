@@ -118,7 +118,7 @@ export const TrendingCars = () => {
             ))}
       </div>
       <div className="p-4 pt-0">
-         <Link href="/cars" className="block w-full py-3 rounded-2xl bg-primary hover:bg-orange-600 text-white text-center text-xs font-black transition-all shadow-lg shadow-primary/20">
+         <Link href="/cars" className="block w-full py-3 rounded-2xl bg-primary hover:bg-primary-hover text-white text-center text-xs font-black transition-all shadow-lg shadow-primary/20">
             {t("blog.sidebar.browseAll")}
          </Link>
       </div>

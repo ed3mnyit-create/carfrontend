@@ -48,7 +48,7 @@ export default function CityPageClient({ city }) {
       <Container maxWidth="xl" className="pt-12 relative z-10">
         {/* Header Section */}
         <div className="mb-16 text-center">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-2 rounded-full mb-6 border border-primary/20 shadow-[0_0_15px_rgba(249,115,22,0.1)]">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-2 rounded-full mb-6 border border-primary/20 shadow-[0_0_15px_rgba(10, 35, 115,0.1)]">
             <LocationOn fontSize="small" />
             <span className="font-black text-sm uppercase tracking-widest">
               {translatedCityName}

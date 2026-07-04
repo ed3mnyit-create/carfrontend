@@ -120,7 +120,7 @@ function UserDashboardContent({ user }) {
             onClick={() => handleChange(null, tab.id)}
             className={`flex items-center gap-2 sm:gap-3 px-4 sm:px-8 py-2.5 sm:py-4 rounded-lg sm:rounded-2xl font-black transition-all duration-500 text-[11px] sm:text-base whitespace-nowrap ${
               value === tab.id
-                ? "bg-primary text-white shadow-[0_10px_20px_rgba(249,115,22,0.4)] sm:-translate-y-1"
+                ? "bg-primary text-white shadow-[0_10px_20px_rgba(10, 35, 115,0.4)] sm:-translate-y-1"
                 : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
             }`}
           >
@@ -176,7 +176,7 @@ export default function UserDashboard() {
 
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-right">
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 md:px-5 py-2 rounded-full mb-4 md:mb-6 border border-primary/20 shadow-[0_0_15px_rgba(249,115,22,0.1)]">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 md:px-5 py-2 rounded-full mb-4 md:mb-6 border border-primary/20 shadow-[0_0_15px_rgba(10, 35, 115,0.1)]">
               <Person fontSize="small" sx={{ fontSize: { xs: 16, md: 20 } }} />
               <span className="font-black text-[10px] md:text-xs uppercase tracking-[0.2em]">
                 {t("dashboard.user.welcome.badge")}
@@ -254,14 +254,14 @@ function ProfileSection({ user }) {
       color: "white",
       "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
       "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-      "&.Mui-focused fieldset": { borderColor: "#f97316" },
+      "&.Mui-focused fieldset": { borderColor: "#0A2373" },
       transition: "all 0.3s ease",
     },
     "& .MuiInputLabel-root": {
       color: "rgba(255,255,255,0.4)",
       fontWeight: "bold",
     },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#f97316" },
+    "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
     "& .MuiOutlinedInput-input": { fontWeight: "bold" },
   };
 
@@ -361,7 +361,7 @@ function ProfileSection({ user }) {
                 fontWeight: "black",
                 bgcolor: "var(--primary)",
                 "&:hover": { bgcolor: "var(--primary-hover)" },
-                boxShadow: "0 15px 25px -5px rgba(249, 115, 22, 0.3)",
+                boxShadow: "0 15px 25px -5px rgba(10, 35, 115, 0.3)",
               }}
             >
               {loading ? (
@@ -722,7 +722,7 @@ function BookingsSection() {
                       fontSize: { xs: "0.7rem", sm: "0.8rem" },
                       bgcolor: "var(--primary)",
                       "&:hover": { bgcolor: "var(--primary-hover)" },
-                      boxShadow: "0 10px 20px -5px rgba(249, 115, 22, 0.3)",
+                      boxShadow: "0 10px 20px -5px rgba(10, 35, 115, 0.3)",
                     }}
                   >
                     {t("dashboard.user.bookings.rateButton")}
@@ -824,7 +824,7 @@ function BookingsSection() {
             dir="rtl"
             sx={{
               fontSize: { xs: "2.5rem", md: "3rem" },
-              "& .MuiRating-iconFilled": { color: "#f97316" },
+              "& .MuiRating-iconFilled": { color: "#0A2373" },
               "& .MuiRating-iconEmpty": { color: "rgba(255,255,255,0.1)" },
             }}
           />
@@ -869,7 +869,7 @@ function BookingsSection() {
               width: { xs: "100%", sm: "auto" },
               backgroundColor: "var(--primary)",
               "&:hover": { backgroundColor: "var(--primary-hover)" },
-              boxShadow: "0 10px 20px -5px rgba(249, 115, 22, 0.3)",
+              boxShadow: "0 10px 20px -5px rgba(10, 35, 115, 0.3)",
             }}
           >
             {createReviewMutation.isPending
@@ -931,14 +931,14 @@ function ChangePasswordSection() {
       color: "white",
       "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
       "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-      "&.Mui-focused fieldset": { borderColor: "#f97316" },
+      "&.Mui-focused fieldset": { borderColor: "#0A2373" },
       transition: "all 0.3s ease",
     },
     "& .MuiInputLabel-root": {
       color: "rgba(255,255,255,0.4)",
       fontWeight: "bold",
     },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#f97316" },
+    "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
   };
 
   return (
@@ -1045,7 +1045,7 @@ function ChangePasswordSection() {
               bgcolor: "var(--primary)",
               "&:hover": { bgcolor: "var(--primary-hover)" },
               fontSize: "1.2rem",
-              boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.4)",
+              boxShadow: "0 20px 40px -10px rgba(10, 35, 115, 0.4)",
               letterSpacing: "-0.02em",
             }}
           >

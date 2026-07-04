@@ -70,7 +70,7 @@ export default function Home() {
     "description": "منصة لتأجير السيارات في السعودية أونلاين بأسعار تبدأ من 200 ريال. حجز سيارة فخمة أو اقتصادية بأرخص الأسعار.",
     "keywords": "تأجير سيارات في السعودية, أرخص تأجير سيارات, تأجير سيارات الرياض, rent a car KSA, car rental Saudi",
     "url": "https://c4rplatform.com",
-    "logo": "https://c4rplatform.com/images/logo.jpeg",
+    "logo": "https://c4rplatform.com/images/c4r-logo-official.png",
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+966554118873",

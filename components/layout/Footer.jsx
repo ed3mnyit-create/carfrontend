@@ -65,20 +65,20 @@ const Footer = () => {
         Adds a nice visual break before the main footer 
       */}
       {/* Decorative Gradient Bar */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-orange-500 via-amber-500 to-orange-500"></div>
-      <div className="bg-linear-to-r from-orange-600 to-orange-500 py-10 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-primary via-primary-hover to-primary-hover"></div>
+      <div className="bg-linear-to-r from-primary to-primary-hover py-10 relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-right">
           <div className="space-y-2">
             <p className="text-xl md:text-3xl font-black text-white leading-tight">
               {t("footer.ctaTitle")}
             </p>
-            <p className="text-orange-100 text-sm md:text-base font-bold opacity-90">
+            <p className="text-white/80 text-sm md:text-base font-bold opacity-90">
               {t("footer.ctaSubtitle")}
             </p>
           </div>
           <Link
             href="/cars"
-            className="group w-full md:w-auto bg-white text-orange-600 px-10 py-4 rounded-2xl md:rounded-full font-black shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-3"
+            className="group w-full md:w-auto bg-white text-primary px-10 py-4 rounded-2xl md:rounded-full font-black shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-3"
           >
             <span>{t("footer.viewCars")}</span>
             <DirectionsCar className="transform group-hover:translate-x-[-4px] transition-transform" />
@@ -101,12 +101,12 @@ const Footer = () => {
               className="inline-flex mx-auto md:mx-0 group active:scale-95 transition-transform"
             >
               <Image
-                src="/images/logo.jpeg"
+                src="/images/c4r-logo-official.png"
                 alt="C4R Logo"
-                width={160}
-                height={65}
+                width={96}
+                height={96}
                 loading="lazy"
-                className="object-contain rounded-[15px] logo-premium-glow"
+                className="h-20 w-20 object-contain logo-premium-glow"
               />
             </Link>
             <p className="text-sm md:text-lg leading-relaxed text-gray-400 font-bold italic max-w-sm mx-auto md:mx-0">
@@ -176,7 +176,7 @@ const Footer = () => {
 
           {/* Column 2: Quick Links */}
           <div className="space-y-6 md:space-y-10">
-            <h4 className="text-white text-lg md:text-xl font-black border-r-4 border-orange-500 pr-4 inline-block md:block">
+            <h4 className="text-white text-lg md:text-xl font-black border-r-4 border-primary pr-4 inline-block md:block">
               {t("footer.quickLinks")}
             </h4>
             <ul className="space-y-3 md:space-y-4 text-sm md:text-lg font-bold">
@@ -191,12 +191,12 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="flex items-center justify-center md:justify-start gap-2 md:gap-3 text-gray-400 hover:text-orange-400 transition-all duration-300 group active:scale-95"
+                    className="flex items-center justify-center md:justify-start gap-2 md:gap-3 text-gray-400 hover:text-primary transition-all duration-300 group active:scale-95"
                     aria-label={link.label}
                     title={link.label}
                   >
                     <div className="hidden md:flex items-center gap-2">
-                       <KeyboardArrowLeft className="text-gray-600 group-hover:text-orange-500 transition-colors" />
+                       <KeyboardArrowLeft className="text-gray-600 group-hover:text-primary transition-colors" />
                     </div>
                     <span className="group-hover:translate-x-[-6px] transition-transform">
                       {link.label}
@@ -209,7 +209,7 @@ const Footer = () => {
 
           {/* Column 3: Booking Locations */}
           <div className="space-y-6 md:space-y-10">
-            <h4 className="text-white text-lg md:text-xl font-black border-r-4 border-orange-500 pr-4 inline-block md:block">
+            <h4 className="text-white text-lg md:text-xl font-black border-r-4 border-primary pr-4 inline-block md:block">
               {t("footer.bookingLocations")}
             </h4>
             <ul className="space-y-3 md:space-y-4 text-sm md:text-lg font-bold">
@@ -222,11 +222,11 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="flex items-center justify-center md:justify-start gap-2 md:gap-3 text-gray-400 hover:text-orange-400 transition-all duration-300 group active:scale-95"
+                    className="flex items-center justify-center md:justify-start gap-2 md:gap-3 text-gray-400 hover:text-primary transition-all duration-300 group active:scale-95"
                     aria-label={link.label}
                     title={link.label}
                   >
-                    <KeyboardArrowLeft className="text-gray-600 group-hover:text-orange-500 transition-colors hidden md:block" />
+                    <KeyboardArrowLeft className="text-gray-600 group-hover:text-primary transition-colors hidden md:block" />
                     <span className="group-hover:translate-x-[-6px] transition-transform">
                       {link.label}
                     </span>
@@ -238,12 +238,12 @@ const Footer = () => {
 
           {/* Column 4: Contact & Legal */}
           <div className="space-y-6 md:space-y-10">
-            <h4 className="text-white text-lg md:text-xl font-black border-r-4 border-orange-500 pr-4 inline-block md:block">
+            <h4 className="text-white text-lg md:text-xl font-black border-r-4 border-primary pr-4 inline-block md:block">
               {t("footer.contactInfo")}
             </h4>
             <ul className="space-y-6 md:space-y-8 text-base font-bold">
               <li className="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-4 group">
-                <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-all shrink-0 shadow-lg border border-orange-500/20 active:scale-90">
+                <div className="w-12 h-12 rounded-2xl bg-primary-light0/10 flex items-center justify-center text-primary group-hover:bg-primary-light0 group-hover:text-white transition-all shrink-0 shadow-lg border border-primary/20 active:scale-90">
                   <WhatsApp />
                 </div>
                 <div className="text-center md:text-right">
@@ -252,7 +252,7 @@ const Footer = () => {
                   </span>
                   <a
                     href={`https://wa.me/${contact.whatsapp.replace(/\+/g, "")}`}
-                    className="text-xl md:text-2xl font-black text-white hover:text-orange-400 transition-colors tracking-tighter"
+                    className="text-xl md:text-2xl font-black text-white hover:text-primary transition-colors tracking-tighter"
                     dir="ltr"
                     style={{ unicodeBidi: "embed", direction: "ltr" }}
                   >

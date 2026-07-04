@@ -146,7 +146,7 @@ export default async function BlogPostPage({ params }) {
       "url": "https://c4rplatform.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://c4rplatform.com/images/logo.jpeg"
+        "url": "https://c4rplatform.com/images/c4r-logo-official.png"
       }
     },
     "mainEntityOfPage": {
@@ -280,7 +280,7 @@ export default async function BlogPostPage({ params }) {
             <AuthorBio />
 
             {/* Premium Linktree CTA */}
-            <div className="relative group bg-linear-to-r from-orange-600 to-amber-500 p-[2px] rounded-[2.5rem] overflow-hidden transition-transform duration-500 hover:scale-[1.01]">
+            <div className="relative group bg-linear-to-r from-primary to-primary-hover p-[2px] rounded-[2.5rem] overflow-hidden transition-transform duration-500 hover:scale-[1.01]">
               <div className="bg-[#020617] rounded-[2.4rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
                 <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-right">
                   <div className="w-16 h-16 rounded-2xl bg-[#39E09B]/10 flex items-center justify-center text-[#39E09B] group-hover:scale-110 transition-transform duration-500 shadow-xl border border-[#39E09B]/20">

@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "@/context/AuthContext";
 
 const ThemeModeContext = createContext({
-  mode: "dark",
+  mode: "light",
   toggleTheme: () => {},
 });
 
@@ -36,7 +36,7 @@ export default function Providers({ children }) {
   );
   const { i18n } = useTranslation();
   const [mounted, setMounted] = useState(false);
-  const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState("light");
   
   useEffect(() => {
     // Delay mounted state to ensure i18n is ready
@@ -44,13 +44,6 @@ export default function Providers({ children }) {
       setMounted(true);
     }, 100);
     return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const savedMode = localStorage.getItem("c4r_theme");
-    if (savedMode === "light" || savedMode === "dark") {
-      setMode(savedMode);
-    }
   }, []);
 
   useEffect(() => {
@@ -91,11 +84,23 @@ export default function Providers({ children }) {
         palette: {
           mode,
           primary: {
-            main: "#f97316",
+            main: "#0A2373",
+            dark: "#071A55",
+            light: "#EEF2FF",
+            contrastText: "#ffffff",
+          },
+          success: {
+            main: "#16A34A",
+          },
+          warning: {
+            main: "#F59E0B",
+          },
+          error: {
+            main: "#DC2626",
           },
           background: {
-            default: mode === "dark" ? "#040c20" : "#f8fafc",
-            paper: mode === "dark" ? "#061e42" : "#ffffff",
+            default: mode === "dark" ? "#071A55" : "#ffffff",
+            paper: mode === "dark" ? "#0A2373" : "#F8FAFC",
           },
           text: {
             primary: mode === "dark" ? "#f8fafc" : "#0f172a",

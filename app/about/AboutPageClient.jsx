@@ -117,13 +117,12 @@ const AboutPageClient = () => {
             <div className="relative">
               <div className="aspect-square rounded-[3rem] border border-white/10 overflow-hidden shadow-2xl relative bg-white/5 flex items-center justify-center p-8">
                 <Image
-                  src="/images/logo.jpeg"
+                  src="/images/c4r-logo-official.png"
                   alt="شعار منصة C4R لتأجير السيارات في السعودية"
                   width={400}
                   height={200}
                   className="object-contain logo-premium-glow"
                   style={{
-                    filter: "brightness(1.5) contrast(1.1)",
                     maxHeight: "220px",
                     width: "auto",
                   }}

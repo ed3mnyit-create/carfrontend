@@ -106,13 +106,13 @@ const Navbar = () => {
             title={t("navbar.logoTitle")}
           >
             <Image
-              src="/images/logo.webp"
+              src="/images/c4r-logo-official.png"
               alt={t("navbar.logoAlt")}
-              width={112}
-              height={48}
+              width={56}
+              height={56}
               priority
-              sizes="112px"
-              className="h-auto w-24 rounded-xl object-contain sm:w-28"
+              sizes="56px"
+              className="h-12 w-12 object-contain sm:h-14 sm:w-14"
             />
           </Link>
 
@@ -209,7 +209,7 @@ const Navbar = () => {
                     }
                   >
                     {user.role === "admin" ? (
-                      <AdminPanelSettings className="text-orange-500" />
+                      <AdminPanelSettings className="text-primary" />
                     ) : (
                       <Person />
                     )}

@@ -26,7 +26,7 @@ const DynamicContentCTA = () => {
 
         <Link 
           href="/cars" 
-          className="px-8 py-4 rounded-2xl bg-primary hover:bg-orange-600 text-white font-black transition-all shadow-lg shadow-primary/20 shrink-0"
+          className="px-8 py-4 rounded-2xl bg-primary hover:bg-primary-hover text-white font-black transition-all shadow-lg shadow-primary/20 shrink-0"
         >
           {t("blog.cta.dynamic.button")}
         </Link>

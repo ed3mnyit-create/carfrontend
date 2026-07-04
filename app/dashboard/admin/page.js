@@ -167,18 +167,18 @@ const AdminTabsContent = ({ user }) => {
             "&:hover": { color: "white" },
           },
           "& .Mui-selected": {
-            color: "#f97316 !important",
-            bgcolor: { xs: "rgba(249,115,22,0.05)", sm: "transparent" },
+            color: "#0A2373 !important",
+            bgcolor: { xs: "rgba(10, 35, 115,0.05)", sm: "transparent" },
           },
           "& .MuiTabs-indicator": {
-            backgroundColor: "#f97316",
+            backgroundColor: "#0A2373",
             height: { xs: "100%", sm: "4px" },
             width: { xs: "4px", sm: "auto" },
             borderRadius: "4px",
             // Correct indicator position for RTL/Vertical
             left: { xs: 0, sm: "auto" },
             right: { xs: "auto", sm: "auto" },
-            boxShadow: "0 0 15px rgba(249,115,22,0.5)",
+            boxShadow: "0 0 15px rgba(10, 35, 115,0.5)",
           },
           borderBottom: { xs: "none", sm: "1px solid rgba(255,255,255,0.05)" },
           mb: { xs: 1, md: 4 },
@@ -677,7 +677,7 @@ function ManageUsers() {
                         fontWeight: "900",
                         bgcolor:
                           u.role === "admin"
-                            ? "rgba(249,115,22,0.1)"
+                            ? "rgba(10, 35, 115,0.1)"
                             : "rgba(255,255,255,0.05)",
                         color: u.role === "admin" ? "primary.main" : "white",
                         border: "1px solid currentColor",
@@ -1164,13 +1164,13 @@ function ManageBookings() {
                             ? "rgba(22, 163, 74, 0.1)"
                             : booking.status === "rejected"
                               ? "rgba(220, 38, 38, 0.1)"
-                              : "rgba(249, 115, 22, 0.1)",
+                              : "rgba(10, 35, 115, 0.1)",
                         color:
                           booking.status === "approved"
                             ? "#4ade80"
                             : booking.status === "rejected"
                               ? "#f87171"
-                              : "#fb923c",
+                              : "#071A55",
                         border: "1px solid currentColor",
                         "& .MuiChip-icon": {
                           color: "inherit",
@@ -1279,7 +1279,7 @@ function ManageBookings() {
                                 px: 3,
                                 fontSize: "0.9rem",
                                 boxShadow:
-                                  "0 10px 20px -5px rgba(249, 115, 22, 0.3)",
+                                  "0 10px 20px -5px rgba(10, 35, 115, 0.3)",
                               }}
                             >
                               {t("dashboard.user.bookings.rateButton", "تقييم")}
@@ -1318,7 +1318,7 @@ function ManageBookings() {
             borderRadius: "2.5rem",
             bgcolor: "#0f172a",
             backgroundImage:
-              "radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.1) 0px, transparent 50%)",
+              "radial-gradient(at 0% 0%, rgba(10, 35, 115, 0.1) 0px, transparent 50%)",
             border: "1px solid rgba(255,255,255,0.1)",
             boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
             p: 3,
@@ -1411,7 +1411,7 @@ function ManageBookings() {
             dir={i18n.dir()}
             sx={{
               fontSize: { xs: "2.5rem", md: "3rem" },
-              "& .MuiRating-iconFilled": { color: "#f97316" },
+              "& .MuiRating-iconFilled": { color: "#0A2373" },
               "& .MuiRating-iconEmpty": { color: "rgba(255,255,255,0.1)" },
             }}
           />
@@ -1459,7 +1459,7 @@ function ManageBookings() {
               width: { xs: "100%", sm: "auto" },
               backgroundColor: "var(--primary)",
               "&:hover": { backgroundColor: "var(--primary-hover)" },
-              boxShadow: "0 10px 20px -5px rgba(249, 115, 22, 0.3)",
+              boxShadow: "0 10px 20px -5px rgba(10, 35, 115, 0.3)",
             }}
           >
             {createReviewMutation.isPending
@@ -1533,7 +1533,7 @@ function ManageCars() {
             px: { xs: 2.5, md: 4 },
             py: { xs: 1, md: 1.5 },
             fontSize: { xs: "0.75rem", md: "1rem" },
-            boxShadow: "0 10px 20px rgba(249, 115, 22, 0.2)",
+            boxShadow: "0 10px 20px rgba(10, 35, 115, 0.2)",
             width: { xs: "100%", md: "auto" },
           }}
         >
@@ -1609,7 +1609,7 @@ function ManageCars() {
                         fontSize: { xs: "0.6rem", sm: "0.75rem" },
                         height: { xs: 20, sm: 24 },
                         border: "1px solid rgba(255,255,255,0.1)",
-                        boxShadow: "0 0 10px rgba(249,115,22,0.4)",
+                        boxShadow: "0 0 10px rgba(10, 35, 115,0.4)",
                       }}
                     />
                   </div>
@@ -1629,10 +1629,10 @@ function ManageCars() {
                         color="primary"
                         onClick={() => setEditingCar(car)}
                         sx={{
-                          bgcolor: "rgba(249, 115, 22, 0.1)",
+                          bgcolor: "rgba(10, 35, 115, 0.1)",
                           width: { xs: 24, sm: 32 },
                           height: { xs: 24, sm: 32 },
-                          "&:hover": { bgcolor: "rgba(249, 115, 22, 0.2)" },
+                          "&:hover": { bgcolor: "rgba(10, 35, 115, 0.2)" },
                         }}
                       >
                         <Edit sx={{ fontSize: { xs: 12, sm: 16 } }} />
@@ -1707,7 +1707,7 @@ function ManageCars() {
             borderRadius: "2.5rem",
             bgcolor: "var(--background)",
             backgroundImage:
-              "radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.1) 0px, transparent 50%)",
+              "radial-gradient(at 0% 0%, rgba(10, 35, 115, 0.1) 0px, transparent 50%)",
             border: "1px solid rgba(255,255,255,0.1)",
             boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
             p: 3,
@@ -1818,7 +1818,7 @@ function ManageReviews() {
                     sx={{
                       width: { xs: 40, sm: 80 },
                       height: { xs: 40, sm: 80 },
-                      border: "2px solid rgba(249,115,22,0.3)",
+                      border: "2px solid rgba(10, 35, 115,0.3)",
                       boxShadow: "0 15px 30px rgba(0,0,0,0.3)",
                       fontSize: { xs: "1rem", sm: "2rem" },
                       fontWeight: "900",
@@ -1904,7 +1904,7 @@ function ManageReviews() {
             borderRadius: { xs: "2rem", md: "2.5rem" },
             bgcolor: "#0f172a",
             backgroundImage:
-              "radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.1) 0px, transparent 50%)",
+              "radial-gradient(at 0% 0%, rgba(10, 35, 115, 0.1) 0px, transparent 50%)",
             border: "1px solid rgba(255,255,255,0.1)",
             boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
             p: { xs: 2, md: 3 },
@@ -1988,14 +1988,14 @@ function AddCarDialog({ open, onClose }) {
       fontWeight: "bold",
       "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
       "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-      "&.Mui-focused fieldset": { borderColor: "#f97316" },
+      "&.Mui-focused fieldset": { borderColor: "#0A2373" },
       transition: "all 0.3s ease",
     },
     "& .MuiInputLabel-root": {
       color: "rgba(255,255,255,0.4)",
       fontWeight: "bold",
     },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#f97316" },
+    "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
   };
 
   const menuProps = {
@@ -2012,9 +2012,9 @@ function AddCarDialog({ open, onClose }) {
           py: 1.5,
           "&:hover": { bgcolor: "rgba(255,255,255,0.05)" },
           "&.Mui-selected": {
-            bgcolor: "rgba(249, 115, 22, 0.2)",
-            color: "#f97316",
-            "&:hover": { bgcolor: "rgba(249, 115, 22, 0.3)" },
+            bgcolor: "rgba(10, 35, 115, 0.2)",
+            color: "#0A2373",
+            "&:hover": { bgcolor: "rgba(10, 35, 115, 0.3)" },
           },
         },
       },
@@ -2143,7 +2143,7 @@ function AddCarDialog({ open, onClose }) {
           overflow: "hidden",
           bgcolor: "#020617",
           backgroundImage:
-            "radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(30, 27, 75, 0.2) 0px, transparent 50%)",
+            "radial-gradient(at 0% 0%, rgba(10, 35, 115, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(30, 27, 75, 0.2) 0px, transparent 50%)",
           border: "1px solid rgba(255,255,255,0.1)",
           boxShadow: "0 25px 50px -12px rgba(0,0,0,0.8)",
         },
@@ -2523,7 +2523,7 @@ function AddCarDialog({ open, onClose }) {
             py: 2,
             fontWeight: "900",
             fontSize: "1.1rem",
-            boxShadow: "0 15px 30px rgba(249, 115, 22, 0.3)",
+            boxShadow: "0 15px 30px rgba(10, 35, 115, 0.3)",
           }}
         >
           {uploading ? (
@@ -2600,14 +2600,14 @@ function EditCarDialog({ open, car, onClose }) {
       fontWeight: "bold",
       "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
       "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-      "&.Mui-focused fieldset": { borderColor: "#f97316" },
+      "&.Mui-focused fieldset": { borderColor: "#0A2373" },
       transition: "all 0.3s ease",
     },
     "& .MuiInputLabel-root": {
       color: "rgba(255,255,255,0.4)",
       fontWeight: "bold",
     },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#f97316" },
+    "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
   };
 
   const menuProps = {
@@ -2624,9 +2624,9 @@ function EditCarDialog({ open, car, onClose }) {
           py: 1.5,
           "&:hover": { bgcolor: "rgba(255,255,255,0.05)" },
           "&.Mui-selected": {
-            bgcolor: "rgba(249, 115, 22, 0.2)",
-            color: "#f97316",
-            "&:hover": { bgcolor: "rgba(249, 115, 22, 0.3)" },
+            bgcolor: "rgba(10, 35, 115, 0.2)",
+            color: "#0A2373",
+            "&:hover": { bgcolor: "rgba(10, 35, 115, 0.3)" },
           },
         },
       },
@@ -2738,7 +2738,7 @@ function EditCarDialog({ open, car, onClose }) {
           overflow: "hidden",
           bgcolor: "#020617",
           backgroundImage:
-            "radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(30, 27, 75, 0.2) 0px, transparent 50%)",
+            "radial-gradient(at 0% 0%, rgba(10, 35, 115, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(30, 27, 75, 0.2) 0px, transparent 50%)",
           border: "1px solid rgba(255,255,255,0.1)",
           boxShadow: "0 25px 50px -12px rgba(0,0,0,0.8)",
         },
@@ -3118,7 +3118,7 @@ function EditCarDialog({ open, car, onClose }) {
             py: 2,
             fontWeight: "900",
             fontSize: "1.1rem",
-            boxShadow: "0 15px 30px rgba(249, 115, 22, 0.3)",
+            boxShadow: "0 15px 30px rgba(10, 35, 115, 0.3)",
           }}
         >
           {uploading ? (
@@ -3178,14 +3178,14 @@ function ProfileSection({ user }) {
       color: "white",
       "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
       "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-      "&.Mui-focused fieldset": { borderColor: "#f97316" },
+      "&.Mui-focused fieldset": { borderColor: "#0A2373" },
       transition: "all 0.3s ease",
     },
     "& .MuiInputLabel-root": {
       color: "rgba(255,255,255,0.4)",
       fontWeight: "bold",
     },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#f97316" },
+    "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
     "& .MuiOutlinedInput-input": { fontWeight: "bold" },
   };
 
@@ -3285,7 +3285,7 @@ function ProfileSection({ user }) {
                 fontWeight: "black",
                 bgcolor: "var(--primary)",
                 "&:hover": { bgcolor: "var(--primary-hover)" },
-                boxShadow: "0 15px 25px -5px rgba(249, 115, 22, 0.3)",
+                boxShadow: "0 15px 25px -5px rgba(10, 35, 115, 0.3)",
               }}
             >
               {loading ? (
@@ -3383,14 +3383,14 @@ function ChangePasswordSection() {
       color: "white",
       "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
       "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-      "&.Mui-focused fieldset": { borderColor: "#f97316" },
+      "&.Mui-focused fieldset": { borderColor: "#0A2373" },
       transition: "all 0.3s ease",
     },
     "& .MuiInputLabel-root": {
       color: "rgba(255,255,255,0.4)",
       fontWeight: "bold",
     },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#f97316" },
+    "& .MuiInputLabel-root.Mui-focused": { color: "#0A2373" },
   };
 
   return (
@@ -3502,7 +3502,7 @@ function ChangePasswordSection() {
               bgcolor: "var(--primary)",
               "&:hover": { bgcolor: "var(--primary-hover)" },
               fontSize: "1.2rem",
-              boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.4)",
+              boxShadow: "0 20px 40px -10px rgba(10, 35, 115, 0.4)",
               letterSpacing: "-0.02em",
             }}
           >
@@ -3595,7 +3595,7 @@ function ManageNotifications() {
               color: "white",
               "&:hover": {
                 borderColor: "var(--primary)",
-                bgcolor: "rgba(249,115,22,0.05)",
+                bgcolor: "rgba(10, 35, 115,0.05)",
               },
             }}
           >
@@ -3621,7 +3621,7 @@ function ManageNotifications() {
                 className={`p-6 rounded-3xl border transition-all flex justify-between items-center group ${
                   notif.isRead
                     ? "bg-white/5 border-white/5"
-                    : "bg-primary/5 border-primary/20 shadow-[0_0_20px_rgba(249,115,22,0.1)]"
+                    : "bg-primary/5 border-primary/20 shadow-[0_0_20px_rgba(10, 35, 115,0.1)]"
                 }`}
               >
                 <div className="flex gap-4">
@@ -3855,7 +3855,7 @@ function ManagePromos() {
             px: { xs: 3, sm: 4 },
             py: 1.5,
             bgcolor: "primary.main",
-            boxShadow: "0 10px 30px rgba(249,115,22,0.3)",
+            boxShadow: "0 10px 30px rgba(10, 35, 115,0.3)",
             "&:hover": {
               bgcolor: "primary.dark",
               transform: "translateY(-2px)",
@@ -3952,7 +3952,7 @@ function ManagePromos() {
                     label={`${t("promos.fields.priority")}: ${promo.priority}`}
                     size="small"
                     sx={{
-                      bgcolor: "rgba(249,115,22,0.1)",
+                      bgcolor: "rgba(10, 35, 115,0.1)",
                       color: "primary.main",
                       fontWeight: "900",
                       fontSize: "0.65rem",
@@ -4157,7 +4157,7 @@ function ManagePromos() {
                       borderWidth: 2,
                       "&:hover": {
                         borderColor: "primary.main",
-                        bgcolor: "rgba(249,115,22,0.05)",
+                        bgcolor: "rgba(10, 35, 115,0.05)",
                         color: "primary.main",
                       },
                       display: "flex",
@@ -4217,8 +4217,8 @@ function ManagePromos() {
               px: 6,
               py: 1.5,
               background:
-                "linear-gradient(135deg, var(--primary) 0%, #f97316 100%)",
-              boxShadow: "0 10px 20px rgba(249,115,22,0.2)",
+                "linear-gradient(135deg, var(--primary) 0%, #0A2373 100%)",
+              boxShadow: "0 10px 20px rgba(10, 35, 115,0.2)",
               "&:hover": { transform: "translateY(-2px)" },
               transition: "all 0.2s",
             }}
@@ -4317,7 +4317,7 @@ const formInputStyle = {
     bgcolor: "rgba(255,255,255,0.03)",
     "& fieldset": { borderColor: "rgba(255,255,255,0.08)" },
     "&:hover fieldset": { borderColor: "rgba(255,255,255,0.2)" },
-    "&.Mui-focused fieldset": { borderColor: "#f97316" },
+    "&.Mui-focused fieldset": { borderColor: "#0A2373" },
   },
   "& .MuiInputLabel-root": { color: "slate.400", fontWeight: "bold" },
 };

@@ -249,21 +249,20 @@ export default function BookingPage() {
     setUploading(true);
     try {
       // 1. Upload Images Securely
-      const [idCardUrl, licenseUrl] = await Promise.all([
+      const [idCardUrl, uploadedLicenseUrl] = await Promise.all([
         idCardFile ? uploadToSecureAPI(idCardFile) : Promise.resolve(""),
         !isWithDriver && licenseFile ? uploadToSecureAPI(licenseFile) : Promise.resolve(""),
       ]);
+      const licenseUrl = isWithDriver ? idCardUrl : uploadedLicenseUrl;
 
       // 2. Calculate Days
-      const diffDays = isWithDriver
-        ? Number(selectedDriverPackageHours) / 24
-        : Number(numberOfDays || 1);
+      const bookingDays = isWithDriver ? 1 : Number(numberOfDays || 1);
 
       // 3. Prepare Data
       const bookingData = {
         carId,
         phoneNumber,
-        numberOfDays: diffDays,
+        numberOfDays: bookingDays,
         driverHours: isWithDriver ? Number(selectedDriverPackageHours) : 0,
         driverPackageHours: isWithDriver ? Number(selectedDriverPackageHours) : undefined,
         driverPackagePrice: isWithDriver
@@ -275,12 +274,12 @@ export default function BookingPage() {
         licenseImageUrl: licenseUrl,
       };
 
-      if (!isWithDriver) {
-        bookingData.kmPerDay = kmPerDay;
-      }
+      bookingData.kmPerDay = isWithDriver ? 1 : Number(kmPerDay || 1);
 
       Object.keys(bookingData).forEach(
-        (key) => bookingData[key] === undefined && delete bookingData[key],
+        (key) =>
+          (bookingData[key] === undefined || bookingData[key] === "") &&
+          delete bookingData[key],
       );
 
       createBookingMutation.mutate(bookingData);
@@ -419,7 +418,7 @@ export default function BookingPage() {
                                 borderColor: "rgba(255,255,255,0.1)",
                               },
                               "&.Mui-focused fieldset": {
-                                borderColor: "#f97316",
+                                borderColor: "#0A2373",
                               },
                               "& input[type='date']": {
                                 color: dates.startDate ? "white" : "transparent",
@@ -446,7 +445,7 @@ export default function BookingPage() {
                               fontSize: "0.85rem",
                             },
                             "& .MuiInputLabel-root.Mui-focused": {
-                              color: "#f97316",
+                              color: "#0A2373",
                             },
                           }}
                         />
@@ -458,7 +457,7 @@ export default function BookingPage() {
                           <InputLabel
                             sx={{
                               color: "rgba(255,255,255,0.4)",
-                              "&.Mui-focused": { color: "#f97316" },
+                              "&.Mui-focused": { color: "#0A2373" },
                               fontWeight: "bold",
                               fontSize: "0.85rem",
                             }}
@@ -479,7 +478,7 @@ export default function BookingPage() {
                                 borderColor: "rgba(255,255,255,0.1)",
                               },
                               "&.Mui-focused fieldset": {
-                                borderColor: "#f97316",
+                                borderColor: "#0A2373",
                               },
                               "& .MuiSelect-icon": {
                                 color: "rgba(255,255,255,0.4)",
@@ -499,10 +498,10 @@ export default function BookingPage() {
                                       bgcolor: "rgba(255,255,255,0.05)",
                                     },
                                     "&.Mui-selected": {
-                                      bgcolor: "rgba(249, 115, 22, 0.2)",
-                                      color: "#f97316",
+                                      bgcolor: "rgba(10, 35, 115, 0.2)",
+                                      color: "#0A2373",
                                       "&:hover": {
-                                        bgcolor: "rgba(249, 115, 22, 0.3)",
+                                        bgcolor: "rgba(10, 35, 115, 0.3)",
                                       },
                                     },
                                   },
@@ -536,7 +535,7 @@ export default function BookingPage() {
                                 borderColor: "rgba(255,255,255,0.1)",
                               },
                               "&.Mui-focused fieldset": {
-                                borderColor: "#f97316",
+                                borderColor: "#0A2373",
                               },
                             },
                             "& .MuiInputLabel-root": {
@@ -545,7 +544,7 @@ export default function BookingPage() {
                               fontSize: "0.85rem",
                             },
                             "& .MuiInputLabel-root.Mui-focused": {
-                              color: "#f97316",
+                              color: "#0A2373",
                             },
                           }}
                         />
@@ -584,7 +583,7 @@ export default function BookingPage() {
                                   borderColor: "rgba(255,255,255,0.1)",
                                 },
                                 "&.Mui-focused fieldset": {
-                                  borderColor: "#f97316",
+                                  borderColor: "#0A2373",
                                 },
                                 "& input[type='date']": {
                                   color: dates.endDate ? "white" : "transparent",
@@ -611,7 +610,7 @@ export default function BookingPage() {
                                 fontSize: "0.85rem",
                               },
                               "& .MuiInputLabel-root.Mui-focused": {
-                                color: "#f97316",
+                                color: "#0A2373",
                               },
                             }}
                           />
@@ -675,7 +674,7 @@ export default function BookingPage() {
                     <InputLabel
                       sx={{
                         color: "rgba(255,255,255,0.4)",
-                        "&.Mui-focused": { color: "#f97316" },
+                        "&.Mui-focused": { color: "#0A2373" },
                         fontWeight: "bold",
                         fontSize: "0.85rem",
                       }}
@@ -691,7 +690,7 @@ export default function BookingPage() {
                         bgcolor: "rgba(255,255,255,0.03)",
                         color: "white",
                         "& fieldset": { borderColor: "rgba(255,255,255,0.1)" },
-                        "&.Mui-focused fieldset": { borderColor: "#f97316" },
+                        "&.Mui-focused fieldset": { borderColor: "#0A2373" },
                         "& .MuiSelect-icon": { color: "rgba(255,255,255,0.4)" },
                       }}
                       MenuProps={{
@@ -706,9 +705,9 @@ export default function BookingPage() {
                               fontWeight: "bold",
                               "&:hover": { bgcolor: "rgba(255,255,255,0.05)" },
                               "&.Mui-selected": {
-                                bgcolor: "rgba(249, 115, 22, 0.2)",
-                                color: "#f97316",
-                                "&:hover": { bgcolor: "rgba(249, 115, 22, 0.3)" },
+                                bgcolor: "rgba(10, 35, 115, 0.2)",
+                                color: "#0A2373",
+                                "&:hover": { bgcolor: "rgba(10, 35, 115, 0.3)" },
                               },
                             },
                           },
@@ -835,7 +834,7 @@ export default function BookingPage() {
                     fontSize: "1rem",
                     backgroundColor: "var(--primary)",
                     "&:hover": { backgroundColor: "var(--primary-hover)" },
-                    boxShadow: "0 10px 20px -5px rgba(249, 115, 22, 0.4)",
+                    boxShadow: "0 10px 20px -5px rgba(10, 35, 115, 0.4)",
                   }}
                 >
                   {uploading ? (
@@ -1012,7 +1011,7 @@ export default function BookingPage() {
               fontSize: "1rem",
               backgroundColor: "var(--primary)",
               "&:hover": { backgroundColor: "var(--primary-hover)" },
-              boxShadow: "0 10px 20px rgba(249, 115, 22, 0.3)",
+              boxShadow: "0 10px 20px rgba(10, 35, 115, 0.3)",
             }}
           >
             {t("booking.successButton")}
