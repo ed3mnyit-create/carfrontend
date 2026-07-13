@@ -25,9 +25,18 @@ export default function LoginPage() {
   const { t, i18n } = useTranslation("common");
   const { login, user } = useAuth();
   const router = useRouter();
-  const [formData, setFormData] = useState({ nationalId: "", password: "" });
+  const [formData, setFormData] = useState({ identifier: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const isArabic = i18n.language?.startsWith("ar");
+  const loginIdentifierLabel = t("auth.loginIdentifier", {
+    defaultValue: isArabic ? "رقم الهوية أو البريد الإلكتروني" : "National ID or Email",
+  });
+  const loginIdentifierHelper = t("auth.loginIdentifierHelper", {
+    defaultValue: isArabic
+      ? "الحسابات الجديدة تدخل برقم الهوية، والحسابات القديمة يمكنها الدخول بالبريد الإلكتروني"
+      : "New accounts use national ID. Existing accounts can still sign in with email",
+  });
 
   const getSafeReturnUrl = (value) => {
     if (!value || typeof value !== "string") return "/";
@@ -49,19 +58,29 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const nationalId = normalizeNationalId(formData.nationalId);
+    const identifier = formData.identifier.trim();
+    const nationalId = normalizeNationalId(identifier);
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
 
-    if (!isValidSaudiNationalId(nationalId)) {
-      toast.error(t("auth.invalidNationalId"));
+    if (!isEmail && !isValidSaudiNationalId(nationalId)) {
+      toast.error(
+        t("auth.invalidLoginIdentifier", {
+          defaultValue: isArabic
+            ? "أدخل رقم هوية سعودي صحيح أو بريد إلكتروني صحيح"
+            : "Enter a valid Saudi national ID or a valid email address",
+        }),
+      );
       return;
     }
 
     setLoading(true);
     await login({
-      email: buildNationalIdAccountEmail(nationalId),
-      nationalId,
-      saudiNationalId: nationalId,
-      identityNumber: nationalId,
+      email: isEmail
+        ? identifier.toLowerCase()
+        : buildNationalIdAccountEmail(nationalId),
+      nationalId: isEmail ? undefined : nationalId,
+      saudiNationalId: isEmail ? undefined : nationalId,
+      identityNumber: isEmail ? undefined : nationalId,
       password: formData.password,
     });
     setLoading(false);
@@ -102,19 +121,20 @@ export default function LoginPage() {
           <div>
             <TextField
               fullWidth
-              label={t("auth.nationalId")}
+              label={loginIdentifierLabel}
               variant="outlined"
               type="text"
-              inputMode="numeric"
+              inputMode="email"
               autoComplete="username"
-              value={formData.nationalId}
+              value={formData.identifier}
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  nationalId: normalizeNationalId(e.target.value),
+                  identifier: e.target.value,
                 })
               }
               required
+              helperText={loginIdentifierHelper}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -141,6 +161,10 @@ export default function LoginPage() {
                 },
                 "& .MuiInputBase-input": {
                   color: "white",
+                },
+                "& .MuiFormHelperText-root": {
+                  color: "rgba(255,255,255,0.45)",
+                  fontWeight: "bold",
                 },
               }}
             />
